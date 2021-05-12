@@ -1,32 +1,37 @@
 <template>
-  <div>
+  <div class="content">
     <el-container>
-      <el-header>
-        <img class="mlogo" src="http://o.bookschina.com/images/logo0508.png" alt="">
-      </el-header>
+      <!--      <el-header>-->
+      <!--        <img class="mlogo" src="http://o.bookschina.com/images/logo0508.png" alt="">-->
+      <!--      </el-header>-->
       <el-main>
+
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="用户名" prop="username">
+          <el-form-item label="用户名" prop="username" >
             <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleForm.username" clearable
-                      prefix-icon="el-icon-user-solid"></el-input>
+                      prefix-icon="el-icon-user-solid"
+                      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="pass">
+          <el-form-item label="密  码" prop="pass">
             <el-input maxlength="19" placeholder="请输入密码" type="password" v-model="ruleForm.pass" autocomplete="off"
                       show-password
-                      clearable prefix-icon="el-icon-goods"></el-input>
+                      clearable prefix-icon="el-icon-goods"
+                      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
           </el-form-item>
           <el-form-item label="确认密码" prop="checkPass">
             <el-input maxlength="19" placeholder="请输入确认密码" type="password"
                       v-model="ruleForm.checkPass" autocomplete="off"
                       show-password clearable
-                      prefix-icon="el-icon-s-goods"></el-input>
+                      prefix-icon="el-icon-s-goods"
+                      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
           </el-form-item>
-          <el-form-item label="邮箱" prop="email">
+          <el-form-item label="邮  箱" prop="email">
             <el-input maxlength="321" placeholder="请输入邮箱" type="email" v-model="ruleForm.email" clearable
-                      prefix-icon="el-icon-message"></el-input>
+                      prefix-icon="el-icon-message"
+                      style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">立即注册</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
         </el-form>
@@ -36,8 +41,10 @@
 </template>
 
 <script>
+import Header from "@/components/Header";
 export default {
   name: "Signup",
+  components: {Header},
   data() {
     const checkUsername = (rule, value, callback) => {
       if (value === '') {
@@ -67,7 +74,7 @@ export default {
     const validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('密码不能为空'));
-      } else if ((value+"").toString().length > 18 || (value+"").toString().length < 6) {
+      } else if ((value + "").toString().length > 18 || (value + "").toString().length < 6) {
         callback(new Error('密码长度为6-18位'));
       } else {
         if (this.ruleForm.checkPass !== '') {
@@ -147,22 +154,22 @@ export default {
 </style>
 <style>
 .el-header, .el-footer {
-  background-color: #B3C0D1;
+  background-color: #e3e7ec;
   color: #333;
   text-align: center;
   line-height: 60px;
 }
 
 .el-aside {
-  background-color: #D3DCE6;
+  background-color: #15559a;
   color: #333;
   text-align: center;
   line-height: 200px;
 }
 
 .el-main {
-  /*background-color: #E9EEF3;*/
-  color: #333;
+  margin-top: 200px;
+  color: rgba(21, 6, 255, 0);
   text-align: center;
   line-height: 160px;
 }
@@ -185,8 +192,30 @@ body > .el-container {
   margin-top: 10px;
 }
 
-.demo-ruleForm {
-  max-width: 520px;
-  margin: 0 auto;
+.content {
+  /*background-color: #db5252;*/
+  height: 100%;
+  width: 100%;
+  border: 1px solid green;
+  position: fixed;
+  background: url(../../public/login.jpeg) 0 0 no-repeat;
+  background-size: 100% 100%;
+  text-align: center;
+}
+
+/*.demo-ruleForm {*/
+/*  background-color: #e9ecde;*/
+/*  max-width: 220px;*/
+/*  padding-right: 30px;*/
+/*  padding-bottom: 30px;*/
+/*  padding-top: 30px;*/
+/*  border-radius: 30px;*/
+/*}*/
+
+html, body {
+  margin: 0;
+  padding: 0;
+
+
 }
 </style>

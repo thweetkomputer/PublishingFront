@@ -39,7 +39,7 @@
             <div slot="label" style="width: 128px">注册</div>
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
                      class="demo-ruleForm">
-              <el-form-item label="用户名" prop="username">
+              <el-form-item label="用户名" prop="username_signup">
                 <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleForm.username_signup" clearable
                           prefix-icon="el-icon-user-solid"
                           style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
@@ -198,7 +198,14 @@ export default {
       }
     };
     return {
-      ruleForm: {},
+      ruleForm: {
+        username: '',
+        password: '',
+        username_signup: '',
+        pass: '',
+        checkPass: '',
+        email: ''
+      },
       rules: {
         username: [
           {validator: checkUsername, trigger: 'change'},
@@ -207,7 +214,7 @@ export default {
           {validator: validatePass, trigger: 'blur'}
         ],
         username_signup: [
-          {validator: checkUsername, trigger: 'change'},
+          {validator: checkUsername2, trigger: 'change'},
         ],
         pass: [
           {validator: validatePass1, trigger: 'blur'},

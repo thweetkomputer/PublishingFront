@@ -8,6 +8,12 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import './axios'
 
+router.beforeEach((to, from, next)=>{
+  if(to.meta.title){
+    document.title = to.meta.title
+  }
+  next()
+})
 Vue.use(Element)
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false

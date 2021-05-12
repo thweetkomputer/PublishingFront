@@ -67,6 +67,11 @@ const routes = [
     name: 'BlogEdit',
     component: BlogEdit
   },
+  {
+    path: '/add-article',
+    name:'Article',
+    component:()=>import('../views/main/AddArticle')
+  }
 ]
 
 const router = new VueRouter({

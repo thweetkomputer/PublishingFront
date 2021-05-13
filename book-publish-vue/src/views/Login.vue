@@ -6,8 +6,8 @@
       <!--      </el-header>-->
 
       <!--      <el-main>-->
-      <el-tabs type="border-card" style="width: 340px; margin:100px auto auto;">
-        <el-tab-pane >
+      <el-tabs v-model="activeName" type="border-card" style="width: 340px; margin:100px auto auto;">
+        <el-tab-pane name="login">
           <div slot="label" style="width: 128px;">登录</div>
           <el-form :model="ruleFormLogin" status-icon :rules="rulesLogin" ref="ruleFormLogin" label-width="100px"
                    class="demo-ruleForm">
@@ -36,7 +36,7 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane>
+        <el-tab-pane name="signup">
           <div slot="label" style="width: 128px">注册</div>
           <el-form :model="ruleFormSignup" status-icon :rules="rulesSignup" ref="ruleFormSignup" label-width="100px"
                    class="demo-ruleForm">
@@ -147,8 +147,17 @@ export default {
       }
     };
     return {
-      ruleFormLogin: {},
-      ruleFormSignup: {},
+      ruleFormLogin: {
+        username: '',
+        password: ''
+      },
+      ruleFormSignup: {
+        username: '',
+        pass: '',
+        checkPass: '',
+        email: ''
+      },
+      activeName: 'login',
       rulesLogin: {
         username: [
           {validator: checkUsername, trigger: 'change'},
@@ -232,7 +241,8 @@ export default {
               type: 'success',
               duration: 2000
             })
-            _this.$router.go(0)
+            // _this.$router.go(0)
+            this.activeName = 'login'
           })
         } else {
           console.log('error submit!!');

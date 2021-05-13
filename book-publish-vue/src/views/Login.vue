@@ -1,78 +1,96 @@
 <template>
-  <div class="content1">
-    <el-container>
-      <!--      <el-header>-->
-      <!--        <img class="mlogo" src="http://o.bookschina.com/images/logo0508.png" alt="">-->
-      <!--      </el-header>-->
+  <div>
+    <div class="content1"></div>
+    <div class="content2">
+      <!--    <div class="bg bg-blur"></div>-->
+      <el-container class="content2">
+        <!--      <el-header>-->
+        <!--        <img class="mlogo" src="http://o.bookschina.com/images/logo0508.png" alt="">-->
+        <!--      </el-header>-->
 
-      <!--      <el-main>-->
-      <el-tabs v-model="activeName" type="border-card" style="width: 340px; margin:100px auto auto;">
-        <el-tab-pane name="login">
-          <div slot="label" style="width: 128px;">登录</div>
-          <el-form :model="ruleFormLogin" status-icon :rules="rulesLogin" ref="ruleFormLogin" label-width="100px"
-                   class="demo-ruleForm">
-            <el-form-item label="用户名" prop="username">
-              <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleFormLogin.username" clearable
-                        prefix-icon="el-icon-user-solid"
-                        style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
-            </el-form-item>
-            <el-form-item label="密 码" prop="password">
-              <el-input maxlength="19" placeholder="请输入密码" type="password" v-model="ruleFormLogin.password"
-                        show-password
-                        clearable prefix-icon="el-icon-s-goods"
-                        style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-row style="text-align: center; margin-top: -10px;;">
-                <el-checkbox v-model="remember_me">记住我</el-checkbox>
-                <el-divider direction="vertical"></el-divider>
-                <el-link :underline="false">忘记密码？</el-link>
-                <!--                <el-link type="primary">g</el-link>-->
-              </el-row>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitFormLogin('ruleFormLogin')">登录</el-button>
-              <el-button @click="resetForm('ruleFormLogin')">重置</el-button>
-            </el-form-item>
-          </el-form>
-        </el-tab-pane>
-        <el-tab-pane name="signup">
-          <div slot="label" style="width: 128px">注册</div>
-          <el-form :model="ruleFormSignup" status-icon :rules="rulesSignup" ref="ruleFormSignup" label-width="100px"
-                   class="demo-ruleForm">
-            <el-form-item label="用户名" prop="username">
-              <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleFormSignup.username" clearable
-                        prefix-icon="el-icon-user-solid"
-                        style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
-            </el-form-item>
-            <el-form-item label="密  码" prop="pass">
-              <el-input maxlength="19" placeholder="请输入密码" type="password" v-model="ruleFormSignup.pass"
-                        autocomplete="off"
-                        show-password
-                        clearable prefix-icon="el-icon-goods"
-                        style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
-            </el-form-item>
-            <el-form-item label="确认密码" prop="checkPass">
-              <el-input maxlength="19" placeholder="请输入确认密码" type="password"
-                        v-model="ruleFormSignup.checkPass" autocomplete="off"
-                        show-password clearable
-                        prefix-icon="el-icon-s-goods"
-                        style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
-            </el-form-item>
-            <el-form-item label="邮  箱" prop="email">
-              <el-input maxlength="321" placeholder="请输入邮箱" type="email" v-model="ruleFormSignup.email" clearable
-                        prefix-icon="el-icon-message"
-                        style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitFormSignup('ruleFormSignup')">立即注册</el-button>
-              <el-button @click="resetForm('ruleFormSignup')">重置</el-button>
-            </el-form-item>
-          </el-form>
-        </el-tab-pane>
-      </el-tabs>
-    </el-container>
+        <!--      <el-main>-->
+        <el-tabs v-model="activeName" type="border-card" style="width: 340px; margin:100px auto auto;">
+          <el-tab-pane name="login">
+            <div slot="label" style="width: 129px; color: #333333;">登录</div>
+            <el-form :model="ruleFormLogin" status-icon :rules="rulesLogin" ref="ruleFormLogin" label-width="100px"
+                     class="demo-ruleForm">
+              <el-form-item prop="username" style="margin-left: -70px;">
+                <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleFormLogin.username" clearable
+                          prefix-icon="el-icon-user-solid"
+                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); border: 0"></el-input>
+              </el-form-item>
+              <el-form-item prop="password" style="margin-left: -70px;">
+                <el-input maxlength="19" placeholder="请输入密码" type="password" v-model="ruleFormLogin.password"
+                          show-password
+                          clearable prefix-icon="el-icon-s-goods"
+                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); border: 0"></el-input>
+              </el-form-item>
+              <el-form-item style="margin-left: -70px;">
+                <el-row style="text-align: center; margin-top: -10px;">
+                  <el-checkbox v-model="remember_me" style="float: left; padding-top: 1px">记住我</el-checkbox>
+                  <el-link :underline="false" style="float: right; padding-bottom: 130px">忘记密码？</el-link>
+                  <!--                <el-link type="primary">g</el-link>-->
+                </el-row>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="submitFormLogin('ruleFormLogin')" style="background-color: #333333">登录
+                </el-button>
+                <el-button @click="resetForm('ruleFormLogin')">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </el-tab-pane>
+          <el-tab-pane name="signup">
+            <div slot="label" style="width: 129px; color: #333333;">注册</div>
+            <el-form :model="ruleFormSignup" status-icon :rules="rulesSignup" ref="ruleFormSignup" label-width="100px"
+                     class="demo-ruleForm">
+              <el-form-item prop="username" style="margin-left: -70px;">
+                <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleFormSignup.username" clearable
+                          prefix-icon="el-icon-user-solid"
+                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
+              </el-form-item>
+              <el-form-item prop="pass" style="margin-left: -70px;">
+                <el-input maxlength="19" placeholder="请输入密码(6-18位)" type="password" v-model="ruleFormSignup.pass"
+                          autocomplete="off"
+                          show-password
+                          clearable prefix-icon="el-icon-goods"
+                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
+              </el-form-item>
+              <el-form-item prop="checkPass" style="margin-left: -70px;">
+                <el-input maxlength="19" placeholder="请输入确认密码" type="password"
+                          v-model="ruleFormSignup.checkPass" autocomplete="off"
+                          show-password clearable
+                          prefix-icon="el-icon-s-goods"
+                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
+              </el-form-item>
+              <el-form-item prop="email" style="margin-left: -70px;">
+                <el-input maxlength="321" placeholder="请输入邮箱" type="email" v-model="ruleFormSignup.email" clearable
+                          prefix-icon="el-icon-message"
+                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
+              </el-form-item>
+              <el-form-item prop="checkCode" style="margin-left: -70px; width: 330px;">
+                <el-row>
+                  <el-col :span="14">
+                    <el-input maxlength="4" placeholder="邮箱验证码" v-model="ruleFormSignup.checkCode" clearable
+                              style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
+                  </el-col>
+                  <el-col :span="10">
+                    <el-link :underline="false" style="padding-top: 10px">发送验证码</el-link>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="submitFormSignup('ruleFormSignup')" style="background-color: #333333">
+                  立即注册
+                </el-button>
+                <el-button @click="resetForm('ruleFormSignup')">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </el-tab-pane>
+        </el-tabs>
+      </el-container>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -146,6 +164,13 @@ export default {
         callback();
       }
     };
+    const validateCheckCode = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('验证码不能为空'));
+      } else {
+        callback();
+      }
+    };
     return {
       ruleFormLogin: {
         username: '',
@@ -155,7 +180,8 @@ export default {
         username: '',
         pass: '',
         checkPass: '',
-        email: ''
+        email: '',
+        checkCode: ''
       },
       activeName: 'login',
       rulesLogin: {
@@ -179,6 +205,9 @@ export default {
         email: [
           {validator: checkEmail, trigger: 'change'},
         ],
+        checkCode: [
+          {validator: validateCheckCode, trigger: 'change'},
+        ]
       },
       isLogin: true,
       remember_me: false,
@@ -286,6 +315,14 @@ body > .el-container {
   margin-bottom: 40px;
 }
 
+.el-input{
+  border-top-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-bottom-width: 1px;
+}
+
+
 .el-container:nth-child(5) .el-aside,
 .el-container:nth-child(6) .el-aside {
   line-height: 260px;
@@ -321,6 +358,30 @@ body > .el-container {
   position: fixed;
   background: url(../../public/register.jpeg) 0 0 no-repeat;
   background-size: 100% 100%;
+  opacity: 0.8;
+  text-align: center;
+  -webkit-filter: blur(8px);
+  -ms-filter: blur(8px);
+  filter: blur(8px);
+}
+
+.content2 {
+  height: 100%;
+  width: 100%;
+  /*border: 0px solid green;*/
+  position: fixed;
+  background-size: 100% 100%;
   text-align: center;
 }
+
+.el-input>>>.el-input__inner {
+  border: 0;
+}
+
 </style>
+
+
+
+
+
+<!--  <div class="content content-front">我是内容</div>-->

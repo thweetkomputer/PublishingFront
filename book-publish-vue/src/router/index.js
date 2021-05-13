@@ -71,6 +71,11 @@ const routes = [
     path: '/add-article',
     name:'Article',
     component:()=>import('../views/main/AddArticle')
+  },
+  {
+    path: '/search',
+    name:'search',
+    component: ()=>import('../views/search/search')
   }
 ]
 

@@ -7,7 +7,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/mystyle.css'
 import axios from 'axios'
 import './axios'
-
+import Iview from 'iview'
+import 'iview/dist/styles/iview.css'
+Vue.use(Iview)
 Vue.use(Element)
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false

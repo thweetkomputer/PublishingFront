@@ -17,13 +17,14 @@
               <el-form-item prop="username" style="margin-left: -70px;">
                 <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleFormLogin.username" clearable
                           prefix-icon="el-icon-user-solid"
-                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); border: 0"></el-input>
+                          style="outline: 0"
+                ></el-input>
               </el-form-item>
               <el-form-item prop="password" style="margin-left: -70px;">
                 <el-input maxlength="19" placeholder="请输入密码" type="password" v-model="ruleFormLogin.password"
                           show-password
                           clearable prefix-icon="el-icon-s-goods"
-                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04); border: 0"></el-input>
+                ></el-input>
               </el-form-item>
               <el-form-item style="margin-left: -70px;">
                 <el-row style="text-align: center; margin-top: -10px;">
@@ -46,35 +47,38 @@
               <el-form-item prop="username" style="margin-left: -70px;">
                 <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleFormSignup.username" clearable
                           prefix-icon="el-icon-user-solid"
-                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
+                          autocomplete="new-password"
+                ></el-input>
               </el-form-item>
               <el-form-item prop="pass" style="margin-left: -70px;">
                 <el-input maxlength="19" placeholder="请输入密码(6-18位)" type="password" v-model="ruleFormSignup.pass"
-                          autocomplete="off"
+                          autocomplete="new-password"
                           show-password
                           clearable prefix-icon="el-icon-goods"
-                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
+                ></el-input>
               </el-form-item>
               <el-form-item prop="checkPass" style="margin-left: -70px;">
                 <el-input maxlength="19" placeholder="请输入确认密码" type="password"
-                          v-model="ruleFormSignup.checkPass" autocomplete="off"
+                          v-model="ruleFormSignup.checkPass"
                           show-password clearable
+                          autocomplete="new-password"
                           prefix-icon="el-icon-s-goods"
-                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
+                ></el-input>
               </el-form-item>
               <el-form-item prop="email" style="margin-left: -70px;">
                 <el-input maxlength="321" placeholder="请输入邮箱" type="email" v-model="ruleFormSignup.email" clearable
                           prefix-icon="el-icon-message"
-                          style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
+                          autocomplete="off"
+                ></el-input>
               </el-form-item>
-              <el-form-item prop="checkCode" style="margin-left: -70px; width: 330px;">
+              <el-form-item prop="checkCode" style="margin-left: -70px; width: 340px;">
                 <el-row>
-                  <el-col :span="14">
-                    <el-input maxlength="4" placeholder="邮箱验证码" v-model="ruleFormSignup.checkCode" clearable
-                              style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)"></el-input>
+                  <el-col :span="13">
+                    <el-input maxlength="4" placeholder="邮件验证码" type="text" v-model="ruleFormSignup.checkCode" clearable
+                              autocomplete="new-password"></el-input>
                   </el-col>
-                  <el-col :span="10">
-                    <el-link :underline="false" style="padding-top: 10px">发送验证码</el-link>
+                  <el-col :span="11">
+                    <el-link :underline="false" style="padding-top: 10px; float: right;">发送验证码</el-link>
                   </el-col>
                 </el-row>
               </el-form-item>
@@ -165,8 +169,8 @@ export default {
       }
     };
     const validateCheckCode = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('验证码不能为空'));
+      if (value === '' || (value + '').toString().length !== 4) {
+        callback(new Error('请输入邮箱的4位验证码'));
       } else {
         callback();
       }
@@ -189,7 +193,7 @@ export default {
           {validator: checkUsername, trigger: 'change'},
         ],
         password: [
-          {validator: validatePass, trigger: 'blur'}
+          {validator: validatePass, trigger: 'change'}
         ]
       },
       rulesSignup: {
@@ -197,10 +201,10 @@ export default {
           {validator: checkUsername2, trigger: 'change'},
         ],
         pass: [
-          {validator: validatePass1, trigger: 'blur'},
+          {validator: validatePass1, trigger: 'change'},
         ],
         checkPass: [
-          {validator: validatePass2, trigger: 'blur'},
+          {validator: validatePass2, trigger: 'change'},
         ],
         email: [
           {validator: checkEmail, trigger: 'change'},
@@ -315,14 +319,6 @@ body > .el-container {
   margin-bottom: 40px;
 }
 
-.el-input{
-  border-top-width: 0;
-  border-left-width: 0;
-  border-right-width: 0;
-  border-bottom-width: 1px;
-}
-
-
 .el-container:nth-child(5) .el-aside,
 .el-container:nth-child(6) .el-aside {
   line-height: 260px;
@@ -374,14 +370,49 @@ body > .el-container {
   text-align: center;
 }
 
-.el-input>>>.el-input__inner {
-  border: 0;
+.el-input__inner {
+  border-top-width: 0 !important;
+  border-left-width: 0 !important;
+  border-right-width: 0 !important;
+  border-bottom-width: 1px !important;
+  outline-color: #333333 !important;
 }
 
+.el-input__inner:focus {
+  border-top-width: 0 !important;
+  border-left-width: 0 !important;
+  border-right-width: 0 !important;
+  border-bottom-width: 1px !important;
+  outline-color: #333333 !important;
+}
+
+.el-input {
+  outline: 0 !important;
+}
+
+
+.el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  border-color: #333333 !important;
+  background-color: #333333 !important;
+}
+
+.el-checkbox__input.is-checked + .el-checkbox__label {
+  color: #333333 !important;
+}
+
+.el-checkbox__inner:hover {
+  border-color: #333333 !important;
+}
+
+.el-checkbox__input.is-focus .el-checkbox__inner {
+  border-color: #333333 !important;
+}
+
+.el-link:hover {
+  color: #333333 !important;
+}
 </style>
-
-
-
 
 
 <!--  <div class="content content-front">我是内容</div>-->

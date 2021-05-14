@@ -15,7 +15,8 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: {name: 'Books'}
+    redirect: {name: 'Books'},
+
   },
   {
     path: '/login',
@@ -68,6 +69,26 @@ const routes = [
     name: 'BlogEdit',
     component: BlogEdit
   },
+  {
+    path: '/add-article',
+    name:'Article',
+    component:()=>import('../views/main/AddArticle')
+  },
+  {
+    path: '/search',
+    name:'search',
+    component: ()=>import('../views/search/search')
+  },
+  {
+    path: '/vip',
+    name:'Vip',
+    component: ()=>import('../views/Vip')
+  },
+  {
+    path:'unlogin',
+    name:'unLogin',
+    component: ()=>import('../views/unLogin')
+  }
 ]
 
 const router = new VueRouter({

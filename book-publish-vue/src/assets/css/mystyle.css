@@ -47,12 +47,12 @@ body,html{
 #content{
     position: relative;
     top: 60px;
-    margin-left: 220px;
-    margin-right: 20px;
+    margin-left: 400px;
+    margin-right: 400px;
     padding: 10px 0;
 }
 #content.xs{
-    margin-left: 20px;
+    margin-left: 400px;
 }
 
 /*页面底部*/
@@ -62,7 +62,6 @@ body,html{
     font-weight: 700;
     margin-top: 60px;
     text-align: center;
-    margin-left: 220px;
     margin-right: 20px;
     padding: 10px 0;
     border-radius: .25rem;

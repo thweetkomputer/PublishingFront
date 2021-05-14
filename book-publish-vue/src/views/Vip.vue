@@ -1,12 +1,10 @@
 <template>
-  <div id="Home">
-
-  </div>
+  <div>这是会员界面</div>
 </template>
 
 <script>
 export default {
-  name: "Home"
+  name: "Vip"
 }
 </script>
 

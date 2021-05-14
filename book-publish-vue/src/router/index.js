@@ -15,12 +15,14 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: {name: 'Books'}
+    redirect: {name: 'Books'},
+
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: {title:"登录"}
   },
   {
     path: '/signup',
@@ -76,6 +78,16 @@ const routes = [
     path: '/search',
     name:'search',
     component: ()=>import('../views/search/search')
+  },
+  {
+    path: '/vip',
+    name:'Vip',
+    component: ()=>import('../views/Vip')
+  },
+  {
+    path:'unlogin',
+    name:'unLogin',
+    component: ()=>import('../views/unLogin')
   }
 ]
 

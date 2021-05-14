@@ -1,8 +1,14 @@
 <template>
   <div id="search" >
-    <el-input   @focus="focus" @blur="blur" />
-    <el-card v-if="isSearch" >...</el-card>
-    <el-input @keyup.enter.native="searchHandler"/>
+    <Form ref="formSearch" inline>
+      <FormItem style="margin:auto;" prop="keywords">
+        <Input search v-model="formSearch.keywords" placeholder="请输入名称"></Input>
+      </FormItem>
+      <FormItem style="margin:auto;">
+        <Button type="primary" @click="goPage()">搜索</Button>
+      </FormItem>
+    </Form>
+
   </div>
 </template>
 

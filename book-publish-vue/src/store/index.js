@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        wantLogin: true,
         token: localStorage.getItem('token'),
         userInfo: JSON.parse(sessionStorage.getItem('userInfo'))
     },
@@ -24,6 +25,12 @@ export default new Vuex.Store({
             localStorage.setItem('token', '')
             sessionStorage.setItem('userInfo', JSON.stringify(''))
         },
+        CANCEL_LOGIN: state => {
+            state.wantLogin = false
+        },
+        LOGIN: state => {
+            state.wantLogin = true
+        }
     },
     getters: {
         // get

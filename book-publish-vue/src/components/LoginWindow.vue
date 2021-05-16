@@ -81,7 +81,7 @@
                               autocomplete="new-password"></el-input>
                   </el-col>
                   <el-col :span="11">
-                    <el-link :underline="false" style="padding-top: 10px; float: right;">发送验证码</el-link>
+                    <el-link :underline="false" style="padding-top: 10px; float: right;" @click="submitEmail('ruleFormSignup')">发送验证码</el-link>
                   </el-col>
                 </el-row>
               </el-form-item>
@@ -231,6 +231,16 @@ export default {
   methods: {
     cancelLogin() {
       this.$store.commit('CANCEL_LOGIN')
+    },
+    submitEmail(formName){
+      this.$refs[formName].validate((valid)=>{
+        if (valid) {
+          const _this = this
+          this.$axios.post('/sendVerificationCode',this.email)
+        } else {
+          return false;
+        }
+      })
     },
     submitFormLogin(formName) {
       this.$refs[formName].validate((valid) => {

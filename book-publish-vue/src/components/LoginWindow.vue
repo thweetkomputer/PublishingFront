@@ -81,7 +81,9 @@
                               autocomplete="new-password"></el-input>
                   </el-col>
                   <el-col :span="11">
-                    <el-link :underline="false" style="padding-top: 10px; float: right;" @click="submitEmail('ruleFormSignup')">发送验证码</el-link>
+                    <el-link :underline="false" style="padding-top: 10px; float: right;"
+                             @click="submitEmail('ruleFormSignup')">发送验证码
+                    </el-link>
                   </el-col>
                 </el-row>
               </el-form-item>
@@ -232,14 +234,34 @@ export default {
     cancelLogin() {
       this.$store.commit('CANCEL_LOGIN')
     },
-    submitEmail(formName){
-      this.$refs[formName].validate((valid)=>{
-        if (valid) {
-          const _this = this
-          this.$axios.post('/sendVerificationCode',this.email)
-        } else {
-          return false;
-        }
+    submitEmail(formName) {
+      // ifthis.$refs[formName].((valid)=>{
+      //   if (valid) {
+      //     const _this = this
+      //     this.$axios.post('/sendVerificationCode',this.email)
+      //   } else {
+      //     return false;
+      //   }
+      // })
+      const _this = this
+      this.$axios.post('/sendVerificationCode', this.ruleFormSignup).then(res => {
+        const jwt = res.headers['authorization']
+        const userInfo = res.data.data
+        console.log(userInfo)
+
+        // Share the data
+        this.$store.commit('SET_TOKEN', jwt)
+        this.$store.commit('SET_USERINFO', userInfo)
+
+        console.log(this.$store.getters.getUser)
+        this.$message({
+          showClose: true,
+          message: '注册成功，请重新登录',
+          type: 'success',
+          duration: 2000
+        })
+        // _this.$router.go(0)
+        this.activeName = 'signup'
       })
     },
     submitFormLogin(formName) {
@@ -296,7 +318,7 @@ export default {
               duration: 2000
             })
             // _this.$router.go(0)
-            this.activeName = 'login'
+            this.activeName = 'signup'
           })
         } else {
           console.log('error submit!!');

@@ -21,7 +21,9 @@ Vue.use(Iview)
 Vue.use(Element)
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
-
+axios.defaults.withCredentials = true
+axios.defaults.baseURL = '/api'
+// axios.defaults.headers.post['Content-Type'] = 'application/json';
 new Vue({
   router,
   store,

@@ -256,7 +256,7 @@ export default {
         console.log(this.$store.getters.getUser)
         this.$message({
           showClose: true,
-          message: '注册成功，请重新登录',
+          message: '发送成功，请邮箱查收',
           type: 'success',
           duration: 2000
         })

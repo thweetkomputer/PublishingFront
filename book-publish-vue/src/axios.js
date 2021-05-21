@@ -24,12 +24,12 @@ axios.interceptors.response.use(response => {
         } else {
             Element.Message({
                 showClose: true,
-                message: response.data.msg,
+                message: response.data.message,
                 type: 'error',
                 duration: 2000
             })
             console.log("response")
-            return Promise.reject(response.data.msg)
+            return Promise.reject(response.data.message)
         }
     },
     error => {
@@ -42,7 +42,7 @@ axios.interceptors.response.use(response => {
         }
         Element.Message({
             showClose: true,
-            message: error.response.data.msg,
+            message: error.response.data.message,
             type: 'error',
             duration: 2000
         });

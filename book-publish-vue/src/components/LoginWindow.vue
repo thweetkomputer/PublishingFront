@@ -428,6 +428,7 @@ body > .el-container {
   border-right-width: 0 !important;
   border-bottom-width: 1px !important;
   outline-color: #333333 !important;
+  border-block-color: #333333 !important;
 }
 
 .el-input {

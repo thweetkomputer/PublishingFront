@@ -133,9 +133,6 @@ export default {
       this.$router.push({name:'Article'})
     }
     ,
-    toBooks(){
-      this.$router.push({name:'Books'})
-    },
     changeDevice(){
       if(this.screenwidth<=500){
         this.mobile_left='xs'

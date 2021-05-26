@@ -6,23 +6,22 @@ module.exports = {
     assetsDir: "static", // 打包后静态资源目录，注意public文件下目录（别名）配置，index.html的icon路径
     devServer: {
         open: false,
-        host:"0.0.0.0",
+        host: "0.0.0.0",
         port: 8080,
         disableHostCheck: true,
         https: false,
         proxy: {
-            "/apis": {
-                target: "http://192.168.0.183:8001/api", //目标主机
-                ws: true, //代理的WebSockets
-                changeOrigin: true, //需要虚拟主机站点
+            '/api': {
+                target: "http://127.0.0.1:8081/",
+                changeOrigin: true,
                 pathRewrite: {
-                    "^/apis": ""
+                    '^/api': ''
                 }
             }
         },
         before: app => {
             // 执行前操作，可以在此添加mock数据。与proxy代理不可并用
-            app.get('/api/test', function (req, res) {
+            app.get('/api/test', function(req, res) {
                 let data = require('./src/mock/test.json')
                 res.json(data)
             })

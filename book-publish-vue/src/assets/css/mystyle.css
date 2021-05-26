@@ -1,13 +1,14 @@
-body, html {
+body,
+html {
     margin: 0;
     background-image: url("../../assets/img/img4.png");
     /*背景图片*/
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /*opacity: 0.5;*/
     background-size: 100% 100%;
     /*    图片铺满整个界面*/
 }
+
 
 /*头部导航*/
 
@@ -25,7 +26,29 @@ body, html {
     z-index: 1001;
 }
 
+.dewb .header {
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    font-weight: 500;
+}
+.body.dewb h5 {
+    color: #fff;
+    font-weight: 700;
+}
+.body.dewb .header {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+.article-content {
+    color: #fff;
+}
+.article-content img {
+    margin: 5px 5px;
+}
 /*侧边栏*/
+
 #left-menu {
     width: 200px;
     height: 100vh;
@@ -52,16 +75,18 @@ body, html {
 #content {
     position: relative;
     top: 60px;
-    margin-left: 400px;
-    margin-right: 400px;
+    margin-left: 260px;
+    margin-right: 20px;
     padding: 10px 0;
 }
 
 #content.xs {
-    margin-left: 400px;
+    margin-left: 260px;
 }
 
+
 /*页面底部*/
+
 #footer {
     color: #fff;
     font-size: 18px;
@@ -77,13 +102,15 @@ body, html {
     margin-left: 20px;
 }
 
+
 /*其他*/
+
 .el-submenu__title:hover {
-    background-color: #00000060 !important;
+    background-color: #00000060!important;
 }
 
 .el-menu-item:hover {
-    background-color: #00000060 !important;
+    background-color: #00000060!important;
 }
 
 .el-menu {
@@ -92,4 +119,65 @@ body, html {
 
 .el-menu i {
     color: #ffc810;
+}
+
+.el-form-item__label {
+    color: #fff!important;
+}
+
+.el-input input {
+    background: #00000060;
+    color: #fff;
+    border: none;
+}
+
+
+/*summmernote*/
+
+.note-btn {
+    color: #00000060;
+}
+
+.note-btn:hover {
+    color: #ffc815;
+}
+
+.dropdown-menu {
+    background: #000;
+}
+
+.dropdown-menu a {
+    color: #000;
+}
+
+.popover {
+    background: #00000060;
+}
+
+.note-editable {
+    background: #00000060;
+    color: #fff;
+}
+
+.el-textarea__inner {
+    background: #00000060;
+    border: none;
+    color: #ffffff;
+}
+
+.el-breadcrumb__inner a,
+.el-breadcrumb__inner.is-link {
+    color: #00000060;
+}
+
+.el-breadcrumb__inner {
+    color: #ffffff;
+}
+
+.el-breadcrumb__item:last-child .el-breadcrumb__inner {
+    color: #ffffff;
+}
+
+.el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
+    color: white;
 }

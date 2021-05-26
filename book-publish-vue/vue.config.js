@@ -11,11 +11,12 @@ module.exports = {
         disableHostCheck: true,
         https: false,
         proxy: {
-            '/api':{
-                target: "http://127.0.0.1:8081/",
-                changeOrigin:true,
-                pathRewrite:{
-                    '^/api':''
+            "/apis": {
+                target: "http://192.168.0.183:8001/api", //目标主机
+                ws: true, //代理的WebSockets
+                changeOrigin: true, //需要虚拟主机站点
+                pathRewrite: {
+                    "^/apis": ""
                 }
             }
         },

@@ -1,14 +1,17 @@
 <template>
 <!--  未登录状态-->
-  <div id="app">
-
-    <div id="top-menu" class="dewb" >
+  <div>
+    <div>
+      <LoginWindow style="position:relative;z-index: 1" ></LoginWindow>
+    </div>
+    <div id="app">
+    <div id="top-menu" class="dewb">
       <Menu mode="horizontal"  style="background-color: #00000060">
         <MenuItem name="5"  v-if="is_login!=0" style="float: right" to="/Homepage" >
           <Avatar icon="ios-person" ></Avatar>
           用户
         </MenuItem>
-        <MenuItem name="4" to="/login" v-if="is_login==0" style="float: right">
+        <MenuItem name="4" @click.native="login" v-if="is_login==0" style="float: right">
           <Icon type="ios-construct"/>
           登录
         </MenuItem>
@@ -86,8 +89,10 @@
       <router-view :screenwidth="screenwidth"></router-view>
     </div>
   </div>
+  </div>
 </template>
 <script>
+import LoginWindow from '@/components/LoginWindow'
 export default {
   name: "Book",
   data(){
@@ -96,7 +101,7 @@ export default {
       mobile_left:'',
       mobile_content:'',
       value4: '',
-      is_login:1,
+      is_login:0,
     //  这是主界面控制变量，如果is_login为0，为未登录状态，不为1则显示已经登录，会根据用户身份的不同，显示不同的界面。
     };
   },
@@ -114,6 +119,45 @@ export default {
     // toLogin(){
     //   this.$router.push({name:'Login'})
     // },
+    login() {
+      this.$store.commit('LOGIN')
+    },
+    tosearch(){
+      this.$router.push({name:'search'})
+    }
+    ,
+    toLogin(){
+      this.$router.push({name:'Login'})
+    },
+    toaddarticle(){
+      this.$router.push({name:'Article'})
+    }
+    ,
+    toBooks(){
+      this.$router.push({name:'Books'})
+    },
+    changeDevice(){
+      if(this.screenwidth<=500){
+        this.mobile_left='xs'
+        this.mobile_content='xs'
+      }
+    },
+    showHideLeftMenu(){
+      if(this.mobile_left==''){
+        this.mobile_left='xs'
+      }
+      else{
+        this.mobile_left=''
+      }
+      if(this.screenwidth>500){
+        if(this.mobile_content==''){
+          this.mobile_content='xs'
+        }
+        else{
+          this.mobile_content=''
+        }
+      }
+    },
     chooseMenu(index){
       console.log(index)
       this.$router.push({path:index})
@@ -147,6 +191,10 @@ export default {
     logout(){
       this.is_login=0;
     }
+  }
+  ,
+  components: {
+    LoginWindow,
   }
 }
 </script>

@@ -8,7 +8,6 @@
         <Button type="primary" @click="goPage()">搜索</Button>
       </FormItem>
     </Form>
-
   </div>
 </template>
 

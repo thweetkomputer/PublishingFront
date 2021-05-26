@@ -5,7 +5,7 @@
       <!--    <div class="bg bg-blur"></div>-->
       <el-container class="content2">
         <!--      <el-header>-->
-        <!--        <img class="mlogo" src="http://o.bookschina.com/images/logo0508.png" alt="">-->
+        <!--        < img class="mlogo" src="http://o.bookschina.com/images/logo0508.png" alt="">-->
         <!--      </el-header>-->
 
         <!--      <el-main>-->

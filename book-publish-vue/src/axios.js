@@ -20,6 +20,12 @@ axios.interceptors.response.use(response => {
         console.log("===============")
 
         if (res.code === 200) {
+            Element.Message({
+                showClose: true,
+                message: response.data.message,
+                type: 'success',
+                duration: 2000
+            })
             return response
         } else {
             Element.Message({

@@ -9,7 +9,7 @@
         <el-breadcrumb-item>文章提交</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-      <el-button type="success" style="float: right;margin-right: 100px" @click="submitArticle">提交文章</el-button>
+      <el-button type="success" style="float: right;margin-right: 100px" >提交文章</el-button>
       <el-form ref="form" :model="form" label-width="80px" style="margin-right:400px">
         <el-form-item label="文章标题">
           <el-input v-model="form.name"></el-input>
@@ -112,8 +112,8 @@ export default {
       console.log(file_form.get('tag'))
       console.log(file_form.get('info'))
       console.log(file_form.get('file'))
-      axios({
-        url: "/api/file/upload",
+      this.$axios({
+        url: "/file/submitArticle",
         method: "POST",
         headers: {
           token: localStorage.getItem("token"),

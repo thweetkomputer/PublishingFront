@@ -9,7 +9,7 @@
         <el-breadcrumb-item>文章提交</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-      <el-button type="success" style="float: right;margin-right: 100px" @click="submitArticle">提交文章</el-button>
+      <el-button type="success" style="float: right;margin-right: 100px"  @click="submitUpload">提交文章</el-button>
       <el-form ref="form" :model="form" label-width="80px" style="margin-right:400px">
         <el-form-item label="文章标题">
           <el-input v-model="form.name"></el-input>
@@ -22,6 +22,7 @@
               :key="tag"
               v-for="tag in dynamicTags"
               closable
+              v-model="dynamicTags"
               :disable-transitions="false"
               @close="handleClose(tag)">
             {{tag}}
@@ -38,7 +39,7 @@
           </el-input>
           <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
         </el-form-item>
-        <el-form-item label="文章简介" >
+        <el-form-item label="文章简介">
           <el-input type="textarea" v-model="form.info" :autosize="{ minRows: 15, maxRows: 20}"></el-input>
         </el-form-item>
       </el-form>
@@ -56,16 +57,6 @@
       :http-request="UploadSubmit"
     >
       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-      <el-button
-        style="margin-left: 10px"
-        size="small"
-        type="success"
-        @click="submitUpload"
-        >上传到服务器</el-button
-      >
-      <div slot="tip" class="el-upload__tip">
-        只能上传jpg/png文件，且不超过500kb
-      </div>
     </el-upload>
     </div>
   </div>
@@ -104,7 +95,7 @@ export default {
       
       file_form.append("title",this.form.name);
       file_form.append("author",this.form.author);
-      file_form.append("tag",this.form.dynamicTags);
+      file_form.append("tag",JSON.stringify(this.dynamicTags));
       file_form.append("info",this.form.info);
       file_form.append("file", file);
       console.log(file_form.get('title'))
@@ -112,6 +103,7 @@ export default {
       console.log(file_form.get('tag'))
       console.log(file_form.get('info'))
       console.log(file_form.get('file'))
+      // console.log(this.dynamicTags);
       axios({
         url: "/api/file/upload",
         method: "POST",

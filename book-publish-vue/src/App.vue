@@ -2,12 +2,12 @@
 <!--  未登录状态-->
   <div>
     <div>
-      <LoginWindow style="position:relative;z-index: 1" ></LoginWindow>
+      <LoginWindow style="position:relative;z-index: 1" v-if="is_login==0"></LoginWindow>
     </div>
     <div id="app">
     <div id="top-menu" class="dewb">
-      <Menu mode="horizontal"  style="background-color: #00000060">
-        <MenuItem name="5"  v-if="is_login!=0" style="float: right" to="/Homepage" >
+      <Menu mode="horizontal"  style="background-color: #00000060;border: none; ">
+        <MenuItem name="5"  v-if="is_login!=0" style="float: right;" to="/Homepage" >
           <Avatar icon="ios-person" ></Avatar>
           用户
         </MenuItem>
@@ -101,7 +101,7 @@ export default {
       mobile_left:'',
       mobile_content:'',
       value4: '',
-      is_login:0,
+      is_login:1,
     //  这是主界面控制变量，如果is_login为0，为未登录状态，不为1则显示已经登录，会根据用户身份的不同，显示不同的界面。
     };
   },
@@ -133,28 +133,6 @@ export default {
       this.$router.push({name:'Article'})
     }
     ,
-    changeDevice(){
-      if(this.screenwidth<=500){
-        this.mobile_left='xs'
-        this.mobile_content='xs'
-      }
-    },
-    showHideLeftMenu(){
-      if(this.mobile_left==''){
-        this.mobile_left='xs'
-      }
-      else{
-        this.mobile_left=''
-      }
-      if(this.screenwidth>500){
-        if(this.mobile_content==''){
-          this.mobile_content='xs'
-        }
-        else{
-          this.mobile_content=''
-        }
-      }
-    },
     chooseMenu(index){
       console.log(index)
       this.$router.push({path:index})
@@ -197,5 +175,7 @@ export default {
 </script>
 
 <style scoped>
-
+a.ivu-menu-item{
+  color:#fff;
+}
 </style>

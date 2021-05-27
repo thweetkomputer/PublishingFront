@@ -1,13 +1,21 @@
 <template>
   <div>
+    
     <div>
-      <el-button type="success" style="float: right;margin-right: 100px">提交文章</el-button>
+      <!-- 面包屑导航 -->
+    <div>
+      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>文章提交</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+      <el-button type="success" style="float: right;margin-right: 100px" @click="submitArticle">提交文章</el-button>
       <el-form ref="form" :model="form" label-width="80px" style="margin-right:400px">
         <el-form-item label="文章标题">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="作者" ref="form" :model="form" label-width="80px">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.author"></el-input>
         </el-form-item>
         <el-form-item label="文章标签" ref="form" :model="form" label-width="80px">
           <el-tag
@@ -31,54 +39,114 @@
           <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
         </el-form-item>
         <el-form-item label="文章简介" >
-          <el-input type="textarea" v-model="form.desc" :autosize="{ minRows: 15, maxRows: 20}"></el-input>
+          <el-input type="textarea" v-model="form.info" :autosize="{ minRows: 15, maxRows: 20}"></el-input>
         </el-form-item>
       </el-form>
     </div>
     <div >
       <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="5"
-          :on-exceed="handleExceed"
-          :file-list="fileList"
-          style="color: black"
+      :limit="1"
+      class="upload-demo"
+      ref="upload"
+      action
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :file-list="fileList"
+      :auto-upload="false"
+      :http-request="UploadSubmit"
+    >
+      <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+      <el-button
+        style="margin-left: 10px"
+        size="small"
+        type="success"
+        @click="submitUpload"
+        >上传到服务器</el-button
       >
-        <el-button type="primary" style="margin-top: 10px; margin-left:260px">上传文件</el-button>
-<!--        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-      </el-upload>
-
+      <div slot="tip" class="el-upload__tip">
+        只能上传jpg/png文件，且不超过500kb
+      </div>
+    </el-upload>
     </div>
-
   </div>
 </template>
 
 <script>
+import BreadMenu from '@/components/BreadMenu'
 export default {
   name: "SubmitArticle",
   data() {
     return {
-      fileList: [],
+      fileList:[],
       form: {
         name: '',
-        region: '',
-        date1: '',
-        date2: '',
+        author: '',
         delivery: false,
         type: [],
-        resource: '',
-        desc: '',
+        info:''
       },
       dynamicTags: ['科技', '文化', '学术'],
       inputVisible: false,
-      inputValue: ''
+      inputValue: '',
+      article_info:{
+        title:'',
+        author:'',
+        tag:[],
+        info:''
+      },
     }
   },
   methods: {
+    UploadSubmit(param) {
+      var file = param.file;
+      //console.log(param.file);
+      var file_form = new FormData(); //获取上传表单（文件）
+      
+      file_form.append("title",this.form.name);
+      file_form.append("author",this.form.author);
+      file_form.append("tag",this.form.dynamicTags);
+      file_form.append("info",this.form.info);
+      file_form.append("file", file);
+      console.log(file_form.get('title'))
+      console.log(file_form.get('author'))
+      console.log(file_form.get('tag'))
+      console.log(file_form.get('info'))
+      console.log(file_form.get('file'))
+      axios({
+        url: "/api/file/upload",
+        method: "POST",
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+        data: file_form,
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // submitArticle(){
+    //   console.log('/ArticleSubmit')
+    //   let articleData={
+    //     title:this.form.name,
+    //     author:this.form.author,
+    //     article_info:this.form.info,
+    //     content:this.fileList,
+    //     tag:this.dynamicTags
+    //   }
+    //   console.log(articleData)
+    //   this.$axios.post("/ArticleSubmit",articleData).then(res=>{
+    //     console.log(res)
+    //   }).catch(err=>{
+    //     console.log('error submit!!');
+    //     console.log(err)
+    //   })
+    // },
+    submitUpload() {
+      this.$refs.upload.submit();
+    },
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
@@ -106,14 +174,12 @@ export default {
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
-
     showInput() {
       this.inputVisible = true;
       this.$nextTick(_ => {
         this.$refs.saveTagInput.$refs.input.focus();
       });
     },
-
     handleInputConfirm() {
       let inputValue = this.inputValue;
       if (inputValue) {
@@ -121,7 +187,10 @@ export default {
       }
       this.inputVisible = false;
       this.inputValue = '';
-    }
+    },
+  },
+  components:{
+    BreadMenu,
   }
 }
 </script>

@@ -15,7 +15,7 @@
       </el-col>
       <el-col :xs='24' :lg="16">
         <div class="dewb">
-          <div v-for="(img,index) in cover_list":key="index">
+          <div v-for="(img,index) in cover_list" :key="index">
             <el-image
                 v-if="img==cover_img"
                 class="cover"
@@ -60,7 +60,13 @@ export default {
         contents:""
       },
       cover_list:[],
-      cover_img:''
+      cover_img:'',
+      article_info:{
+        title:'',
+        describe:'',
+        contents:""
+      },
+      
     }
   },
   mounted() {

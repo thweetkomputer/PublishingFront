@@ -249,6 +249,11 @@ const routes = [{
         name: 'message',
         component: () =>
             import ('../views/Message')
+    },
+    {
+        path: '/addreader',
+        name: 'addreader',
+        component: ()=>import('../views/AddReader')
     }
 ]
 

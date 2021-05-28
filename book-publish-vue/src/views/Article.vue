@@ -13,25 +13,11 @@
         <el-col v-for="item in article_list" :key="item.id" :span="24">
           <div class="card dewb">
             <el-row>
-              <el-col :xs="24" :lg="6">
-                <el-image
-                    v-if="screenWidth > 500"
-                    style="height:100px"
-                    :src="item.cover"
-                    :fit="'cover'"
-                ></el-image>
-                <el-image
-                    v-else
-                    style="width:100%"
-                    :src="item.cover"
-                    :fit="'cover'"
-                ></el-image>
-              </el-col>
-              <el-col class="text-item" :xs="24" :lg="4">
+              <el-col :xs="24" :lg="13">
                 <span>{{ item.title }}</span>
               </el-col>
-              <el-col class="text-item" :xs="12" :lg="7">
-                <span> 发布者：{{ item.nickName }} </span>
+              <el-col class="text-item" :xs="24" :lg="4">
+                <span> 作者：{{ item.nickName }} </span>
               </el-col>
               <el-col class="text-item" :xs="12" :lg="7">
                 <el-button
@@ -76,7 +62,7 @@ export default {
       currentPage: 1,
       pageSize: 5,
       total: 100,
-      article_list: [],
+      article_list: [{title:'1',nickname:'2'}],
     };
   },
   mounted() {
@@ -85,7 +71,7 @@ export default {
   methods: {
     //跳转内容页
     toArticle(id){
-      this.$router.push({path:'/article',query:{id:id}})
+      this.$router.push({path:'/content',query:{id:id}})
     },
     getListData(page) {
       axios({

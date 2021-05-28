@@ -143,6 +143,12 @@ const routes = [{
             import ('../views/Homepage')
     },
     {
+        path: '/EditInformation',
+        name: 'EditInformation',
+        component: () =>
+            import ('../views/EditInformation')
+    },
+    {
         path: '/book/add',
         name: 'BookEdit',
         component: BookEdit
@@ -243,12 +249,6 @@ const routes = [{
         name: 'message',
         component: () =>
             import ('../views/Message')
-    },
-    {
-        path: '/side',
-        name: 'side',
-        component: () =>
-            import ('../components/Side')
     }
 ]
 

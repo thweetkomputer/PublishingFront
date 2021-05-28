@@ -22,8 +22,8 @@
           </div>
         </el-col>
         <el-col :xs='10':lg="10" style="margin-left:-30px;">
-          <div class="" style="background-color:#ffffff; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
-            <h5>热门标签</h5>
+          <div class="" style="background-color:#00000060; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
+            <h5 style="color:white">热门标签</h5>
             <hr>
             <el-tag type="info" class="tag">历史</el-tag>
             <el-tag type="info">科技</el-tag>
@@ -103,5 +103,10 @@ export default {
 }
 .el-tag.el-tag--info {
   margin:5px;
+}
+.el-tag.el-tag--info {
+    background-color: #00000060;
+    border-color: #00000060;
+    color: white;
 }
 </style>

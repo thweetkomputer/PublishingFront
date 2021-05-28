@@ -27,7 +27,9 @@ axios.interceptors.response.use(response => {
                 duration: 2000
             })
             return response
-        } else {
+        } else if (res.code === 201) {
+            return response
+        }else {
             Element.Message({
                 showClose: true,
                 message: response.data.message,

@@ -1,0 +1,25 @@
+@font-face {
+    font-family: "iconfont";
+    /* Project id 2575274 */
+    src: url('iconfont.woff2?t=1622100555774') format('woff2'), url('iconfont.woff?t=1622100555774') format('woff'), url('iconfont.ttf?t=1622100555774') format('truetype');
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xingbienv:before {
+    content: "\e605";
+    color: white;
+    background-color: pink;
+}
+
+.icon-xingbienan:before {
+    content: "\e606";
+    color: white;
+    /* background-color: #409EFF; */
+}

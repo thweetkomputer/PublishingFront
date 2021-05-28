@@ -5,7 +5,7 @@
       <!--    <div class="bg bg-blur"></div>-->
       <el-container class="content2">
         <!--      <el-header>-->
-        <!--        < img class="mlogo" src="http://o.bookschina.com/images/logo0508.png" alt="">-->
+        <!--        <img class="mlogo" src="http://o.bookschina.com/images/logo0508.png" alt="">-->
         <!--      </el-header>-->
 
         <!--      <el-main>-->
@@ -81,9 +81,7 @@
                               autocomplete="new-password"></el-input>
                   </el-col>
                   <el-col :span="11">
-                    <el-link :underline="false" style="padding-top: 10px; float: right;"
-                             @click="submitEmail('ruleFormSignup')">发送验证码
-                    </el-link>
+                    <el-link :underline="false" style="padding-top: 10px; float: right;">发送验证码</el-link>
                   </el-col>
                 </el-row>
               </el-form-item>
@@ -234,36 +232,6 @@ export default {
     cancelLogin() {
       this.$store.commit('CANCEL_LOGIN')
     },
-    submitEmail(formName) {
-      // ifthis.$refs[formName].((valid)=>{
-      //   if (valid) {
-      //     const _this = this
-      //     this.$axios.post('/sendVerificationCode',this.email)
-      //   } else {
-      //     return false;
-      //   }
-      // })
-      const _this = this
-      this.$axios.post('/sendVerificationCode', this.ruleFormSignup).then(res => {
-        const jwt = res.headers['authorization']
-        const userInfo = res.data.data
-        console.log(userInfo)
-
-        // Share the data
-        this.$store.commit('SET_TOKEN', jwt)
-        this.$store.commit('SET_USERINFO', userInfo)
-
-        console.log(this.$store.getters.getUser)
-        this.$message({
-          showClose: true,
-          message: '发送成功，请邮箱查收',
-          type: 'success',
-          duration: 2000
-        })
-        // _this.$router.go(0)
-        this.activeName = 'signup'
-      })
-    },
     submitFormLogin(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -318,7 +286,7 @@ export default {
               duration: 2000
             })
             // _this.$router.go(0)
-            this.activeName = 'signup'
+            this.activeName = 'login'
           })
         } else {
           console.log('error submit!!');
@@ -428,7 +396,6 @@ body > .el-container {
   border-right-width: 0 !important;
   border-bottom-width: 1px !important;
   outline-color: #333333 !important;
-  border-block-color: #333333 !important;
 }
 
 .el-input {

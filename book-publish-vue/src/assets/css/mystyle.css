@@ -132,9 +132,9 @@ html {
 }
 
 .el-input input {
-    /* background: #00000060; */
-    /* border: none;
-    border-bottom-width: 1px; */
+    background: #00000060;
+    color: #fff;
+    border: none;
 }
 
 

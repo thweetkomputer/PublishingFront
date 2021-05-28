@@ -3,8 +3,8 @@ import Element from "element-ui";
 import router from './router'
 import store from './store'
 
-axios.defaults.baseURL = 'http://127.0.0.1:8081'
-    // axios.defaults.baseURL = 'http://172.20.10.4:8081'
+axios.defaults.baseURL = 'http://localhost:8081'
+// axios.defaults.baseURL = 'http://172.20.10.4:8081'
 
 // 前置拦截
 axios.interceptors.request.use(config => {
@@ -24,12 +24,12 @@ axios.interceptors.response.use(response => {
         } else {
             Element.Message({
                 showClose: true,
-                message: response.data.message,
+                message: response.data.msg,
                 type: 'error',
                 duration: 2000
             })
             console.log("response")
-            return Promise.reject(response.data.message)
+            return Promise.reject(response.data.msg)
         }
     },
     error => {
@@ -42,7 +42,7 @@ axios.interceptors.response.use(response => {
         }
         Element.Message({
             showClose: true,
-            message: error.response.data.message,
+            message: error.response.data.msg,
             type: 'error',
             duration: 2000
         });

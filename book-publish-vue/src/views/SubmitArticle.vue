@@ -74,7 +74,7 @@ export default {
         author: '',
         delivery: false,
         type: [],
-        info:''
+        info:'',
       },
       dynamicTags: ['科技', '文化', '学术'],
       inputVisible: false,

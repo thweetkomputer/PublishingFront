@@ -1,203 +1,130 @@
 <!-- 用户中心 -->
 <template>
+    <div>
 
-    <div class="tcommonBox">
-      <header>
-        <h1>
-          个人中心
-        </h1>
-        <hr>
-      </header>
-        <ul class="userInfoBox">
-          <li class="avatarlist">
-            <span class="leftTitle" style="margin-top:40px">头像</span>
-            <el-upload class="avatar-uploader" action="Userinfo/UploadImg" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-              <img v-if="userInfoObj.avatar"/>
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-          </li>
-          <li class="username">
-            <span class="leftTitle">昵称</span>
-            <el-input v-model="userInfoObj.username" placeholder="昵称"></el-input>
-          </li>
-          <li>
-            <span class="leftTitle">电子邮件</span>
-            <el-input v-model="userInfoObj.email" placeholder="电子邮件"></el-input> 
-          </li>
-          <li>
-            <span class="leftTitle">性别</span>
-            <template>
-              <el-radio class="radio" v-model="userInfoObj.sex" label="0">男</el-radio>
-              <el-radio class="radio" v-model="userInfoObj.sex" label="1">女</el-radio>
-            </template>
-          </li>
-          <li class="username">
-            <span class="leftTitle">简介</span>
-            <el-input v-model="userInfoObj.input" placeholder="简介"></el-input>
-          </li>
-        </ul>
+      <div>
+        <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>个人信息</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
 
-        <div class="saveInfobtn">
-          <a class="tcolors-bg" href="javascript:void(0);" @click="saveInfoFun" style="margin-left: -450px;">保存信息</a>
+      <div class="block" style="margin-top:50px;margin-left:200px">
+          <el-avatar :size="100" :src="circleUrl"></el-avatar>
+          <div style="margin-top: -100px;margin-left:130px">Name</div>
+          <div style="margin-left:120px">
+            <el-input placeholder="您还不是会员" style="width:120px;height:20px;font-size:8px"></el-input>
+            <el-button type="danger" round @click="$router.push('/vip')">开通会员</el-button>
+          </div>
+      </div>
+
+      <el-card class="box-card" shadow="hover" style="margin-top: 100px;margin-left: 130px;">
+        <div slot="header" class="clearfix">
+          <span>基本信息</span>
+           <el-button type="primary" icon="el-icon-edit" circle 
+                    @click="$router.push('/EditInformation')" style="float: right;">
+                </el-button>
         </div>
+        <div style="margin-left:10px">
+          <span/>用户名 
+          <span style="margin-left:40px"/>Name
+        </div>
+        <div style="margin-top:10px;margin-left:15px">
+          <span/>性别
+            <svg class="icon" aria-hidden="true" style="margin-left:60px;">
+              <use xlink:href="#icon-xingbienan"></use>
+            </svg>
+        </div>
+         <div class="id" style="margin-top:10px;margin-left:15px">
+          <span/>身份 
+          <span style="margin-left:60px"/>作者
+        </div>
+
+        <div class="email" style="margin-top:10px">
+            <span/>电子邮件 
+            <span style="margin-left:10px"/>xxx@qq.com
+        </div>
+        
+        <div>
+            <span>个人简介</span>
+            <el-input class="introduce"
+            v-model="input"
+            :disabled="true" style="margin-left:10px;width:200px;"
+            >
+            </el-input>  
+        </div>
+      </el-card>
     </div>
 </template>
 
 <script>
-// import { getUserInfo, UserInfoSave } from '../utils/server.js'//获取用户信息，保存用户信息
-export default {
-  name: 'UserInfo',
-  data () { //选项 / 数据
-    return {
-      userInfo: '',//本地存储的用户信
-      userInfoObj: '',//用户的信息
-    }
-  },
-  methods: { //事件处理器
-    handleAvatarSuccess (res) {//上传头像
-      // console.log('用户头像',res.image_name,file);
-      // console.log(URL.createObjectURL(file.raw));
-      if (res.code == 1001) {//存储
-        this.userInfoObj.avatar = res.image_name;
-        this.userInfoObj.head_start = 1;
-      } else {
-        this.$message.error('上传图片失败');
-      }
-    },
-    beforeAvatarUpload (file) {//判断头像大小
-      const isJPG = file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 1;
-      // console.log(file);
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG/JPEG/PNG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 1MB!');
-      }
-      return isJPG && isLt2M;
-    },
-    saveInfoFun: function () {//保存编辑的用户信息
-      var that = this;
-      if (!that.userInfoObj.username) { //昵称为必填
-        that.$message.error('昵称为必填项，请填写昵称');
-        return;
-      }
-      that.userInfoObj.state = Number(that.state);
-      UserInfoSave(that.userInfoObj, function (result) {//保存信息接口，返回展示页
-      that.$message.success('保存成功！');
-      that.isEdit = false;
-      that.routeChange();
-      })
-    },
-    routeChange: function () {//展示页面信息
-      var that = this;
-      // console.log(this.$router,this.$route);
-      if (localStorage.getItem('userInfo')) {
-        that.haslogin = true;
-        that.userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        that.userId = that.userInfo.userId;
-        // getUserInfo(that.userId, function (msg) {
-        //   // console.log('用户中心',msg.data);
-        //   that.userInfoObj = msg.data;
-        //   that.userInfoObj.head_start = 0;
-        //   that.userInfoObj.logo_start = 0;
-        //   that.state = msg.data.state == 1 ? true : false;
-        // })
-        // console.log(that.userInfo);
-      } else {
-        that.haslogin = false;
+  export default{
+    data () {
+      return {
+        circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+        input: ''
       }
     }
   }
-}
+  
+
 </script>
 
 <style>
-  .userInfoBox .avatarlist {
-    position: relative;
+  .el-button--primary {
+      color: #FFF;
+      background-color: #409EFF;
+      border-color: #409EFF;
   }
-  .avatar-uploader {
-    display: inline-block;
-    vertical-align: top;
-  }
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
+  .el-button.is-circle {
     border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    width: 120px;
-    height: 120px;
+    padding: 10px;
+}
+  .icon {
+    width: 26px;
+    height: 26px;
+    border-color: transparent;
+    background-color:transparent;
   }
-  .avatar-uploader .el-upload:hover {
-    border-color: #20a0ff;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 120px;
-    height: 120px;
-    line-height: 120px;
-    text-align: center;
-    position: center;
-  }
-  .avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    display: block;
-    object-fit: cover;
-  }
-  .gotoEdit {
-    font-size: 15px;
-    float: right;
-    cursor: pointer;
-    color: #999;
-  }
-  .gotoEdit:hover {
-    color: #333;
-  }
-  /*个人设置*/
-  .userInfoBox .leftTitle {
-    display: inline-block;
-    width: 100px;
-    padding: 10px 0;
-  }
-  .userInfoBox .rightInner {
-    display: inline-block;
-    max-width: calc(100% - 140px);
-    vertical-align: top;
-  }
-  .userInfoBox li {
-    padding: 20px;
-    border-bottom: 1px solid #ddd;
-  }
-  .userInfoBox li:last-child {
-    border-bottom: 1px solid transparent;
-  }
-  .userInfoBox .el-input,
-  .userInfoBox .el-textarea {
-    max-width: 300px;
-    min-width: 100px;
-  }
-  .userInfoBox .el-input__inner {
-    border-radius: 4px;
-  }
-  .userInfoBox .el-textarea {
-    vertical-align: top;
-  }
-  .saveInfobtn {
-    margin: 20px 0;
-    text-align: center;
-  }
-  .saveInfobtn a {
-    color: #fff;
-    padding: 6px 20px;
-    margin: 5px 10px;
-    border-radius: 5px;
+  .el-input.is-disabled .el-input__inner {
+    background-color: white;
+    border-color: white;
+    color: black;
+    cursor: not-allowed;
+    height:40px;
+}
+ .text {
     font-size: 14px;
   }
-  .userInfoBox .fa-asterisk {
-    color: #df2050;
+
+  .item {
+    margin-bottom: 25px;
   }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
+
+  .box-card {
+    width: 520px;
+  }
+  .box-card::shadow{
+    color:#696969;
+  }
+  .el-button--danger {
+    color: white;
+    background-color: transparent;
+    border-color: transparent;
+}
+  .el-button--danger:hover{
+    color:#F56C6C;
+    background-color:transparent;
+     border-color: transparent;
+  }
+  
 </style>

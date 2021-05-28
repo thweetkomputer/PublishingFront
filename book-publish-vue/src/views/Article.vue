@@ -89,7 +89,7 @@ export default {
     },
     getListData(page) {
       axios({
-        url: "",
+        url: "/newPassages",
         method: "get",
         params: {
           page,

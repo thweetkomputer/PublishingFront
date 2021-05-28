@@ -233,14 +233,22 @@ const routes = [{
             import ('../views/review')
     },
     {
-        path:'/collect',
-        name:'collect',
-        component: ()=>import('../views/Collect')
+        path: '/collect',
+        name: 'collect',
+        component: () =>
+            import ('../views/Collect')
     },
     {
-        path:'/message',
+        path: '/message',
         name: 'message',
-        component: ()=>import('../views/Message')
+        component: () =>
+            import ('../views/Message')
+    },
+    {
+        path: '/side',
+        name: 'side',
+        component: () =>
+            import ('../components/Side')
     }
 ]
 

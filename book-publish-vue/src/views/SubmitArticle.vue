@@ -90,7 +90,6 @@ export default {
   methods: {
     UploadSubmit(param) {
       var file = param.file;
-      //console.log(param.file);
       var file_form = new FormData(); //获取上传表单（文件）
       
       file_form.append("title",this.form.name);
@@ -103,9 +102,8 @@ export default {
       console.log(file_form.get('tag'))
       console.log(file_form.get('info'))
       console.log(file_form.get('file'))
-      // console.log(this.dynamicTags);
-      axios({
-        url: "/api/file/upload",
+      this.$axios({
+        url: "/file/submitArticle",
         method: "POST",
         headers: {
           token: localStorage.getItem("token"),
@@ -137,6 +135,15 @@ export default {
     //   })
     // },
     submitUpload() {
+      console.log(this.$refs.file);
+      if (this.$refs.file == null) {
+        this.$message({
+          showClose: true,
+          message: '请选择一个要发送的文件',
+          type: 'warning',
+          duration: 2000
+        })
+      }
       this.$refs.upload.submit();
     },
     handleRemove(file, fileList) {

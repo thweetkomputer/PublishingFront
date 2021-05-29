@@ -6,8 +6,8 @@
     </div>
     <div id="app">
     <div id="top-menu" class="dewb">
-      <Menu mode="horizontal"  style="background-color: #00000060;border: none;">
-        <Submenu name="5" style="float:right" v-if="is_login">
+      <Menu mode="horizontal" style="background-color: #00000020;border: none;">
+        <Submenu name="5" style="float:right " v-if="is_login">
             <template slot="title">
               <Icon type="ios-people"></Icon>
               用户
@@ -68,7 +68,7 @@
           </el-submenu>
           <el-submenu index="3" >
             <template slot="title">
-              <i class="el-icon-folder-opened"></i>
+              <i class="el-icon-edit"></i>
               <span>我的工作台</span>
             </template>
             <el-menu-item-group v-if="is_login==1">
@@ -187,7 +187,10 @@ export default {
 </script>
 
 <style scoped>
-.ivu-menu-horizontal .ivu-menu-submenu .ivu-select-dropdown .ivu-menu-item{
-  background: #00000060;
+.ivu-menu-horizontal .ivu-menu-item, .ivu-menu-horizontal .ivu-menu-submenu{
+  color: #FFFFFF;
+}
+.ivu-menu-horizontal .ivu-menu-item[data-v-7ba5bd90], .ivu-menu-horizontal .ivu-menu-submenu[data-v-7ba5bd90]{
+  color: #FFFFFF;
 }
 </style>

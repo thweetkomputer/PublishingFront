@@ -15,13 +15,14 @@
             <el-row>
               <el-col :xs="24" :lg="18">
                 <div>{{ item.title }}</div>
-                <div> 作者：{{ item.nickName }} </div>
+                <div> {{ item.description }} </div>
                 <div>
                   <el-button
                       @click="toArticle(item.id)"
                       type="success"
                       icon="el-icon-search"
                       circle
+                      style="margin: 10px"
                   ></el-button>
                 </div>
               </el-col>
@@ -54,10 +55,10 @@ export default {
     return {
       currentPage: 1,
       pageSize: 10,
-      total: 100,
+      total: 0,
       //total是条目总数，
       article_list: [],
-      tatal_num:0
+      total_num:0
     };
   },
   mounted() {
@@ -78,7 +79,13 @@ export default {
         },
       }).then((res) => {
         this.article_list = res.data.data.article_list;
-        this.tatal_num=res.data.data.tatal_num;
+        this.total_num=res.data.data.tatal_num;
+        if(this.total_num%10!=0){
+          this.total=this.total.num/10+1;
+        }
+        else{
+          this.total=this.total.num/10;
+        }
       });
     },
     currentChange(val) {

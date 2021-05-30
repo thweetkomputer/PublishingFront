@@ -23,12 +23,6 @@
                       icon="el-icon-search"
                       circle
                   ></el-button>
-                  <el-button
-                      @click="deleteArticle(item.id)"
-                      type="danger"
-                      icon="el-icon-delete"
-                      circle
-                  ></el-button>
                 </div>
               </el-col>
             </el-row>
@@ -62,7 +56,8 @@ export default {
       pageSize: 10,
       total: 100,
       //total是条目总数，
-      article_list: [{title:'1',nickname:'2'}],
+      article_list: [],
+      tatal_num:0
     };
   },
   mounted() {
@@ -82,9 +77,8 @@ export default {
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        // console.log(res.data);
-        this.article_list = res.data.data;
-        this.total = res.data.total;
+        this.article_list = res.data.data.article_list;
+        this.tatal_num=res.data.data.tatal_num;
       });
     },
     currentChange(val) {
@@ -93,32 +87,32 @@ export default {
       this.getListData(val);
     },
     //删除文章
-    deleteArticle(id) {
-      if (confirm("是否确定删除")) {
-        let checkInfo = {
-          contentType: "blog_article",
-          permissions: ["delete"],
-        };
-        this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
-          console.log(res);
-          if (res) {
-            axios({
-              url: "",
-              method: "delete",
-              data: Qs.stringify({
-                id,
-              }),
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-            }).then((res) => {
-              console.log(res);
-              this.getListData(this.currentPage);
-            });
-          }
-        });
-      }
-    },
+    // deleteArticle(id) {
+    //   if (confirm("是否确定删除")) {
+    //     let checkInfo = {
+    //       contentType: "blog_article",
+    //       permissions: ["delete"],
+    //     };
+    //     this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
+    //       console.log(res);
+    //       if (res) {
+    //         axios({
+    //           url: "",
+    //           method: "delete",
+    //           data: Qs.stringify({
+    //             id,
+    //           }),
+    //           headers: {
+    //             "Content-Type": "application/x-www-form-urlencoded",
+    //           },
+    //         }).then((res) => {
+    //           console.log(res);
+    //           this.getListData(this.currentPage);
+    //         });
+    //       }
+    //     });
+    //   }
+    // },
   },
 };
 </script>

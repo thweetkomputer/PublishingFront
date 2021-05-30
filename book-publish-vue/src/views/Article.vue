@@ -1,10 +1,10 @@
 <template>
   <div id="article-list">
     <!-- 面包屑导航 -->
-    <div class="dewb">
+    <div >
       <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>文章列表</el-breadcrumb-item>
+        <el-breadcrumb-item >文章列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!-- 文章列表 -->
@@ -13,25 +13,23 @@
         <el-col v-for="item in article_list" :key="item.id" :span="24">
           <div class="card dewb">
             <el-row>
-              <el-col :xs="24" :lg="13">
-                <span>{{ item.title }}</span>
-              </el-col>
-              <el-col class="text-item" :xs="24" :lg="4">
-                <span> 作者：{{ item.nickName }} </span>
-              </el-col>
-              <el-col class="text-item" :xs="12" :lg="7">
-                <el-button
-                    @click="toArticle(item.id)"
-                    type="success"
-                    icon="el-icon-search"
-                    circle
-                ></el-button>
-                <el-button
-                    type="danger"
-                    icon="el-icon-delete"
-                    circle
-                    @click="deleteArticle(item.id)"
-                ></el-button>
+              <el-col :xs="24" :lg="18">
+                <div>{{ item.title }}</div>
+                <div> 作者：{{ item.nickName }} </div>
+                <div>
+                  <el-button
+                      @click="toArticle(item.id)"
+                      type="success"
+                      icon="el-icon-search"
+                      circle
+                  ></el-button>
+                  <el-button
+                      @click="deleteArticle(item.id)"
+                      type="danger"
+                      icon="el-icon-delete"
+                      circle
+                  ></el-button>
+                </div>
               </el-col>
             </el-row>
           </div>
@@ -39,6 +37,7 @@
       </el-row>
     </div>
     <!-- 分页器 -->
+<!--    total绑定data中的total-->
     <div class="dweb" style="margin-top:10px">
       <el-pagination
           background
@@ -60,8 +59,9 @@ export default {
   data() {
     return {
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 10,
       total: 100,
+      //total是条目总数，
       article_list: [{title:'1',nickname:'2'}],
     };
   },
@@ -80,7 +80,6 @@ export default {
         params: {
           page,
           pageSize: this.pageSize,
-          lanmu:'all'
         },
       }).then((res) => {
         // console.log(res.data);
@@ -108,20 +107,12 @@ export default {
               method: "delete",
               data: Qs.stringify({
                 id,
-                token: this.$store.getters.isnotUserlogin,
               }),
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
               },
             }).then((res) => {
               console.log(res);
-              if (res.data == "nologin") {
-                alert("用户登录信息错误");
-                return;
-              }
-              if (res.data == "noperm") {
-                alert("权限不足");
-              }
               this.getListData(this.currentPage);
             });
           }

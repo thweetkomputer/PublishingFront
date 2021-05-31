@@ -195,3 +195,7 @@ html {
 .el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
     color: white;
 }
+
+.el-breadcrumb__inner a, .el-breadcrumb__inner.is-link{
+    color:#FFFFFF;
+}

@@ -1,10 +1,10 @@
 <template>
   <div id="article-list">
     <!-- 面包屑导航 -->
-    <div class="dewb">
+    <div >
       <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>文章列表</el-breadcrumb-item>
+        <el-breadcrumb-item >文章列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!-- 文章列表 -->
@@ -13,25 +13,18 @@
         <el-col v-for="item in article_list" :key="item.id" :span="24">
           <div class="card dewb">
             <el-row>
-              <el-col :xs="24" :lg="13">
-                <span>{{ item.title }}</span>
-              </el-col>
-              <el-col class="text-item" :xs="24" :lg="4">
-                <span> 作者：{{ item.nickName }} </span>
-              </el-col>
-              <el-col class="text-item" :xs="12" :lg="7">
-                <el-button
-                    @click="toArticle(item.id)"
-                    type="success"
-                    icon="el-icon-search"
-                    circle
-                ></el-button>
-                <el-button
-                    type="danger"
-                    icon="el-icon-delete"
-                    circle
-                    @click="deleteArticle(item.id)"
-                ></el-button>
+              <el-col :xs="24" :lg="18">
+                <div>{{ item.title }}</div>
+                <div> {{ item.description }} </div>
+                <div>
+                  <el-button
+                      @click="toArticle(item.id)"
+                      type="success"
+                      icon="el-icon-search"
+                      circle
+                      style="margin: 10px"
+                  ></el-button>
+                </div>
               </el-col>
             </el-row>
           </div>
@@ -39,6 +32,7 @@
       </el-row>
     </div>
     <!-- 分页器 -->
+<!--    total绑定data中的total-->
     <div class="dweb" style="margin-top:10px">
       <el-pagination
           background
@@ -59,9 +53,11 @@ export default {
   data() {
     return {
       currentPage: 1,
-      pageSize: 5,
-      total: 100,
-      article_list: [{title:'1',nickname:'2'}],
+      pageSize: 10,
+      total: 0,
+      //total是条目总数，
+      article_list: [],
+      total_num:0
     };
   },
   mounted() {
@@ -79,11 +75,16 @@ export default {
         params: {
           page,
           pageSize: this.pageSize,
-          lanmu:'all'
         },
       }).then((res) => {
-        this.article_list = res.data.data;
-        this.total = res.data.total;
+        this.article_list = res.data.data.article_list;
+        this.total_num=res.data.data.tatal_num;
+        if(this.total_num%10!=0){
+          this.total=this.total.num/10+1;
+        }
+        else{
+          this.total=this.total.num/10;
+        }
       });
     },
     currentChange(val) {
@@ -92,40 +93,32 @@ export default {
       this.getListData(val);
     },
     //删除文章
-    deleteArticle(id) {
-      if (confirm("是否确定删除")) {
-        let checkInfo = {
-          contentType: "blog_article",
-          permissions: ["delete"],
-        };
-        this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
-          console.log(res);
-          if (res) {
-            axios({
-              url: "",
-              method: "delete",
-              data: Qs.stringify({
-                id,
-                token: this.$store.getters.isnotUserlogin,
-              }),
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-            }).then((res) => {
-              console.log(res);
-              if (res.data == "nologin") {
-                alert("用户登录信息错误");
-                return;
-              }
-              if (res.data == "noperm") {
-                alert("权限不足");
-              }
-              this.getListData(this.currentPage);
-            });
-          }
-        });
-      }
-    },
+    // deleteArticle(id) {
+    //   if (confirm("是否确定删除")) {
+    //     let checkInfo = {
+    //       contentType: "blog_article",
+    //       permissions: ["delete"],
+    //     };
+    //     this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
+    //       console.log(res);
+    //       if (res) {
+    //         axios({
+    //           url: "",
+    //           method: "delete",
+    //           data: Qs.stringify({
+    //             id,
+    //           }),
+    //           headers: {
+    //             "Content-Type": "application/x-www-form-urlencoded",
+    //           },
+    //         }).then((res) => {
+    //           console.log(res);
+    //           this.getListData(this.currentPage);
+    //         });
+    //       }
+    //     });
+    //   }
+    // },
   },
 };
 </script>

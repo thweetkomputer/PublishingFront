@@ -240,7 +240,6 @@ export default {
         url: "",
         method: "post",
         data: Qs.stringify({
-          token: this.$store.getters.isnotUserlogin,
           article_id: this.article_id,
           text: this.new_pinglun,
         }),

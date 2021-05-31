@@ -55,7 +55,7 @@ export default {
     return {
       currentPage: 1,
       pageSize: 10,
-      total: 1,
+      total: 10,
       //total是条目总数，
       article_list: [],
       total_num:0,

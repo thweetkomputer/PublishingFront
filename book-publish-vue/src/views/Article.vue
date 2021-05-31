@@ -82,10 +82,10 @@ export default {
         this.article_list = res.data.data.article_list;
         this.total_num=res.data.data.total_num;
         if(this.total_num%10!=0){
-          this.total=this.total_num+1;
+          this.total=this.total_num/10+1;
         }
         else{
-          this.total=this.total_num;
+          this.total=this.total_num/10;
         }
         console.log(this.total)
       });

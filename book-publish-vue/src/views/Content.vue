@@ -20,10 +20,11 @@
         </div>
 
         <div class="body dewb">
-          <div class="article-content" v-html="article_data.content">
-            <!-- 文章内容 -->
-          </div>
-          <div class="clear"></div>
+          <pdf 
+              ref="pdf"
+              :src="article_data.file">
+            </pdf>
+          
         </div>
         <div class="body dewb">
           <el-button
@@ -52,7 +53,6 @@
           >
         </div>
       </el-col>
-
       <el-col :xs="24" :lg="8">
         <div class="body dewb">
           <el-image :src="article_data.cover" :fit="'cover'"></el-image>
@@ -135,24 +135,31 @@
 import axios from "axios";
 import Qs from "qs";
 import BreadMenu from "../components/BreadMenu";
+import pdf from 'vue-pdf'
 export default {
   data() {
     return {
       article_id: this.$route.query.id,
-      article_data: {},
+      article_data: {
+        title:"1",
+        describe:"2",
+        file:''
+      },
       user_article_info: {
         "like":false,
         "favor":false
       },
       //评论
-      new_pinglun: "",
+      new_pinglun: "1231",
       ping_total: 100,
       pinglun_pageSize: 4,
       pinglun_data: [],
+      pdfUrl:"http://image.cache.timepack.cn/nodejs.pdf"
     };
   },
   components: {
     BreadMenu,
+    pdf
   },
   watch: {
     $route(to) {
@@ -178,14 +185,6 @@ export default {
           article_id: this.article_id,
         }),
       }).then((res) => {
-        // console.log(res.data)
-        if (res.data == "nologin") {
-          alert("尚未登录");
-          return;
-        }
-        if (res.data == "ok") {
-          this.getUserArticleInfo();
-        }
       });
     },
     //收藏
@@ -199,31 +198,20 @@ export default {
         }),
       }).then((res) => {
         // console.log(res.data)
-        if (res.data == "nologin") {
-          alert("尚未登录");
-          return;
-        }
-        if (res.data == "ok") {
-          this.getUserArticleInfo();
-        }
       });
     },
     //获取互动信息
     getUserArticleInfo() {
-      let token = this.$store.getters.isnotUserlogin;
-      if (token) {
-        axios({
-          url: "",
+      axios({
+          url: "/getPassage",
           method: "post",
           data: Qs.stringify({
-            token: token,
             article_id: this.article_id,
           }),
         }).then((res) => {
           // console.log(res.data)
-          this.user_article_info = res.data;
+          this.user_article_info = res.data.data;
         });
-      }
     },
     //获取文章评论
     getAllPinglun(page, pagesize) {
@@ -286,15 +274,17 @@ export default {
     getArticleData(id) {
       // console.log(id);
       axios({
-        url: "",
+        url: "/getPassage",
         method: "get",
         params: {
           article_id: id,
         },
       }).then((res) => {
         // console.log(res.data)
-        this.getUserArticleInfo();
-        this.article_data = res.data;
+        // this.getUserArticleInfo();
+        this.article_data.title= res.data.data.title;
+        this.article_data.describe= res.data.data.describe;
+        this.article_data.file= res.data.data.file;
       });
     },
   },

@@ -18,26 +18,25 @@
             {{ article_data.description }}
           </div>
         </div>
-        <div class="body dewb">
+        <div >
           <div class="pdf-tab">
-            <div 
-              class="btn-def btn-pre"
-              @click.stop="prePage">上一页</div>
-            <div 
-              class="btn-def btn-next"
-              @click.stop="nextPage">下一页</div>
-            <div 
-              class="btn-def"
-              @click.stop="clock">顺时针</div>
-            <div 
-              class="btn-def"
-              @click.stop="counterClock">逆时针</div>
-            <div 
-              class="btn-def"
-              @click.stop="pdfPrintAll">全部打印</div>
-            <div 
-              class="btn-def"
-              @click.stop="pdfPrint">部分打印</div>
+            <el-button 
+              type="info"
+              @click.stop="clock"
+              style="margin:10px"
+              >顺时针</el-button>
+            <el-button 
+              type="info"
+              @click.stop="counterClock"
+              style="margin:10px">逆时针</el-button>
+            <el-button 
+              type="info"
+              @click.stop="pdfPrintAll"
+              style="margin:10px">全部打印</el-button>
+            <el-button 
+              type="info"
+              @click.stop="pdfPrint"
+              style="margin:10px">部分打印</el-button>
           </div>
           <div>{{pageNum}}/{{pageTotalNum}}</div>
           <div>进度：{{loadedRatio}}</div>
@@ -57,33 +56,16 @@
         </div>
         <div class="body dewb">
           <el-button
-              v-if="article_data.pre_id === 0"
-              @click="toOtherPage(article_data.pre_id)"
+              @click.stop="prePage"
               type="info"
+              style="margin:10px"
           >上一页
-          </el-button
-          >
+          </el-button>
           <el-button
-              v-else
-              @click="toOtherPage(article_data.pre_id)"
-              type="success"
-          >上一页
-          </el-button
-          >
-          <el-button
-              v-if="article_data.next_id == 0"
-              @click="toOtherPage(article_data.next_id)"
-              type="info"
+              @click.stop="nextPage"
+              style="float:right;margin:10px"
           >下一页
-          </el-button
-          >
-          <el-button
-              v-else
-              @click="toOtherPage(article_data.next_id)"
-              type="success"
-          >下一页
-          </el-button
-          >
+          </el-button>
         </div>
       </el-col>
       <el-col :xs="24" :lg="8">

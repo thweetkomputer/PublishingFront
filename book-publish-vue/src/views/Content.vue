@@ -281,7 +281,7 @@ export default {
         alert("没有了");
         return;
       }
-      this.$router.push({ path: "/article", query: { id: id } });
+      this.$router.push({ path: "/content", query: { id: id } });
     },
     getArticleData(id) {
       // console.log(id);

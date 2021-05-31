@@ -36,6 +36,7 @@
     <div class="dweb" style="margin-top:10px">
       <el-pagination
           background
+          :hide-on-single-page="value"
           layout="prev, pager, next"
           :total="total"
           :page-size="pageSize"
@@ -54,10 +55,11 @@ export default {
     return {
       currentPage: 1,
       pageSize: 10,
-      total: 0,
+      total: 1,
       //total是条目总数，
       article_list: [],
-      total_num:0
+      total_num:0,
+      value:false
     };
   },
   mounted() {
@@ -85,6 +87,7 @@ export default {
         else{
           this.total=this.total.num/10;
         }
+        console.log(this.total)
       });
     },
     currentChange(val) {

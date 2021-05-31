@@ -15,16 +15,14 @@
         </div>
         <div class="body dewb">
           <div class="dewb">
-            {{ article_data.describe }}
+            {{ article_data.description }}
           </div>
         </div>
-
         <div class="body dewb">
           <pdf 
               ref="pdf"
-              :src="article_data.file">
+              :src="pdfUrl">
             </pdf>
-          
         </div>
         <div class="body dewb">
           <el-button
@@ -135,12 +133,7 @@ import pdf from 'vue-pdf'
 export default {
   data() {
     return {
-      article_id: this.$route.query.id,
-      article_data: {
-        title:"1",
-        describe:"2",
-        file:''
-      },
+      article_data:this.$route.query,
       user_article_info: {
         "like":false,
         "favor":false
@@ -150,7 +143,7 @@ export default {
       ping_total: 100,
       pinglun_pageSize: 4,
       pinglun_data: [],
-      pdfUrl:"http://172.20.10.4:8081/download?filename=xuqiuguigeshuomingshu.pdf"
+      pdfUrl:this.$axios.defaults.baseURL+'/download?filename='+article_data.title
     };
   },
   components: {
@@ -168,7 +161,7 @@ export default {
   },
   mounted() {
     this.getArticleData(this.article_id);
-    this.getAllPinglun(1, this.pinglun_pageSize);
+    // this.getAllPinglun(1, this.pinglun_pageSize);
   },
   methods: {
     //点赞
@@ -277,9 +270,7 @@ export default {
       }).then((res) => {
         // console.log(res.data)
         // this.getUserArticleInfo();
-        this.article_data.title= res.data.data.name;
-        this.article_data.describe= res.data.data.describe;
-        this.article_data.file= res.data.data.file;
+        this.article_data= res.data.data;
       });
     },
   },

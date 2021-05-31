@@ -133,7 +133,7 @@ import pdf from 'vue-pdf'
 export default {
   data() {
     return {
-      article_data:this.$route.query,
+      article_data:this.$route.query.id,
       user_article_info: {
         "like":false,
         "favor":false

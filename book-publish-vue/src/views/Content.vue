@@ -157,16 +157,17 @@ export default {
     BreadMenu,
     pdf
   },
-  watch: {
-    $route(to) {
-      // console.log(to)
-      this.article_data = to.query.id;
-      // this.getArticleData(to.query.id);
-      this.pdfUrl = this.$axios.defaults.baseURL + '/download?filename=' + to.query.id.title
-      // this.pdfUrl = 'http://127.0.0.1:8081/download?filename=xuqiuguigeshuomingshu.pdf'
-      // this.getAllPinglun(1, this.pinglun_pageSize);
-    },
-  },
+  // watch: {
+  //   $route(to) {
+  //     // console.log(to)
+  //     this.article_data = to.query.id;
+  //     // this.getArticleData(to.query.id);
+      
+  //     // this.pdfUrl = 'http://127.0.0.1:8081/download?filename=xuqiuguigeshuomingshu.pdf'
+  //     // this.getAllPinglun(1, this.pinglun_pageSize);
+  //   }
+
+  // },
   mounted() {
     this.getArticleData(this.article_id);
     // this.getAllPinglun(1, this.pinglun_pageSize);
@@ -183,6 +184,10 @@ export default {
         }),
       }).then((res) => {
       });
+    },
+    init() {
+      this.article_data = this.$route.query.id;
+      this.pdfUrl = this.$axios.defaults.baseURL + '/download?filename=' + to.query.id.title
     },
     //收藏
     toFavor() {

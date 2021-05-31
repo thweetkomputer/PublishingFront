@@ -51,7 +51,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 import Qs from "qs";
@@ -83,7 +82,6 @@ export default {
           lanmu:'all'
         },
       }).then((res) => {
-        // console.log(res.data);
         this.article_list = res.data.data;
         this.total = res.data.total;
       });

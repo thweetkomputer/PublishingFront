@@ -33,14 +33,14 @@
             >
             </el-image>
           </div>
-          <el-button @click="submitArticle" type="success" round>保存文章</el-button>
+          <el-button @click="submitArticle" type="success" round style="margin-bottom: 20px;position: absolute">保存文章</el-button>
         </div>
       </el-col>
     </el-row>
     <el-row>
       <el-col :xs='24' :lg="24">
         <div class="dewb">
-          <div id="summernote">Hello Summernote</div>
+          <div id="summernote">请在这里输入内容...</div>
         </div>
       </el-col>
     </el-row>
@@ -61,12 +61,6 @@ export default {
       },
       cover_list:[],
       cover_img:'',
-      article_info:{
-        title:'',
-        describe:'',
-        contents:""
-      },
-      
     }
   },
   mounted() {

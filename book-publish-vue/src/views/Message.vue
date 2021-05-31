@@ -73,7 +73,7 @@ export default {
   methods: {
     //跳转内容页
     toArticle(id){
-      this.$router.push({path:'/article',query:{id:id}})
+      this.$router.push({path:'/content',query:{id:id}})
     },
     getListData(page) {
       axios({

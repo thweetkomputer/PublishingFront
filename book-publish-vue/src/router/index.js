@@ -256,7 +256,6 @@ const routes = [{
         component: ()=>import('../views/AddReader')
     }
 ]
-
 const routerPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
     return routerPush.call(this, location).catch(err => err)

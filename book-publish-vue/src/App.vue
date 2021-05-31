@@ -185,11 +185,7 @@ export default {
   }
 }
 </script>
-
 <style scoped>
-.ivu-menu-horizontal .ivu-menu-item, .ivu-menu-horizontal .ivu-menu-submenu{
-  color: #FFFFFF;
-}
 .ivu-menu-horizontal .ivu-menu-item[data-v-7ba5bd90], .ivu-menu-horizontal .ivu-menu-submenu[data-v-7ba5bd90]{
   color: #FFFFFF;
 }

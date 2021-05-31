@@ -19,9 +19,40 @@
           </div>
         </div>
         <div class="body dewb">
-          <pdf
-              ref="pdf"
-              :src="pdfUrl">
+          <div class="pdf-tab">
+            <div 
+              class="btn-def btn-pre"
+              @click.stop="prePage">上一页</div>
+            <div 
+              class="btn-def btn-next"
+              @click.stop="nextPage">下一页</div>
+            <div 
+              class="btn-def"
+              @click.stop="clock">顺时针</div>
+            <div 
+              class="btn-def"
+              @click.stop="counterClock">逆时针</div>
+            <div 
+              class="btn-def"
+              @click.stop="pdfPrintAll">全部打印</div>
+            <div 
+              class="btn-def"
+              @click.stop="pdfPrint">部分打印</div>
+          </div>
+          <div>{{pageNum}}/{{pageTotalNum}}</div>
+          <div>进度：{{loadedRatio}}</div>
+          <div>页面加载成功: {{curPageNum}}</div>
+          <pdf 
+            ref="pdf"
+            :src="pdfUrl"
+            :page="pageNum"
+            :rotate="pageRotate"
+            @password="password"
+            @progress="loadedRatio = $event"
+            @page-loaded="pageLoaded($event)"
+            @num-pages="pageTotalNum=$event" 
+            @error="pdfError($event)"
+            @link-clicked="page = $event">
           </pdf>
         </div>
         <div class="body dewb">
@@ -55,7 +86,7 @@
           >
         </div>
       </el-col>
-      <!-- <el-col :xs="24" :lg="8">
+      <el-col :xs="24" :lg="8">
         <div class="body dewb">
           <el-image :src="article_data.cover" :fit="'cover'"></el-image>
         </div>
@@ -124,7 +155,7 @@
         <div>
           <a id="payLink" href="" target="_blank"></a>
         </div>
-      </el-col> -->
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -152,7 +183,13 @@ export default {
       pinglun_pageSize: 4,
       pinglun_data: [],
       // pdfUrl: ""
-      pdfUrl:  this.$axios.defaults.baseURL + '/download?filename=' + query.id.title
+      pdfUrl:  this.$axios.defaults.baseURL + '/download?filename=' + query.id.title,
+      pageNum:1,
+      pageTotalNum:1,
+      pageRotate:0,
+      // 加载进度
+      loadedRatio:0,
+      curPageNum:0,
       // pdfUrl: this.$route.query.pdfUrl
 
     };
@@ -177,6 +214,40 @@ export default {
     // this.getAllPinglun(1, this.pinglun_pageSize);
   },
   methods: {
+    prePage(){
+      var p = this.pageNum
+      p = p>1?p-1:this.pageTotalNum
+      this.pageNum = p
+    },
+    nextPage(){
+      var p = this.pageNum
+      p = p<this.pageTotalNum?p+1:1
+      this.pageNum = p
+    },
+    clock(){
+      this.pageRotate += 90 
+    },
+    counterClock(){
+      this.pageRotate -= 90 
+    },
+    password(updatePassword, reason) {
+      updatePassword(prompt('password is "123456"'))
+      console.log('...reason...')
+      console.log(reason)
+      console.log('...reason...')
+    },
+    pageLoaded(e){
+      this.curPageNum = e
+    },
+    pdfError(error){
+      console.error(error)
+    },
+    pdfPrintAll(){
+      this.$refs.pdf.print()
+    },
+    pdfPrint(){
+      this.$refs.pdf.print(100,[1,2])
+    },
     //点赞
     toLike() {
       axios({

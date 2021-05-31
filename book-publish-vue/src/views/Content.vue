@@ -53,11 +53,10 @@
           >
         </div>
       </el-col>
-      <el-col :xs="24" :lg="8">
+      <!-- <el-col :xs="24" :lg="8">
         <div class="body dewb">
           <el-image :src="article_data.cover" :fit="'cover'"></el-image>
         </div>
-        <!-- 点赞收藏打赏 -->
         <div class="body dewb like-btn">
           <el-row>
             <el-col :span="12">
@@ -84,7 +83,6 @@
             </el-col>
           </el-row>
         </div>
-        <!-- 评论列表 -->
         <div class="body dewb">
           <div
               v-for="(item, index) in pinglun_data"
@@ -96,7 +94,6 @@
             {{ item.text }}
           </div>
         </div>
-        <!-- 分页器 -->
         <div class="dewb" style="margin-top:10px">
           <el-pagination
               background
@@ -109,7 +106,6 @@
           >
           </el-pagination>
         </div>
-        <!-- 新评论 -->
         <div class="body dewb">
           <el-input
               type="textarea"
@@ -126,7 +122,7 @@
         <div>
           <a id="payLink" href="" target="_blank"></a>
         </div>
-      </el-col>
+      </el-col> -->
     </el-row>
   </div>
 </template>
@@ -154,7 +150,7 @@ export default {
       ping_total: 100,
       pinglun_pageSize: 4,
       pinglun_data: [],
-      pdfUrl:"http://image.cache.timepack.cn/nodejs.pdf"
+      pdfUrl:"http://172.20.10.4:8081/download?filename=xuqiuguigeshuomingshu.pdf"
     };
   },
   components: {
@@ -281,7 +277,7 @@ export default {
       }).then((res) => {
         // console.log(res.data)
         // this.getUserArticleInfo();
-        this.article_data.title= res.data.data.title;
+        this.article_data.title= res.data.data.name;
         this.article_data.describe= res.data.data.describe;
         this.article_data.file= res.data.data.file;
       });

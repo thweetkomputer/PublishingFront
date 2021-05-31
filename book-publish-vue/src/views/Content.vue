@@ -19,35 +19,39 @@
           </div>
         </div>
         <div class="body dewb">
-          <pdf 
+          <pdf
               ref="pdf"
               :src="pdfUrl">
-            </pdf>
+          </pdf>
         </div>
         <div class="body dewb">
           <el-button
               v-if="article_data.pre_id == 0"
               @click="toOtherPage(article_data.pre_id)"
               type="info"
-          >上一页</el-button
+          >上一页
+          </el-button
           >
           <el-button
               v-else
               @click="toOtherPage(article_data.pre_id)"
               type="success"
-          >上一页</el-button
+          >上一页
+          </el-button
           >
           <el-button
               v-if="article_data.next_id == 0"
               @click="toOtherPage(article_data.next_id)"
               type="info"
-          >下一页</el-button
+          >下一页
+          </el-button
           >
           <el-button
               v-else
               @click="toOtherPage(article_data.next_id)"
               type="success"
-          >下一页</el-button
+          >下一页
+          </el-button
           >
         </div>
       </el-col>
@@ -130,20 +134,23 @@ import axios from "axios";
 import Qs from "qs";
 import BreadMenu from "../components/BreadMenu";
 import pdf from 'vue-pdf'
+
 export default {
   data() {
     return {
-      article_data:this.$route.query.id,
+      article_data: this.$route.query.id,
       user_article_info: {
-        "like":false,
-        "favor":false
+        "like": false,
+        "favor": false
       },
       //评论
       new_pinglun: "1231",
       ping_total: 100,
       pinglun_pageSize: 4,
       pinglun_data: [],
-      pdfUrl:this.$axios.defaults.baseURL+'/download?filename='+article_data.title
+      // pdfUrl: ""
+      // pdfUrl:  this.$axios.defaults.baseURL + '/download?filename=' + to.query.id.title
+      pdfUrl: this.$axios.defaults.baseURL + '/download?filename=lab05.pdf'
     };
   },
   components: {
@@ -153,10 +160,11 @@ export default {
   watch: {
     $route(to) {
       // console.log(to)
-      this.article_id = to.query.id;
-      this.getArticleData(to.query.id);
-
-      this.getAllPinglun(1, this.pinglun_pageSize);
+      this.article_data = to.query.id;
+      // this.getArticleData(to.query.id);
+      this.pdfUrl = this.$axios.defaults.baseURL + '/download?filename=' + to.query.id.title
+      // this.pdfUrl = 'http://127.0.0.1:8081/download?filename=xuqiuguigeshuomingshu.pdf'
+      // this.getAllPinglun(1, this.pinglun_pageSize);
     },
   },
   mounted() {
@@ -192,15 +200,15 @@ export default {
     //获取互动信息
     getUserArticleInfo() {
       axios({
-          url: "/getPassage",
-          method: "post",
-          data: Qs.stringify({
-            article_id: this.article_id,
-          }),
-        }).then((res) => {
-          // console.log(res.data)
-          this.user_article_info = res.data.data;
-        });
+        url: "/getPassage",
+        method: "post",
+        data: Qs.stringify({
+          article_id: this.article_id,
+        }),
+      }).then((res) => {
+        // console.log(res.data)
+        this.user_article_info = res.data.data;
+      });
     },
     //获取文章评论
     getAllPinglun(page, pagesize) {
@@ -257,7 +265,7 @@ export default {
         alert("没有了");
         return;
       }
-      this.$router.push({ path: "/content", query: { id: id } });
+      this.$router.push({path: "/content", query: {id: id}});
     },
     getArticleData(id) {
       // console.log(id);
@@ -270,7 +278,7 @@ export default {
       }).then((res) => {
         // console.log(res.data)
         // this.getUserArticleInfo();
-        this.article_data= res.data.data;
+        this.article_data = res.data.data;
       });
     },
   },
@@ -284,18 +292,22 @@ export default {
   font-size: 12px;
   font-style: italic;
 }
+
 .body.dewb {
   padding: 10px 10px;
   margin-top: 10px;
 }
+
 .like-btn {
   text-align: center;
   color: #fff;
 }
+
 .like-btn i {
   font-size: 30px;
   cursor: pointer;
 }
+
 .body.dewb.pinglun-item {
   color: #fff;
   font-size: 16px;

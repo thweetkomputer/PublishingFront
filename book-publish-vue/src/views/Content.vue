@@ -26,7 +26,7 @@
         </div>
         <div class="body dewb">
           <el-button
-              v-if="article_data.pre_id == 0"
+              v-if="article_data.pre_id === 0"
               @click="toOtherPage(article_data.pre_id)"
               type="info"
           >上一页
@@ -137,7 +137,10 @@ import pdf from 'vue-pdf'
 
 export default {
   data() {
+    const query = this.$route.query;
+    console.log(query.id)
     return {
+      // article_data: this.$route.query.id,
       article_data: this.$route.query.id,
       user_article_info: {
         "like": false,
@@ -149,8 +152,9 @@ export default {
       pinglun_pageSize: 4,
       pinglun_data: [],
       // pdfUrl: ""
-      // pdfUrl:  this.$axios.defaults.baseURL + '/download?filename=' + to.query.id.title
-      pdfUrl: this.$axios.defaults.baseURL + '/download?filename=lab05.pdf'
+      pdfUrl:  this.$axios.defaults.baseURL + '/download?filename=' + query.id.title
+      // pdfUrl: this.$route.query.pdfUrl
+
     };
   },
   components: {

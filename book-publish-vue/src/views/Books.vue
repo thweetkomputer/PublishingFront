@@ -1,67 +1,80 @@
 <template>
   <div id="Books">
     <div id="content" style="margin-left: 0px;margin-top: -70px">
-      <el-row :gutter="30">
-        <el-col :xs='14' :lg="14" style="padding-right:20px">
-          <div class="dewb" style="height: 240px"></div>
-        </el-col>
-        <el-col class="dewb" :xs="10" :lg="10" style="margin-left:-30px;">
-          <div style=" ">
-            <el-carousel :interval="4000" height="240px" style="position: absolute;width:290px;border-radius: .25rem;margin-top:1px">
-              <el-carousel-item v-for="item in imagebox" :key="item.id">
-                <img :src="item.idView" class="image">
-              </el-carousel-item>
-            </el-carousel>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row :gutter="30">
-        <el-col :xs='14' :lg="14" style="padding-right:20px">
-          <div class="dewb" style="height:240px">
-            <span style="color: #ffffff">这是文章2</span>
-          </div>
-        </el-col>
-        <el-col :xs='10' :lg="10" style="margin-left:-30px;">
-          <div class="" style="background-color:#00000060; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
-            <h5 style="color:white">热门标签</h5>
-            <hr>
-            <el-tag type="info" class="tag">历史</el-tag>
-            <el-tag type="info">科技</el-tag>
-            <br>
-            <el-tag type="info">人文</el-tag>
-            <el-tag type="info">军事</el-tag>
-            <el-tag type="info">地理</el-tag>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row :gutter="30">
-        <el-col :xs='24' :lg="14" style="padding-right:20px">
-          <div class="dewb" style="height:240px" >
-            <span style="color: #ffffff">这是文章3</span>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row :gutter="30">
-        <el-col :xs='24' :lg="14" style="padding-right:20px">
-          <div class="dewb" style="height:240px">
-            <span style="color: #ffffff">这是文章4</span>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row :gutter="30">
-        <el-col :xs='14' :lg="14" style="padding-right:20px">
-          <div class="dewb" style="height:240px">
-            <span style="color: #ffffff">这是文章5</span>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row :gutter="30">
-        <el-col :xs='24' :lg="14" style="padding-right:20px">
-          <div class="dewb" style="height:240px">
-            <span style="color: #ffffff">这是文章1</span>
-          </div>
-        </el-col>
-      </el-row>
+<!--      margin-top可以选择不用-->
+      <div class="article" style="color: #00000060;width: 60%;float: left">
+        <el-row>
+          <el-col v-for="item in article_list" :key="item.id" :span="24">
+            <div class="card dewb">
+              <el-row>
+                <el-col :xs="24" :lg="18">
+                  <div>{{ item.title }}</div>
+                  <div> {{ item.description }} </div>
+                  <div>
+                    <el-button
+                        @click="toArticle(item.title)"
+                        type="success"
+                        icon="el-icon-search"
+                        circle
+                        style="margin: 10px"
+                    ></el-button>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="side" style="width: 40%;float: right;">
+        <el-row >
+
+          <el-col :xs="10" :lg="10">
+            <div style=" ">
+              <el-carousel :interval="4000" height="240px" style="float: left;width:290px;border-radius: .25rem;">
+                <el-carousel-item v-for="item in imagebox" :key="item.id">
+                  <img :src="item.idView" class="image">
+                </el-carousel-item>
+              </el-carousel>
+            </div>
+          </el-col>
+          <el-col :xs='10' :lg="10" style="float: left;margin-top: 245px;position: absolute">
+            <div class="" style="background-color:#00000060; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
+              <h5 style="color:white">热门标签</h5>
+              <hr>
+              <el-tag type="info" class="tag">历史</el-tag>
+              <el-tag type="info">科技</el-tag>
+              <br>
+              <el-tag type="info">人文</el-tag>
+              <el-tag type="info">军事</el-tag>
+              <el-tag type="info">地理</el-tag>
+            </div>
+          </el-col>
+          <el-col :xs='10' :lg="10" style="float: left;margin-top: 500px;position: absolute">
+            <div class="" style="background-color:#00000060; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
+              <h5 style="color:white">热门标签</h5>
+              <hr>
+              <el-tag type="info" class="tag">历史</el-tag>
+              <el-tag type="info">科技</el-tag>
+              <br>
+              <el-tag type="info">人文</el-tag>
+              <el-tag type="info">军事</el-tag>
+              <el-tag type="info">地理</el-tag>
+            </div>
+          </el-col>
+          <el-col :xs='10' :lg="10" style="float: left;margin-top: 740px;position: absolute">
+            <div class="" style="background-color:#00000060; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
+              <h5 style="color:white">热门标签</h5>
+              <hr>
+              <el-tag type="info" class="tag">历史</el-tag>
+              <el-tag type="info">科技</el-tag>
+              <br>
+              <el-tag type="info">人文</el-tag>
+              <el-tag type="info">军事</el-tag>
+              <el-tag type="info">地理</el-tag>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -73,9 +86,11 @@ export default {
     return {
       imagebox:[{id:0,idView:require('../assets/img/img1.jpg')},
         {id:1,idView:require('../assets/img/img2.jpg')},
-        {id:2,idView:require('../assets/img/img4.png')}
+        {id:2,idView:require('../assets/img/img4.png')},
+
         //imagebox是assets下一个放图片的文件夹
-      ]
+      ],
+      article_list:{title:'1',description:"2",desc:"3",incare1: "1",f1:1,f2:2,f3:4}
     }
   }
 }

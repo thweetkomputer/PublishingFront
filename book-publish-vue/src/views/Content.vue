@@ -2,7 +2,7 @@
   <div>
     <!-- 面包屑导航 -->
     <BreadMenu
-        :page_name="article_data.title"
+        :page_name="article_data"
     ></BreadMenu>
 
     <!-- 文章内容 -->
@@ -10,7 +10,7 @@
       <el-col :xs="24" :lg="16">
         <div class="body dewb">
           <div class="header">
-            {{ article_data.title }}
+            {{ article_data}}
           </div>
         </div>
         <div class="body dewb">
@@ -127,20 +127,20 @@
           >
           </el-pagination>
         </div>
-<!--        <div class="body dewb">-->
-<!--          <el-input-->
-<!--              type="textarea"-->
-<!--              :maxlength="120"-->
-<!--              :rows="2"-->
-<!--              placeholder="请输入内容"-->
-<!--              v-model="new_pinglun"-->
-<!--          >-->
-<!--          </el-input>-->
-<!--          <el-button @click="saveNewPinglun()" type="success"-->
-<!--          >发表评论-->
-<!--          </el-button-->
-<!--          >-->
-<!--        </div>-->
+        <div class="body dewb">
+          <el-input
+              type="textarea"
+              :maxlength="120"
+              :rows="2"
+              placeholder="请输入内容"
+              v-model="new_pinglun"
+          >
+          </el-input>
+          <el-button @click="saveNewPinglun()" type="success"
+          >发表评论
+          </el-button
+          >
+        </div>
         <div>
           <a id="payLink" href="" target="_blank"></a>
         </div>
@@ -162,6 +162,7 @@ export default {
     return {
       // article_data: this.$route.query.id,
       article_data: this.$route.query.id,
+      description:'',
       user_article_info: {
         "like": false,
         "favor": false
@@ -198,9 +199,12 @@ export default {
   //   }
 
   // },
+  created() {
+
+  },
   mounted() {
-    this.getArticleData(this.article_id);
-    // this.getAllPinglun(1, this.pinglun_pageSize);
+    this.getArticleDescription(this.article_data);
+    this.getAllPinglun(1, this.pinglun_pageSize);
   },
   methods: {
     prePage() {
@@ -243,16 +247,11 @@ export default {
         url: "",
         method: "post",
         data: Qs.stringify({
-          token: this.$store.getters.isnotUserlogin,
+          // token: this.$store.getters.isnotUserlogin,
           article_id: this.article_id,
         }),
       }).then((res) => {
       });
-    },
-    init() {
-      const query = this.$route.query;
-      this.article_data = query.id;
-      this.pdfUrl = this.$axios.defaults.baseURL + '/download?filename=' + query.id
     },
     //收藏
     toFavor() {
@@ -260,26 +259,13 @@ export default {
         url: "",
         method: "post",
         data: Qs.stringify({
-          token: this.$store.getters.isnotUserlogin,
           article_id: this.article_id,
         }),
       }).then((res) => {
         // console.log(res.data)
       });
     },
-    //获取互动信息
-    getUserArticleInfo() {
-      axios({
-        url: "/getPassage",
-        method: "post",
-        data: Qs.stringify({
-          article_id: this.article_id,
-        }),
-      }).then((res) => {
-        // console.log(res.data)
-        this.user_article_info = res.data.data;
-      });
-    },
+
     //获取文章评论
     getAllPinglun(page, pagesize) {
       axios({
@@ -302,7 +288,6 @@ export default {
         alert("内容为空");
         return;
       }
-
       axios({
         url: "",
         method: "post",
@@ -337,21 +322,22 @@ export default {
       }
       this.$router.push({path: "/content", query: {id: id}});
     },
-    getArticleData(id) {
+    getArticleDescription(id) {
       // console.log(id);
       axios({
         url: "/getPassage",
         method: "get",
         params: {
-          article_id: id,
+          article_title: id,
         },
       }).then((res) => {
         // console.log(res.data)
         // this.getUserArticleInfo();
-        this.article_data = res.data.data;
+        this.description = res.data.data.description;
       });
     },
   },
+
 };
 </script>
 

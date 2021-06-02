@@ -18,52 +18,58 @@
             {{ article_data.description }}
           </div>
         </div>
-        <div >
+        <div>
           <div class="pdf-tab">
-            <el-button 
-              type="info"
-              @click.stop="clock"
-              style="margin:10px"
-              >顺时针</el-button>
-            <el-button 
-              type="info"
-              @click.stop="counterClock"
-              style="margin:10px">逆时针</el-button>
-            <el-button 
-              type="info"
-              @click.stop="pdfPrintAll"
-              style="margin:10px">全部打印</el-button>
-            <el-button 
-              type="info"
-              @click.stop="pdfPrint"
-              style="margin:10px">部分打印</el-button>
+            <el-button
+
+                @click.stop="clock"
+                style="margin:10px"
+            >顺时针
+            </el-button>
+            <el-button
+
+                @click.stop="counterClock"
+                style="margin:10px">逆时针
+            </el-button>
+            <el-button
+
+                @click.stop="pdfPrintAll"
+                style="margin:10px">全部打印
+            </el-button>
+            <el-button
+
+                @click.stop="pdfPrint"
+                style="margin:10px">部分打印
+            </el-button>
           </div>
-          <div>{{pageNum}}/{{pageTotalNum}}</div>
-          <div>进度：{{loadedRatio}}</div>
-          <div>页面加载成功: {{curPageNum}}</div>
-          <pdf 
-            ref="pdf"
-            :src="pdfUrl"
-            :page="pageNum"
-            :rotate="pageRotate"
-            @password="password"
-            @progress="loadedRatio = $event"
-            @page-loaded="pageLoaded($event)"
-            @num-pages="pageTotalNum=$event" 
-            @error="pdfError($event)"
-            @link-clicked="page = $event">
+          <div>{{ pageNum }}/{{ pageTotalNum }}</div>
+          <div>进度：{{ loadedRatio }}</div>
+          <div>页面加载成功: {{ curPageNum }}</div>
+          <pdf
+              ref="pdf"
+              :src="pdfUrl"
+              :page="pageNum"
+              :rotate="pageRotate"
+              @password="password"
+              @progress="loadedRatio = $event"
+              @page-loaded="pageLoaded($event)"
+              @num-pages="pageTotalNum=$event"
+              @error="pdfError($event)"
+              @link-clicked="page = $event"
+          >
           </pdf>
         </div>
         <div class="body dewb">
           <el-button
               @click.stop="prePage"
-              type="info"
+
               style="margin:10px"
           >上一页
           </el-button>
           <el-button
+              type="i"
               @click.stop="nextPage"
-              style="float:right;margin:10px"
+              style="margin:10px"
           >下一页
           </el-button>
         </div>
@@ -87,7 +93,7 @@
               <i
                   v-if="user_article_info.favor"
                   class="iconfont icon-collection-b"
-                  style="color:#ffc815"
+                  style="color:#e6e1e8"
                   @click="toFavor()"
               ></i>
               <i
@@ -121,19 +127,20 @@
           >
           </el-pagination>
         </div>
-        <div class="body dewb">
-          <el-input
-              type="textarea"
-              :maxlength="120"
-              :rows="2"
-              placeholder="请输入内容"
-              v-model="new_pinglun"
-          >
-          </el-input>
-          <el-button @click="saveNewPinglun()" type="success"
-          >发表评论</el-button
-          >
-        </div>
+<!--        <div class="body dewb">-->
+<!--          <el-input-->
+<!--              type="textarea"-->
+<!--              :maxlength="120"-->
+<!--              :rows="2"-->
+<!--              placeholder="请输入内容"-->
+<!--              v-model="new_pinglun"-->
+<!--          >-->
+<!--          </el-input>-->
+<!--          <el-button @click="saveNewPinglun()" type="success"-->
+<!--          >发表评论-->
+<!--          </el-button-->
+<!--          >-->
+<!--        </div>-->
         <div>
           <a id="payLink" href="" target="_blank"></a>
         </div>
@@ -165,13 +172,13 @@ export default {
       pinglun_pageSize: 4,
       pinglun_data: [],
       // pdfUrl: ""
-      pdfUrl:  this.$axios.defaults.baseURL + '/download?filename=' + query.id.title,
-      pageNum:1,
-      pageTotalNum:1,
-      pageRotate:0,
+      pdfUrl: this.$axios.defaults.baseURL + '/download?filename=' + query.id,
+      pageNum: 1,
+      pageTotalNum: 1,
+      pageRotate: 0,
       // 加载进度
-      loadedRatio:0,
-      curPageNum:0,
+      loadedRatio: 0,
+      curPageNum: 0,
       // pdfUrl: this.$route.query.pdfUrl
 
     };
@@ -185,7 +192,7 @@ export default {
   //     // console.log(to)
   //     this.article_data = to.query.id;
   //     // this.getArticleData(to.query.id);
-      
+
   //     // this.pdfUrl = 'http://127.0.0.1:8081/download?filename=xuqiuguigeshuomingshu.pdf'
   //     // this.getAllPinglun(1, this.pinglun_pageSize);
   //   }
@@ -196,21 +203,21 @@ export default {
     // this.getAllPinglun(1, this.pinglun_pageSize);
   },
   methods: {
-    prePage(){
+    prePage() {
       var p = this.pageNum
-      p = p>1?p-1:this.pageTotalNum
+      p = p > 1 ? p - 1 : this.pageTotalNum
       this.pageNum = p
     },
-    nextPage(){
+    nextPage() {
       var p = this.pageNum
-      p = p<this.pageTotalNum?p+1:1
+      p = p < this.pageTotalNum ? p + 1 : 1
       this.pageNum = p
     },
-    clock(){
-      this.pageRotate += 90 
+    clock() {
+      this.pageRotate += 90
     },
-    counterClock(){
-      this.pageRotate -= 90 
+    counterClock() {
+      this.pageRotate -= 90
     },
     password(updatePassword, reason) {
       updatePassword(prompt('password is "123456"'))
@@ -218,17 +225,17 @@ export default {
       console.log(reason)
       console.log('...reason...')
     },
-    pageLoaded(e){
+    pageLoaded(e) {
       this.curPageNum = e
     },
-    pdfError(error){
+    pdfError(error) {
       console.error(error)
     },
-    pdfPrintAll(){
+    pdfPrintAll() {
       this.$refs.pdf.print()
     },
-    pdfPrint(){
-      this.$refs.pdf.print(100,[1,2])
+    pdfPrint() {
+      this.$refs.pdf.print(100, [1, 2])
     },
     //点赞
     toLike() {
@@ -243,8 +250,9 @@ export default {
       });
     },
     init() {
-      this.article_data = this.$route.query.id;
-      this.pdfUrl = this.$axios.defaults.baseURL + '/download?filename=' + to.query.id.title
+      const query = this.$route.query;
+      this.article_data = query.id;
+      this.pdfUrl = this.$axios.defaults.baseURL + '/download?filename=' + query.id
     },
     //收藏
     toFavor() {
@@ -290,7 +298,7 @@ export default {
     },
     //发表评论
     saveNewPinglun() {
-      if (this.new_pinglun.length == 0) {
+      if (this.new_pinglun.length === 0) {
         alert("内容为空");
         return;
       }
@@ -304,15 +312,15 @@ export default {
         }),
       }).then((res) => {
         // console.log(res.data)
-        if (res.data == "nologin") {
+        if (res.data === "nologin") {
           alert("尚未登录");
           return;
         }
-        if (res.data == "noperm") {
+        if (res.data === "noperm") {
           alert("权限不足");
           return;
         }
-        if (res.data == "ok") {
+        if (res.data === "ok") {
           this.getAllPinglun(1, this.pinglun_pageSize);
         }
       });
@@ -323,7 +331,7 @@ export default {
     },
     //跳转文章 上下
     toOtherPage(id) {
-      if (id == 0) {
+      if (id === 0) {
         alert("没有了");
         return;
       }
@@ -373,5 +381,18 @@ export default {
 .body.dewb.pinglun-item {
   color: #fff;
   font-size: 16px;
+}
+
+.annotationLayer .linkAnnotation > a {
+  position: absolute;
+  font-size: 1em;
+  top: 0;
+  left: 0;
+  width: 1% !important;
+  height: 1% !important;
+}
+
+.linkAnnotation > a:hover{
+  color: #20a0ff;
 }
 </style>

@@ -18,7 +18,7 @@
                 <div> {{ item.description }} </div>
                 <div>
                   <el-button
-                      @click="toArticle(item,)"
+                      @click="toArticle(item.title)"
                       type="success"
                       icon="el-icon-search"
                       circle

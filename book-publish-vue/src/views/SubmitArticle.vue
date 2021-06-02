@@ -106,6 +106,9 @@ export default {
         method: "POST",
         headers: {
           token: localStorage.getItem("token"),
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
         },
         data: file_form,
       })
@@ -134,15 +137,6 @@ export default {
     //   })
     // },
     submitUpload() {
-      console.log(this.$refs.file);
-      if (this.$refs.file == null) {
-        this.$message({
-          showClose: true,
-          message: '请选择一个要发送的文件',
-          type: 'warning',
-          duration: 2000
-        })
-      }
       this.$refs.upload.submit();
     },
     handleRemove(file, fileList) {

@@ -9,9 +9,30 @@
         <el-radio class="radio" v-model="ridio" label="1">按文章名搜索</el-radio>
         <el-radio class="radio" v-model="ridio" label="2">按标签搜索</el-radio>
         </ul>
+      <div class="article" style="color: #00000060;width: 80%;float: left">
+        <el-row>
+          <el-col v-for="item in article_list" :key="item.id" :span="24">
+            <div class="card dewb">
+              <el-row>
+                <el-col :xs="24" :lg="18">
+                  <div>{{ item.title }}</div>
+                  <div> {{ item.description }} </div>
+                  <div>
+                    <el-button
+                        @click="toArticle(item.title)"
+                        type="success"
+                        icon="el-icon-search"
+                        circle
+                        style="margin: 10px"
+                    ></el-button>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
     </div>
-    
-
 </template>
 
 <script>
@@ -19,7 +40,7 @@ export default {
   name: "search",
    data() {
     return {
-      input: '红楼梦',
+      input: '',
       ridio:'0'
     }
   },

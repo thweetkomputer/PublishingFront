@@ -13,10 +13,10 @@
         <hr>
       </header>
         <ul class="userInfoBox" style="margin-left: 260px">
-          <el-form class="avatarlist" ref="form" :model="form" label-width="80px">
+          <el-form class="avatarlist" ref="form"  label-width="80px">
             <el-form-item class="leftTitle" label="头像" style="margin-top:40px" ></el-form-item>
               <el-upload class="avatar-uploader" action="Userinfo/UploadImg" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                <img v-if="userInfoObj.avatar"/>
+                <img v-if="userInfoObj.avatar" :src="imageURL"/>
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
 
@@ -53,35 +53,33 @@
 
 <script>
 // import { getUserInfo, UserInfoSave } from '../utils/server.js'//获取用户信息，保存用户信息
+import axios from "axios";
+
 export default {
   name: 'UserInfo',
   data () { //选项 / 数据
     return {
       userInfo: '',//本地存储的用户信
-      userInfoObj: ''//用户的信息
+      userInfoObj: {},//用户的信息
+      imageURL:''
     }
   },
   methods: { //事件处理器
-    handleAvatarSuccess (res) {//上传头像
+     handleAvatarSuccess (res,file) {//上传头像
       // console.log('用户头像',res.image_name,file);
       // console.log(URL.createObjectURL(file.raw));
-      if (res.code == 1001) {//存储
-        this.userInfoObj.avatar = res.image_name;
-        this.userInfoObj.head_start = 1;
-      } else {
-        this.$message.error('上传图片失败');
-      }
+      this.imageURL=URL.createObjectURL(file.raw)
     },
-    beforeAvatarUpload (file) {//判断头像大小
-      const isJPG = file.type == 'image/png' || file.type == 'image/jpg' || file.type == 'image/jpeg';
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
-      // console.log(file);
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG/JPEG/PNG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
+
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!');
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!');
+      // }
       return isJPG && isLt2M;
     },
     saveInfoFun: function () {//保存编辑的用户信息
@@ -91,11 +89,18 @@ export default {
         return;
       }
       that.userInfoObj.state = Number(that.state);
-      UserInfoSave(that.userInfoObj, function (result) {//保存信息接口，返回展示页
-      that.$message.success('保存成功！');
-      that.isEdit = false;
-      that.routeChange();
-      })
+      axios({
+        url: "",
+        method: "get",
+        params: {
+          userInfo:that.userInfoObj
+        },
+      }).then((res) => {
+        that.$message.success('保存成功！');
+        that.isEdit = false;
+        that.routeChange();
+      });
+
     },
     routeChange: function () {//展示页面信息
       var that = this;
@@ -115,7 +120,7 @@ export default {
       } else {
         that.haslogin = false;
       }
-    }
+    },
   }
 }
 </script>

@@ -58,15 +58,37 @@
 </template>
 
 <script>
+  import axios from "axios";
+
   export default{
     data () {
       return {
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
-        input: ''
+        input: '',
+        userInfo:{
+        },
       }
-    }
+    },
+    mounted() {
+      this.getUserInfo(1);
+      //这里要改
+    },
+    methods:{
+      getUserInfo(id){
+        axios({
+          url: "",
+          method: "get",
+          params: {
+            id:id
+          },
+        }).then((res) => {
+          // console.log(res.data)
+          this.userInfo = res.data.data;
+
+        });
+      }
+    },
   }
-  
 
 </script>
 

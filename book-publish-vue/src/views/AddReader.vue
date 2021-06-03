@@ -47,38 +47,40 @@
 
 <script>
 import axios from "axios";
-import Qs from "qs";
 export default {
   props: ["screenWidth"],
   data() {
     return {
       currentPage: 1,
-      pageSize: 5,
-      total: 100,
-      article_list: [{title:'1',nickname:'2'}],
+      pageSize: 10,
+      total: 10,
+      message: [{title:"1",desctiption:"2"}],
+      total_num:0,
     };
   },
   mounted() {
-    this.getListData(this.currentPage);
+    this.getMessageData(this.currentPage);
   },
   methods: {
     //跳转内容页
-    toArticle(id){
-      this.$router.push({path:'/content',query:{id:id}})
-    },
-    getListData(page) {
+    getMessageData(page) {
       axios({
         url: "/newPassages",
         method: "get",
         params: {
           page,
           pageSize: this.pageSize,
-          lanmu:'all'
         },
       }).then((res) => {
-        // console.log(res.data);
-        this.article_list = res.data.data;
-        this.total = res.data.total;
+        this.message = res.data.data;
+        this.total_num=res.data.data.total_num;
+        if(this.total_num%10!==0){
+          this.total=this.total_num/10+1;
+        }
+        else{
+          this.total=this.total_num/10;
+        }
+        console.log(this.total)
       });
     },
     currentChange(val) {
@@ -86,44 +88,10 @@ export default {
       this.currentPage = val;
       this.getListData(val);
     },
-    //删除文章
-    deleteArticle(id) {
-      if (confirm("是否确定删除")) {
-        let checkInfo = {
-          contentType: "blog_article",
-          permissions: ["delete"],
-        };
-        this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
-          console.log(res);
-          if (res) {
-            axios({
-              url: "",
-              method: "delete",
-              data: Qs.stringify({
-                id,
-                token: this.$store.getters.isnotUserlogin,
-              }),
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-            }).then((res) => {
-              console.log(res);
-              if (res.data == "nologin") {
-                alert("用户登录信息错误");
-                return;
-              }
-              if (res.data == "noperm") {
-                alert("权限不足");
-              }
-              this.getListData(this.currentPage);
-            });
-          }
-        });
-      }
-    },
   },
 };
 </script>
+
 <style scoped>
 #article-list .dweb {
   padding: 10px 10px;

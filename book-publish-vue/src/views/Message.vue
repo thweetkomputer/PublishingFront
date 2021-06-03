@@ -7,29 +7,22 @@
       </el-breadcrumb>
     </div>
     <!-- 文章列表 -->
-    <div  style="margin-top:10px">
-      <el-row style="margin-right: 426px">
-        <el-col v-for="item in article_list" :key="item.id" :span="24" >
-          <div class="card dewb">
+    <div class="dewb" style="margin-top:10px;width: 70%">
+      <el-row>
+        <el-col v-for="item in message" :key="item.id" :span="24">
+          <div class="card dewb" >
             <el-row>
               <el-col :xs="24" :lg="18">
-                <div> <h2> {{ item.title }}</h2></div>
-                <div> {{ item.nickName }} </div>
-              </el-col>
-              <el-col class="text-item" :xs="12" :lg="6" style="padding-top: 13px">
-                <el-button
-                    @click="toArticle(item.id)"
-                    type="success"
-                    icon="el-icon-search"
-                    circle
-                    padding
-                ></el-button>
-                <el-button
-                    type="danger"
-                    icon="el-icon-delete"
-                    circle
-                    @click="deleteArticle(item.id)"
-                ></el-button>
+                <div>{{ item.title }}</div>
+                <div> {{ item.description }} </div>
+                <div>
+                  <el-button
+                      type="success"
+                      icon="el-icon-delete"
+                      circle
+                      style="margin: 10px"
+                  ></el-button>
+                </div>
               </el-col>
             </el-row>
           </div>
@@ -52,83 +45,46 @@
 
 <script>
 import axios from "axios";
-import Qs from "qs";
 export default {
   props: ["screenWidth"],
   data() {
     return {
       currentPage: 1,
-      pageSize: 5,
-      total: 100,
-      article_list: [{
-        title:"131",
-        nickName:"3131",
-
-      }],
+      pageSize: 10,
+      total: 10,
+      message: [{title:"1",desctiption:"2"}],
+      total_num:0,
     };
   },
   mounted() {
-    this.getListData(this.currentPage);
+    this.getMessageData(this.currentPage);
   },
   methods: {
     //跳转内容页
-    toArticle(id){
-      this.$router.push({path:'/content',query:{id:id}})
-    },
-    getListData(page) {
+    getMessageData(page) {
       axios({
-        url: "",
+        url: "/newPassages",
         method: "get",
         params: {
           page,
           pageSize: this.pageSize,
-          lanmu:'all'
         },
       }).then((res) => {
-        // console.log(res.data);
-        this.article_list = res.data.data;
-        this.total = res.data.total;
+        this.message = res.data.data;
+        this.total_num=res.data.data.total_num;
+        if(this.total_num%10!==0){
+          this.total=this.total_num/10+1;
+        }
+        else{
+          this.total=this.total_num/10;
+        }
+        console.log(this.total)
       });
     },
     currentChange(val) {
       console.log("第" + val + "页");
       this.currentPage = val;
       this.getListData(val);
-    },
-    //删除文章
-    deleteArticle(id) {
-      if (confirm("是否确定删除")) {
-        let checkInfo = {
-          contentType: "blog_article",
-          permissions: ["delete"],
-        };
-        this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
-          console.log(res);
-          if (res) {
-            axios({
-              url: "",
-              method: "delete",
-              data: Qs.stringify({
-                id,
-                token: this.$store.getters.isnotUserlogin,
-              }),
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-            }).then((res) => {
-              console.log(res);
-              if (res.data == "nologin") {
-                alert("用户登录信息错误");
-                return;
-              }
-              if (res.data == "noperm") {
-                alert("权限不足");
-              }
-              this.getListData(this.currentPage);
-            });
-          }
-        });
-      }
     },
   },
 };
@@ -145,5 +101,4 @@ export default {
   align-items: center;
   justify-content: center;
 }
-
 </style>

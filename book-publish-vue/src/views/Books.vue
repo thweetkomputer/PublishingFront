@@ -4,28 +4,37 @@
 <!--      margin-top可以选择不用-->
       <div class="article" style="color: #00000060;width: 60%;float: left">
         <el-row>
-          <el-col v-for="item in article_list" :key="item.id" :span="24">
-            <div class="card dewb">
-              <el-row>
-                <el-col :xs="24" :lg="18">
+          <el-col v-for="item in article_list" :key="item.id" :span="24" style="margin-bottom: 3px;">
+            <div class="card dewb" style="height: 120px" @click="toArticle(item.title)">
+              <el-row >
+                <el-col :xs="24" :lg="18" >
                   <div>{{ item.title }}</div>
                   <div> {{ item.description }} </div>
-                  <div>
-                    <el-button
-                        @click="toArticle(item.title)"
-                        type="success"
-                        icon="el-icon-search"
-                        circle
-                        style="margin: 10px"
-                    ></el-button>
-                  </div>
+<!--                  <div>-->
+<!--                    <el-button-->
+<!--                        -->
+<!--                        type="success"-->
+<!--                        icon="el-icon-search"-->
+<!--                        circle-->
+<!--                        style="margin: 10px"-->
+<!--                    ></el-button>-->
+<!--                  </div>-->
                 </el-col>
               </el-row>
             </div>
           </el-col>
         </el-row>
+        <el-pagination
+            background
+            :hide-on-single-page="value"
+            layout="prev, pager, next"
+            :total="total"
+            :page-size="pageSize"
+            @current-change="currentChange"
+        >
+        </el-pagination>
       </div>
-      <div class="side" style="width: 40%;float: right;">
+      <div class="side" style="width: 39%;float: right; ">
         <el-row >
 
           <el-col :xs="10" :lg="10">
@@ -75,11 +84,14 @@
           </el-col>
         </el-row>
       </div>
+
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "books",
   data(){
@@ -90,9 +102,49 @@ export default {
 
         //imagebox是assets下一个放图片的文件夹
       ],
-      article_list:{title:'1',description:"2",desc:"3",incare1: "1",f1:1,f2:2,f3:4}
+      article_list:{title:'1',description:"2",desc:"3",incare1: "1",f1:1,f2:2,f3:4,f4:'5',f6:'6',f7:'7'},
+      currentPage: 1,
+      pageSize: 10,
+      total: 10,
+      //total是条目总数，
+      total_num:0,
+      value:false
     }
-  }
+  },
+  mounted() {
+    this.getListData(this.currentPage);
+  },
+  methods: {
+    //跳转内容页
+    toArticle(id){
+      this.$router.push({path:'/content',query:{id:id}})
+    },
+    getListData(page) {
+      axios({
+        url: "/newPassages",
+        method: "get",
+        params: {
+          page,
+          pageSize: this.pageSize,
+        },
+      }).then((res) => {
+        this.article_list = res.data.data.article_list;
+        this.total_num=res.data.data.total_num;
+        if(this.total_num%10!==0){
+          this.total=this.total_num/10+1;
+        }
+        else{
+          this.total=this.total_num/10;
+        }
+        console.log(this.total)
+      });
+    },
+    currentChange(val) {
+      console.log("第" + val + "页");
+      this.currentPage = val;
+      this.getListData(val);
+    },
+  },
 }
 </script>
 
@@ -123,5 +175,15 @@ export default {
     background-color: #00000060;
     border-color: #00000060;
     color: white;
+}
+#article-list .dweb {
+  padding: 10px 10px;
+}
+.card.dweb .text-item {
+  color: #fff;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

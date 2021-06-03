@@ -20,14 +20,14 @@
           登录
         </MenuItem>
         <MenuItem name="7" to="/vip" style="float: right">
-          <Icon type="ios-paper"/>
+          <span class="iconfont icon-V"></span>
           会员中心
         </MenuItem>
         <MenuItem name="3" v-if="is_login!=0" style="float: right" to="/message">
           <Icon type="ios-construct" />
           消息中心
         </MenuItem>
-        <MenuItem name="6" style="float: right" to="/search">
+        <MenuItem name="6" style="float: right" to='/search'>
           <Input v-model="value4" icon="ios-search" placeholder="请输入..." style="width:200px;margin-right: 10px" ></Input>
           搜索
         </MenuItem>

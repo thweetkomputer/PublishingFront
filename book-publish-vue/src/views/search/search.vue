@@ -1,4 +1,25 @@
 <template>
+<<<<<<< HEAD
+    <div>
+    
+     <div>
+        <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>搜索结果</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+
+      <div id="search" >
+          <el-input class="SearchInput" v-model="input"/>
+          <el-button icon="el-icon-search" circle style="margin-left: -300px;"></el-button>
+
+          <ul class="SearchLevel" style="margin-left: 300px;color:black">
+          <span>搜索选项:</span>
+          <el-radio class="radio" v-model="ridio" label="0" style="margin-left:10px">全部</el-radio>
+          <el-radio class="radio" v-model="ridio" label="1">按文章名搜索</el-radio>
+          <el-radio class="radio" v-model="ridio" label="2">按作者搜索</el-radio>
+          </ul>
+=======
     <div id="search" >
         <el-input class="SearchInput" v-model="input"/>
         <el-button icon="el-icon-search" circle style="margin-left: -300px;"></el-button>
@@ -31,6 +52,7 @@
             </div>
           </el-col>
         </el-row>
+>>>>>>> 62e7a09d35edf655b3adbd4d1f14c1eeab58fdfa
       </div>
     </div>
 </template>

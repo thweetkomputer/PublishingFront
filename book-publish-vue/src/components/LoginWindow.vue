@@ -283,7 +283,7 @@ export default {
             this.$store.commit('SET_USERINFO', userInfo)
 
             console.log(_this.$store.getters.getUser)
-            this.$router.go(0)
+            // this.$router.go(0)
             // this.$message({
             //   showClose: true,
             //   message: '登录成功',

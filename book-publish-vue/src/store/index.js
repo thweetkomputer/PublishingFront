@@ -36,15 +36,16 @@ export default new Vuex.Store({
             localStorage.setItem('token', token)
         },
         SET_USERINFO: (state, userInfo) => {
-            state.userInfo = userInfo
-            sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+            state.userInfo = JSON.stringify(userInfo)
+            // sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
         },
         REMOVE_INFO: (state) => {
             state.token = ''
             state.userInfo = {}
             localStorage.setItem('token', '')
             // sessionStorage.setItem('userInfo', JSON.stringify(''))
-            sessionStorage.removeItem('userInfo')
+            // sessionStorage.removeItem('userInfo')
+            state.userInfo = null
         },
         LOGIN: state => {
             state.wantLogin = true
@@ -56,8 +57,10 @@ export default new Vuex.Store({
             state.userInfo = {}
             localStorage.setItem('token', '')
             // sessionStorage.setItem('userInfo', JSON.stringify(''))
-            sessionStorage.removeItem('userInfo')
+            // sessionStorage.removeItem('userInfo')
+            state.userInfo = null
         }
+
     },
     getters: {
         // get
@@ -73,7 +76,7 @@ export default new Vuex.Store({
     plugins: [vuexAlong({
         name: 'vuex-along',
         local: {
-            list: ['userInfo', 'is_login', 'token', 'wantLogin'],
+            list: ['is_login', 'token', 'wantLogin'],
             isFilter: true
         },
         session: false

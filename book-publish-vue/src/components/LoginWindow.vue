@@ -286,7 +286,8 @@ export default {
               type: 'success',
               duration: 2000
             })
-
+            this.$store.state.is_login = userInfo.identity
+            this.$store.commit('CANCEL_LOGIN')
             this.$router.push('/books')
           })
         } else {

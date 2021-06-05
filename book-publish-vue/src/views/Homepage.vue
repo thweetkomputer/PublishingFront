@@ -10,7 +10,7 @@
       </div>
 
       <div class="block" style="margin-top:50px;margin-left:200px">
-          <el-avatar :size="100" :src="circleUrl"></el-avatar>
+          <el-avatar :size="100" :src="userInfo.avatar"></el-avatar>
           <div style="margin-top: -100px;margin-left:130px">{{ userInfo.name }}</div>
           <div style="margin-left:120px">
             <el-input placeholder="您还不是会员" style="width:120px;height:20px;font-size:8px"></el-input>

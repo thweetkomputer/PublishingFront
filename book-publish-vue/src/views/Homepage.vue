@@ -13,12 +13,12 @@
           <el-avatar :size="100" :src="circleUrl"></el-avatar>
           <div style="margin-top: -100px;margin-left:130px">Name</div>
           <div style="margin-left:120px">
-            <span color="#A9A9A9" font-size="12px">您还不是会员身份</span>
+            <el-input placeholder="您还不是会员" style="width:120px;height:20px;font-size:8px"></el-input>
             <el-button type="danger" round @click="$router.push('/vip')">开通会员</el-button>
           </div>
       </div>
 
-      <el-card class="box-card" shadow="hover" style="margin-top: 60px;margin-left: 130px;">
+      <el-card class="box-card" shadow="hover" style="margin-top: 100px;margin-left: 130px;">
         <div slot="header" class="clearfix">
           <span>基本信息</span>
            <el-button type="primary" icon="el-icon-edit" circle 
@@ -27,7 +27,7 @@
         </div>
         <div style="margin-left:10px">
           <span/>用户名 
-          <span style="margin-left:40px" font-size="150%"/>Name
+          <span style="margin-left:40px"/>Name
         </div>
         <div style="margin-top:10px;margin-left:15px">
           <span/>性别
@@ -137,30 +137,14 @@
     color:#696969;
   }
   .el-button--danger {
-    color: #fc5531;
+    color: white;
     background-color: transparent;
     border-color: transparent;
 }
   .el-button--danger:hover{
-    color:#fc5531;
+    color:#F56C6C;
     background-color:transparent;
      border-color: transparent;
   }
-  .el-button {
-    display: inline-block;
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    -webkit-appearance: none;
-    text-align: center;
-    box-sizing: border-box;
-    outline: 0;
-    margin: 0;
-    transition: .1s;
-    font-weight: 500;
-    padding: 12px 12px;
-    font-size: 14px;
-    border-radius: 4px;
-}
   
 </style>

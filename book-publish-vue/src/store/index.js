@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import vuexAlong from 'vuex-along'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -12,6 +12,18 @@ export default new Vuex.Store({
     },
     mutations: {
         // set
+        is_login:function (state,is_login){
+            state.is_login=is_login;
+        },
+        userInfo:function(state,userInfo){
+            state.userInfo=userInfo
+        },
+        wantLogin:function (state,wantLogin){
+            state.wantLogin=wantLogin;
+        },
+        token:function (state,token) {
+            state.token=token;
+        },
         SET_TOKEN: (state, token) => {
             state.token = '' /*token*/
             localStorage.setItem('token', token)
@@ -50,5 +62,6 @@ export default new Vuex.Store({
         }
     },
     actions: {},
-    modules: {}
+    modules: {},
+    plugins:[vuexAlong]
 })

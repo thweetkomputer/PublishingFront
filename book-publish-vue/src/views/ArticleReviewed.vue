@@ -1,10 +1,9 @@
 <template>
-  <div id="article-list">
-    <!-- 面包屑导航 -->
+  <div>
     <div >
       <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>未审阅文章</el-breadcrumb-item>
+        <el-breadcrumb-item>已审阅文章</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="dewb" style="margin-top:10px">
@@ -54,18 +53,18 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 10,
-      article_list: [{title:"1",desctiption:"2"},{}],
+      message: [{title:"1",desctiption:"2"}],
       total_num:0,
     };
   },
   mounted() {
-    this.getMessageData(this.currentPage);
+    this.getaArticleReviewed(this.currentPage);
   },
   methods: {
     //跳转内容页
-    getMessageData(page) {
+    getaArticleReviewed(page) {
       axios({
-        url: "/newPassages",
+        url: "",
         method: "get",
         params: {
           page,

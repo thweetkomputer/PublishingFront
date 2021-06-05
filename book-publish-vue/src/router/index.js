@@ -255,6 +255,11 @@ const routes = [{
         name: 'addreader',
         component: () =>
             import ('../views/AddReader')
+    },
+    {
+        path:'/article_reviewed',
+        name:'article_reviewed',
+        component: ()=>import('../views/ArticleReviewed')
     }
 ]
 const routerPush = VueRouter.prototype.push

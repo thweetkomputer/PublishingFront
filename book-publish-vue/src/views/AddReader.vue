@@ -14,13 +14,13 @@
             <el-row>
               <el-col :xs="24" :lg="24">
                 <div>{{ item.title }}</div>
-                <div> 作者：{{ item.nickName }} </div>
+                <div> {{ item.description }} </div>
                 <div style="margin: 10px">
                   <el-button @click="setReaderId(item.id)" >添加审稿人</el-button>
                   <div style="display: flex; margin-top: 20px; height: 100px;" v-if="item.id===ReaderId">
                     <transition name="el-fade-in-linear">
                       <el-checkbox-group v-model="checkedLabel" @change="handleCheckedCitiesChange">
-                        <el-checkbox v-for="label in LabelList" :label="label.id" :key="label">{{label.name}}</el-checkbox>
+                        <el-checkbox v-for="label in LabelList" :label="label.id">{{label.name}}</el-checkbox>
                       </el-checkbox-group>
                     </transition>
                   </div>
@@ -95,7 +95,7 @@ export default {
         method: "get",
         params: {
           id,
-          page,
+          page:this.currentPage,
           pageSize: this.pageSize,
           ReaderId:this.checkedLabel
         },
@@ -110,6 +110,7 @@ export default {
         }
         console.log(this.total)
       });
+      this.ReaderId='';
     },
     setReaderId(id){
       this.ReaderId=id;
@@ -146,13 +147,6 @@ export default {
       this.currentPage = val;
       this.getListData(val);
     },
-    methods: {
-      handleCheckedCitiesChange(value) {
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.Reader.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-      }
-    }
   },
 };
 </script>

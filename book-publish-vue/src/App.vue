@@ -79,13 +79,13 @@
               </el-menu-item-group>
               <el-menu-item-group v-if="JSON.parse(this.$store.state.userInfo).identity===2">
                 <!--        审稿人界面      -->
-                <el-menu-item index="/review">未审阅文章</el-menu-item>
+                <el-menu-item index="/checkarticle">未审阅文章</el-menu-item>
                 <el-menu-item index="/article_reviewed">已审阅文章</el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group v-if="JSON.parse(this.$store.state.userInfo).identity===3">
                 <!--        编辑界面      -->
                 <el-menu-item index="/addreader">未处理文章</el-menu-item>
-                <el-menu-item index="/article_reviewed">已处理文章</el-menu-item>
+                <el-menu-item index="/publish">已处理文章</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </el-menu>

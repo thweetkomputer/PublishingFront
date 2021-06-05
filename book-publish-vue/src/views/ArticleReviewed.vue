@@ -1,28 +1,22 @@
 <template>
-  <div>
+  <div id="article-list">
+    <!-- 面包屑导航 -->
     <div >
       <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>已审阅文章</el-breadcrumb-item>
+        <el-breadcrumb-item>未审阅文章</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="dewb" style="margin-top:10px">
+    <div style="margin-top:10px;">
       <el-row>
-        <el-col v-for="item in article_list" :key="item.id" :span="24">
+        <el-col v-for="item in article_list" :key="item.id" :span="18">
           <div class="card dewb">
             <el-row>
               <el-col :xs="24" :lg="24">
                 <div>{{ item.title }}</div>
-                <div> 作者：{{ item.nickName }} </div>
+                <div> {{ item.description }} </div>
                 <div style="margin: 10px">
-                  <el-button
-                      @click="toArticle(item.id)"
-                      type="success"
-                  >添加审稿人</el-button>
-                  <el-button
-                      type="danger"
-                      @click="deleteArticle(item.id)"
-                  >删除审稿人</el-button>
+                  <el-button @click="CheckedArticle(item.id)" >删除</el-button>
                 </div>
               </el-col>
             </el-row>
@@ -46,23 +40,45 @@
 
 <script>
 import axios from "axios";
+
 export default {
-  props: ["screenWidth"],
   data() {
     return {
       currentPage: 1,
       pageSize: 10,
       total: 10,
-      message: [{title:"1",desctiption:"2"}],
+      article_list: [{title:"1",id:"2"},{title: "2",id:"3"}],
       total_num:0,
     };
   },
   mounted() {
-    this.getaArticleReviewed(this.currentPage);
+    this.getMessageData(this.currentPage);
   },
   methods: {
+    CheckedArticle(id){
+      axios({
+
+        url: "",
+        method: "get",
+        params: {
+          id,
+          page:this.currentPage,
+          pageSize: this.pageSize,
+        },
+      }).then((res) => {
+        this.article_list = res.data.data;
+        this.total_num=res.data.data.total_num;
+        if(this.total_num%10!==0){
+          this.total=this.total_num/10+1;
+        }
+        else{
+          this.total=this.total_num/10;
+        }
+        console.log(this.total)
+      });
+    },
     //跳转内容页
-    getaArticleReviewed(page) {
+    getMessageData(page) {
       axios({
         url: "",
         method: "get",
@@ -71,8 +87,9 @@ export default {
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.message = res.data.data;
+        this.article_list = res.data.data;
         this.total_num=res.data.data.total_num;
+        this.LabelList=res.data.data.ReaderId;   //这个是不对的，我要获得所有的审稿人信息。
         if(this.total_num%10!==0){
           this.total=this.total_num/10+1;
         }
@@ -90,7 +107,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 #article-list .dweb {
   padding: 10px 10px;

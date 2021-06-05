@@ -265,6 +265,11 @@ const routes = [{
         path:'/publish',
         name:'publish',
         component: ()=>import('../views/publish')
+    },
+    {
+        path:'/checkarticle',
+        name:'checkarticle',
+        component: ()=>import('../views/CheckArticle')
     }
 
 ]

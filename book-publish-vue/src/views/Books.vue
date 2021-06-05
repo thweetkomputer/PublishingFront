@@ -10,15 +10,6 @@
                 <el-col :xs="24" :lg="18" >
                   <div>{{ item.title }}</div>
                   <div> {{ item.description }} </div>
-<!--                  <div>-->
-<!--                    <el-button-->
-<!--                        -->
-<!--                        type="success"-->
-<!--                        icon="el-icon-search"-->
-<!--                        circle-->
-<!--                        style="margin: 10px"-->
-<!--                    ></el-button>-->
-<!--                  </div>-->
                 </el-col>
               </el-row>
             </div>

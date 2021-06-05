@@ -4,19 +4,19 @@
     <div >
       <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>发布文章</el-breadcrumb-item>
+        <el-breadcrumb-item>未审阅文章</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div style="margin-top:10px">
+    <div  style="margin-top:10px">
       <el-row>
-        <el-col v-for="item in article_list" :key="item.id" :span="18">
+        <el-col v-for="item in article_list" :key="item.id" :span="19">
           <div class="card dewb">
             <el-row>
               <el-col :xs="24" :lg="24">
                 <div>{{ item.title }}</div>
                 <div> {{ item.description }} </div>
                 <div style="margin: 10px">
-                  <el-button type="text" @click="publish(item.id)">发布文章</el-button>
+                  <el-button @click="CheckedArticle(item.id)" >完成审阅</el-button>
                 </div>
               </el-col>
             </el-row>
@@ -42,21 +42,20 @@
 import axios from "axios";
 
 export default {
-  props: ["screenWidth"],
   data() {
     return {
       currentPage: 1,
       pageSize: 10,
       total: 10,
-      article_list: [{title:"1",id:"2"},{title: "2",id:"3"}],
+      article_list: [{title:"1",id:"2",description:'3'},{title: "2",id:"3",description:'3'}],
       total_num:0,
     };
   },
   mounted() {
-    this.getMessageData(this.currentPage);
+    this.getArticleData(this.currentPage);
   },
   methods: {
-    publish(id){
+    CheckedArticle(id){
       axios({
         url: "",
         method: "get",
@@ -64,7 +63,6 @@ export default {
           id,
           page:this.currentPage,
           pageSize: this.pageSize,
-          ReaderId:this.checkedLabel
         },
       }).then((res) => {
         this.article_list = res.data.data;
@@ -79,7 +77,7 @@ export default {
       });
     },
     //跳转内容页
-    getMessageData(page) {
+    getArticleData(page) {
       axios({
         url: "",
         method: "get",
@@ -99,7 +97,6 @@ export default {
         }
         console.log(this.total)
       });
-
     },
     currentChange(val) {
       console.log("第" + val + "页");

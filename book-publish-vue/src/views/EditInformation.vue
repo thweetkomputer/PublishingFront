@@ -21,27 +21,22 @@
               </el-upload>
 
             <el-form-item class="username" label="用户名">
-                <el-input v-model="userInfoObj.name" placeholder="用户名"></el-input>
+                <el-input v-model="name" placeholder="用户名"></el-input>
             </el-form-item>
 
             <el-form-item label="电子邮件">
-                <el-input v-model="userInfoObj.email" placeholder="电子邮件"></el-input>
+                <el-input v-model="email" placeholder="电子邮件"></el-input>
             </el-form-item>
-
             <el-form-item label="性别">
-                <el-radio-group>
                   <template>
-                    <el-radio class="radio" v-model="userInfoObj.sex" label="0">男</el-radio>
-                    <el-radio class="radio" v-model="userInfoObj.sex" label="1">女</el-radio>
+                    <el-radio class="radio" v-model="sex" label="0" :value="sex">男</el-radio>
+                    <el-radio class="radio" v-model="sex" label="1" :value="sex">女</el-radio>
                   </template>
-                </el-radio-group>
             </el-form-item>
-
             <el-form-item label="简介" class="Introduction">
-                <el-input v-model="userInfoObj.input" placeholder="简介"></el-input>
+                <el-input v-model="inputContent" placeholder="简介"></el-input>
             </el-form-item>
           </el-form>
-
           <div class="saveInfobtn" >
               <el-button class="tcolors-bg" type="primary" round @click="saveInfoFun" style="margin-left: -280px;">保存</el-button>
               <el-button @click="saveInfoFun" round>取消</el-button>
@@ -59,9 +54,11 @@ export default {
   name: 'UserInfo',
   data () { //选项 / 数据
     return {
-      userInfo: '',//本地存储的用户信
-      userInfoObj: {},//用户的信息
-      imageURL:''
+      imageURL:'',
+      name:'',
+      email:'',
+      sex:'0',
+      inputContent:'',
     }
   },
   methods: { //事件处理器
@@ -84,6 +81,7 @@ export default {
     },
     saveInfoFun: function () {//保存编辑的用户信息
       var that = this;
+      var id=this.$store.state.userInfo.id;
       if (!that.userInfoObj.username) { //昵称为必填
         that.$message.error('昵称为必填项，请填写昵称');
         return;
@@ -93,14 +91,18 @@ export default {
         url: "",
         method: "get",
         params: {
-          userInfo:that.userInfoObj
+          id,
+          imageURL:that.imageURL,
+          name:that.name,
+          email:that.email,
+          sex:that.sex,
+          description:that.inputContent,
         },
       }).then((res) => {
         that.$message.success('保存成功！');
         that.isEdit = false;
         that.routeChange();
       });
-
     },
     routeChange: function () {//展示页面信息
       var that = this;

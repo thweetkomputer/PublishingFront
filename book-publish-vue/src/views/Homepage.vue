@@ -11,7 +11,7 @@
 
       <div class="block" style="margin-top:50px;margin-left:200px">
           <el-avatar :size="100" :src="circleUrl"></el-avatar>
-          <div style="margin-top: -100px;margin-left:130px">Name</div>
+          <div style="margin-top: -100px;margin-left:130px">{{ userInfo.name }}</div>
           <div style="margin-left:120px">
             <el-input placeholder="您还不是会员" style="width:120px;height:20px;font-size:8px"></el-input>
             <el-button type="danger" round @click="$router.push('/vip')">开通会员</el-button>
@@ -27,65 +27,52 @@
         </div>
         <div style="margin-left:10px">
           <span/>用户名 
-          <span style="margin-left:40px"/>Name
+          <span style="margin-left:40px">{{ userInfo.name }}</span>
         </div>
         <div style="margin-top:10px;margin-left:15px">
           <span/>性别
-            <svg class="icon" aria-hidden="true" style="margin-left:60px;">
+            <svg class="icon" aria-hidden="true" style="margin-left:60px;" v-if="userInfo.gender==='man'">
               <use xlink:href="#icon-xingbienan"></use>
             </svg>
+          <svg class="icon" aria-hidden="true" style="margin-left:60px;" v-else>
+            <use xlink:href="#icon-xingbienv"></use>
+          </svg>
         </div>
          <div class="id" style="margin-top:10px;margin-left:15px">
           <span/>身份 
-          <span style="margin-left:60px"/>作者
+           <span style="margin-left:60px">{{userInfo.identity}}</span>
         </div>
 
         <div class="email" style="margin-top:10px">
-            <span/>电子邮件 
+            <span/>{{ userInfo.email }}
             <span style="margin-left:10px"/>xxx@qq.com
         </div>
         
         <div>
             <span>个人简介</span>
-            <el-input class="introduce"
-            v-model="input"
-            :disabled="true" style="margin-left:10px;width:200px;"
-            >
-            </el-input>  
+          <div class="introduce" style="margin-left:10px;width:200px;"> {{userInfo.description}}</div>
         </div>
       </el-card>
     </div>
 </template>
-
 <script src="../assets/css/sex/iconfont.js">
   export default{
     data () {
       return {
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
         input: '',
-        userInfo:{
-        },
       }
+
     },
     mounted() {
-      this.getUserInfo(1);
-      //这里要改
     },
     methods:{
-      getUserInfo(id){
-        axios({
-          url: "",
-          method: "get",
-          params: {
-            id:id
-          },
-        }).then((res) => {
-          // console.log(res.data)
-          this.userInfo = res.data.data;
-
-        });
-      }
     },
+    computed:{
+      userInfo:function (){
+        return this.$store.getters.getUser;
+      }
+    }
   }
 
 </script>

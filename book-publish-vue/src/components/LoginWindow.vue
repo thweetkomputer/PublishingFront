@@ -3,9 +3,9 @@
 <!--    <div class="content1_window" v-show="this.$store.state.wantLogin"></div>-->
 <!--    <div class="content2_window" v-show="this.$store.state.wantLogin">-->
 
-        <div class="content1_window" v-show="this.$store.state.userInfo===null"></div>
-        <div class="content2_window" v-show="this.$store.state.userInfo===null">
-      <!--    <div class="bg bg-blur"></div>-->
+        <div class="content1_window" v-show="this.$store.state.userInfo===null && this.$store.state.doNotWantLogin === null"></div>
+        <div class="content2_window" v-show="this.$store.state.userInfo===null && this.$store.state.doNotWantLogin === null">
+      <!--    <div class="bg bg-blur"></div>-->f
       <el-container class="content2">
         <!--      <el-header>-->
         <!--        < img class="mlogo" src="http://o.bookschina.com/images/logo0508.png" alt="">-->
@@ -113,7 +113,7 @@ export default {
   name: "LoginWindow",
   data() {
     const checkUsername = (rule, value, callback) => {
-      // alert(this.$store.state.userInfo)
+      // alert(this.$store.state.doNotWantLogin)
       console.log("checkUsername")
       if (value === '') {
         console.log('value')
@@ -236,7 +236,7 @@ export default {
   },
   methods: {
     cancelLogin() {
-      this.$store.commit('CANCEL_LOGIN')
+      this.$store.commit('DONT_WANT_LOGIN')
     },
     submitEmail(formName) {
       // ifthis.$refs[formName].((valid)=>{
@@ -258,12 +258,12 @@ export default {
         this.$store.commit('SET_USERINFO', userInfo)
 
         console.log(this.$store.getters.getUser)
-        this.$message({
-          showClose: true,
-          message: '发送成功，请邮箱查收',
-          type: 'success',
-          duration: 2000
-        })
+        // this.$message({
+        //   showClose: true,
+        //   message: '发送成功，请邮箱查收',
+        //   type: 'success',
+        //   duration: 2000
+        // })
         // _this.$router.go(0)
         this.activeName = 'signup'
       })
@@ -284,14 +284,13 @@ export default {
 
             console.log(_this.$store.getters.getUser)
             this.$router.go(0)
-            this.$message({
-              showClose: true,
-              message: '登录成功',
-              type: 'success',
-              duration: 2000
-            })
+            // this.$message({
+            //   showClose: true,
+            //   message: '登录成功',
+            //   type: 'success',
+            //   duration: 2000
+            // })
             this.$store.state.is_login = userInfo.identity
-            this.$store.commit('CANCEL_LOGIN')
             // this.$router.push('/books')
 
           })
@@ -312,19 +311,19 @@ export default {
             const userInfo = res.data.data
             console.log(userInfo)
 
-            // Share the data
-            _this.$store.commit('SET_TOKEN', jwt)
-            _this.$store.commit('SET_USERINFO', userInfo)
-
-            console.log(_this.$store.getters.getUser)
-            this.$message({
-              showClose: true,
-              message: '注册成功，请重新登录',
-              type: 'success',
-              duration: 2000
-            })
+            // // Share the data
+            // _this.$store.commit('SET_TOKEN', jwt)
+            // _this.$store.commit('SET_USERINFO', userInfo)
+            //
+            // console.log(_this.$store.getters.getUser)
+            // this.$message({
+            //   showClose: true,
+            //   message: '注册成功，请重新登录',
+            //   type: 'success',
+            //   duration: 2000
+            // })
             // this.$router.go(0)
-            this.activeName = 'signup'
+            this.activeName = 'login'
           })
         } else {
           console.log('error submit!!');

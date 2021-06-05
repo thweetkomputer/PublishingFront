@@ -132,7 +132,7 @@ export default {
     //   this.$router.push({name:'Login'})
     // },
     login() {
-      this.$store.commit('LOGIN')
+      this.$store.commit('WANT_LOGIN')
     },
     tosearch() {
       this.$router.push({name: 'search'})

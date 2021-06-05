@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import vuexAlong from 'vuex-along'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        wantLogin: true,
+        doNotWantLogin: sessionStorage.getItem('doNotWantLogin'),
         token: localStorage.getItem('token'),
         // userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         userInfo: sessionStorage.getItem('userInfo'),
@@ -13,17 +14,22 @@ export default new Vuex.Store({
     },
     mutations: {
         // set
-        is_login:function (state,is_login){
-            state.is_login=is_login;
+        is_login: function (state, is_login) {
+            state.is_login = is_login;
         },
-        userInfo:function(state,userInfo){
-            state.userInfo=userInfo
+        userInfo: function (state, userInfo) {
+            state.userInfo = userInfo
         },
-        wantLogin:function (state,wantLogin){
-            state.wantLogin=wantLogin;
+        WANT_LOGIN: (state) => {
+            // sessionStorage.removeItem('doNotWantLogin')
+            state.doNotWantLogin = null
         },
-        token:function (state,token) {
-            state.token=token;
+        DONT_WANT_LOGIN: (state) => {
+            // sessionStorage.setItem('doNotWantLogin', '1')
+            state.doNotWantLogin ='1'
+        },
+        token: function (state, token) {
+            state.token = token;
         },
         SET_TOKEN: (state, token) => {
             state.token = '' /*token*/
@@ -40,12 +46,9 @@ export default new Vuex.Store({
             // sessionStorage.setItem('userInfo', JSON.stringify(''))
             sessionStorage.removeItem('userInfo')
         },
-        CANCEL_LOGIN: state => {
-            state.wantLogin = false
-        },
         LOGIN: state => {
             state.wantLogin = true
-            state.is_login=1
+            state.is_login = 1
         },
         LOGOUT: state => {
             state.is_login = 0
@@ -67,12 +70,12 @@ export default new Vuex.Store({
     },
     actions: {},
     modules: {},
-    plugins:[vuexAlong({
-        name:'vuex-along',
-        local:{
-            list:['userInfo','is_login','token','wantLogin'],
-            isFilter:true
+    plugins: [vuexAlong({
+        name: 'vuex-along',
+        local: {
+            list: ['userInfo', 'is_login', 'token', 'wantLogin'],
+            isFilter: true
         },
-        session:false
+        session: false
     })]
 })

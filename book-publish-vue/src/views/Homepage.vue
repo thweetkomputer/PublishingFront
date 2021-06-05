@@ -27,7 +27,7 @@
         </div>
         <div style="margin-left:10px">
           <span/>用户名 
-          <span style="margin-left:40px">{{ userInfo.name }}</span>
+          <span style="margin-left:40px">{{ userInfo.username }}</span>
         </div>
         <div style="margin-top:10px;margin-left:15px">
           <span/>性别
@@ -61,20 +61,20 @@
       return {
         circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
         input: '',
-      }
+        userInfo: {
 
+        }
+      }
     },
     mounted() {
+      this.getUserInfo();
     },
     methods:{
-    },
-    computed:{
-      userInfo:function (){
-        return this.$store.getters.getUser;
+      getUserInfo(){
+        this.userInfo=store.state.userInfo
       }
-    }
+    },
   }
-
 </script>
 
 <style>

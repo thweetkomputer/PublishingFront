@@ -63,12 +63,5 @@ export default new Vuex.Store({
     },
     actions: {},
     modules: {},
-    plugins:[vuexAlong({
-        name:'vuex-along',
-        local:{
-            list:['userInfo','is_login','token','wantLogin'],
-            isFilter:true
-        },
-        session:false
-    })]
+    plugins:[vuexAlong]
 })

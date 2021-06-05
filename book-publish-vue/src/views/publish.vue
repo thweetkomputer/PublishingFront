@@ -4,7 +4,7 @@
     <div >
       <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>未审阅文章</el-breadcrumb-item>
+        <el-breadcrumb-item>发布文章</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="dewb" style="margin-top:10px">
@@ -16,16 +16,7 @@
                 <div>{{ item.title }}</div>
                 <div> 作者：{{ item.nickName }} </div>
                 <div style="margin: 10px">
-                  <el-button @click="setReaderId(item.id)" >添加审稿人</el-button>
-                  <div style="display: flex; margin-top: 20px; height: 100px;" v-if="item.id===ReaderId">
-                    <transition name="el-fade-in-linear">
-                      <el-checkbox-group v-model="checkedLabel" @change="handleCheckedCitiesChange">
-                        <el-checkbox v-for="label in LabelList" :label="label.id" :key="label">{{label.name}}</el-checkbox>
-                      </el-checkbox-group>
-                    </transition>
-                  </div>
-                  <el-button @click="submit(item.id)" type="primary" v-if="item.id===ReaderId">确定</el-button>
-                  <el-button @click="ResetReaderId" type="primary" v-if="item.id===ReaderId">取消添加</el-button>
+                  <el-button type="text" @click="open">发布文章</el-button>
                 </div>
               </el-col>
             </el-row>
@@ -84,6 +75,18 @@ export default {
     this.getMessageData(this.currentPage);
   },
   methods: {
+    open() {
+      this.$alert('确认发布', '发布文章', {
+        confirmButtonText: '确定',
+        callback: action => {
+          this.$message({
+            type: 'info',
+            message: `action: ${ action }，`,
+
+          });
+        }
+      });
+    },
     ResetReaderId(){
       this.ReaderId='';
       console.log(this.checkedLabel)
@@ -130,7 +133,7 @@ export default {
       }).then((res) => {
         this.article_list = res.data.data;
         this.total_num=res.data.data.total_num;
-        this.LabelList=res.data.data.ReaderId;   //这个是不对的，必须和后端保持一致，这个只是初步设计
+        this.LabelList=res.data.data.ReaderId;   //这个是不对的，我要获得所有的审稿人信息。
         if(this.total_num%10!==0){
           this.total=this.total_num/10+1;
         }
@@ -156,7 +159,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 #article-list .dweb {
   padding: 10px 10px;

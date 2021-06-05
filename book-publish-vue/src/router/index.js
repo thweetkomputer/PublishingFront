@@ -260,7 +260,13 @@ const routes = [{
         path:'/article_reviewed',
         name:'article_reviewed',
         component: ()=>import('../views/ArticleReviewed')
+    },
+    {
+        path:'/publish',
+        name:'publish',
+        component: ()=>import('../views/publish')
     }
+
 ]
 const routerPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {

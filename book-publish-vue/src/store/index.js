@@ -32,8 +32,12 @@ export default new Vuex.Store({
         LOGIN: state => {
             state.wantLogin = true
         },
-        logout: state => {
+        LOGOUT: state => {
             state.is_login = 0
+            state.token = ''
+            state.userInfo = {}
+            localStorage.setItem('token', '')
+            sessionStorage.setItem('userInfo', JSON.stringify(''))
         }
     },
     getters: {

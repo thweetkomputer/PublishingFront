@@ -57,13 +57,7 @@
     </div>
 </template>
 
-<<<<<<< HEAD
 <script src="../assets/css/sex/iconfont.js">
-=======
-<script>
-  import axios from "axios";
-
->>>>>>> 62e7a09d35edf655b3adbd4d1f14c1eeab58fdfa
   export default{
     data () {
       return {

@@ -1,56 +1,66 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import vuexAlong from 'vuex-along'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        wantLogin: true,
+        doNotWantLogin: sessionStorage.getItem('doNotWantLogin'),
         token: localStorage.getItem('token'),
-        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
+        // userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
+        userInfo: sessionStorage.getItem('userInfo'),
         is_login: 0,
     },
     mutations: {
         // set
-        is_login:function (state,is_login){
-            state.is_login=is_login;
+        is_login: function (state, is_login) {
+            state.is_login = is_login;
         },
-        userInfo:function(state,userInfo){
-            state.userInfo=userInfo
+        userInfo: function (state, userInfo) {
+            state.userInfo = userInfo
         },
-        wantLogin:function (state,wantLogin){
-            state.wantLogin=wantLogin;
+        WANT_LOGIN: (state) => {
+            // sessionStorage.removeItem('doNotWantLogin')
+            state.doNotWantLogin = null
         },
-        token:function (state,token) {
-            state.token=token;
+        DONT_WANT_LOGIN: (state) => {
+            // sessionStorage.setItem('doNotWantLogin', '1')
+            state.doNotWantLogin ='1'
+        },
+        token: function (state, token) {
+            state.token = token;
         },
         SET_TOKEN: (state, token) => {
             state.token = '' /*token*/
             localStorage.setItem('token', token)
         },
         SET_USERINFO: (state, userInfo) => {
-            state.userInfo = userInfo
-            sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+            state.userInfo = JSON.stringify(userInfo)
+            // sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
         },
         REMOVE_INFO: (state) => {
             state.token = ''
             state.userInfo = {}
             localStorage.setItem('token', '')
-            sessionStorage.setItem('userInfo', JSON.stringify(''))
-        },
-        CANCEL_LOGIN: state => {
-            state.wantLogin = false
+            // sessionStorage.setItem('userInfo', JSON.stringify(''))
+            // sessionStorage.removeItem('userInfo')
+            state.userInfo = null
         },
         LOGIN: state => {
             state.wantLogin = true
+            state.is_login = 1
         },
         LOGOUT: state => {
             state.is_login = 0
             state.token = ''
             state.userInfo = {}
             localStorage.setItem('token', '')
-            sessionStorage.setItem('userInfo', JSON.stringify(''))
+            // sessionStorage.setItem('userInfo', JSON.stringify(''))
+            // sessionStorage.removeItem('userInfo')
+            state.userInfo = null
         }
+
     },
     getters: {
         // get
@@ -63,5 +73,12 @@ export default new Vuex.Store({
     },
     actions: {},
     modules: {},
-    plugins:[vuexAlong]
+    plugins: [vuexAlong({
+        name: 'vuex-along',
+        local: {
+            list: ['is_login', 'token', 'wantLogin'],
+            isFilter: true
+        },
+        session: false
+    })]
 })

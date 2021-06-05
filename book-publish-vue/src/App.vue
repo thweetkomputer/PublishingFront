@@ -2,12 +2,12 @@
   <!--  未登录状态-->
   <div>
     <div>
-      <LoginWindow style="position:relative;z-index: 1" v-if="!this.$store.state.is_login"></LoginWindow>
+      <LoginWindow style="position:relative;z-index: 1"></LoginWindow>
     </div>
     <div id="app">
       <div id="top-menu" class="dewb">
         <Menu mode="horizontal" style="background-color: #00000020;border: none;">
-          <Submenu name="5" style="float:right " v-if="this.$store.state.is_login">
+          <Submenu name="5" style="float:right " v-if="this.$store.state.userInfo!==null">
             <template slot="title">
               <Icon type="ios-people"></Icon>
               用户
@@ -15,7 +15,7 @@
             <Menu-item name="5-1" to="/Homepage">个人信息</Menu-item>
             <Menu-item name="5-2" @click.native="logout">退出登录</Menu-item>
           </Submenu>
-          <MenuItem name="4" @click.native="login" v-if="!this.$store.state.is_login" style="float: right">
+          <MenuItem name="4" @click.native="login" v-if="this.$store.state.userInfo===null" style="float: right">
             <Icon type="ios-construct"/>
             登录
           </MenuItem>
@@ -23,7 +23,7 @@
             <Icon type="ios-paper"/>
             会员中心
           </MenuItem>
-          <MenuItem name="3" v-if="this.$store.state.is_login" style="float: right" to="/message">
+          <MenuItem name="3" v-if="this.$store.state.userInfo!==null" style="float: right" to="/message">
             <Icon type="ios-construct"/>
             消息中心
           </MenuItem>
@@ -32,16 +32,16 @@
                    style="width:200px;margin-right: 10px"></Input>
             搜索
           </MenuItem>
-          <MenuItem name="1" v-if="!this.$store.state.is_login" @click="console.log(this.$store.state.is_login)">
+          <MenuItem name="1" v-if="this.$store.state.userInfo===null" @click="console.log(this.$store.state.is_login)">
             图标
           </MenuItem>
-          <MenuItem name="2" to="/books" v-if="!this.$store.state.is_login">
+          <MenuItem name="2" to="/books" v-if="this.$store.state.userInfo===null">
             <Icon type="ios-paper"/>
             首页
           </MenuItem>
         </Menu>
       </div>
-      <div id="left-menu" :class="'dewb '+mobile_left" v-if="this.$store.state.is_login">
+      <div id="left-menu" :class="'dewb '+mobile_left" v-if="this.$store.state.userInfo!==null">
         <i @click="showHideLeftMenu" class="el-icon-menu" id="left-btn"></i>
         <!--      导航栏-->
         <el-col :span="24" style="margin-top: 60px">
@@ -72,17 +72,18 @@
                 <i class="el-icon-edit"></i>
                 <span>我的工作台</span>
               </template>
-              <el-menu-item-group v-if="this.$store.state.is_login===1">
+              <el-menu-item-group v-if="JSON.parse(this.$store.state.userInfo).identity===1">
+                <!--        作者界面      -->
                 <el-menu-item index="/add-article">编辑文章</el-menu-item>
                 <el-menu-item index="/submit">提交文章</el-menu-item>
               </el-menu-item-group>
-              <el-menu-item-group v-if="this.$store.state.is_login===3">
+              <el-menu-item-group v-if="JSON.parse(this.$store.state.userInfo).identity===2">
                 <!--        审稿人界面      -->
                 <el-menu-item index="/review">未审阅文章</el-menu-item>
-                <el-menu-item index="">已审阅文章</el-menu-item>
+                <el-menu-item index="/article_reviewed">已审阅文章</el-menu-item>
               </el-menu-item-group>
-              <el-menu-item-group v-if="this.$store.state.is_login===2">
-                <!--        审稿人界面      -->
+              <el-menu-item-group v-if="JSON.parse(this.$store.state.userInfo).identity===3">
+                <!--        编辑界面      -->
                 <el-menu-item index="/addreader">未处理文章</el-menu-item>
                 <el-menu-item index="/article_reviewed">已处理文章</el-menu-item>
               </el-menu-item-group>
@@ -131,7 +132,7 @@ export default {
     //   this.$router.push({name:'Login'})
     // },
     login() {
-      this.$store.commit('LOGIN')
+      this.$store.commit('WANT_LOGIN')
     },
     tosearch() {
       this.$router.push({name: 'search'})
@@ -176,7 +177,8 @@ export default {
       this.is_login = 0;
       console.log(1111)
       this.$store.commit('LOGOUT')
-      this.$router.push({name: 'Books'})
+      // this.$router.push({name: 'Books'})
+      this.$router.go(0)
     }
   }
   ,

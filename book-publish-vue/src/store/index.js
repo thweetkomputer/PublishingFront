@@ -7,7 +7,8 @@ export default new Vuex.Store({
     state: {
         wantLogin: true,
         token: localStorage.getItem('token'),
-        userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
+        // userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
+        userInfo: sessionStorage.getItem('userInfo'),
         is_login: 0,
     },
     mutations: {
@@ -36,20 +37,23 @@ export default new Vuex.Store({
             state.token = ''
             state.userInfo = {}
             localStorage.setItem('token', '')
-            sessionStorage.setItem('userInfo', JSON.stringify(''))
+            // sessionStorage.setItem('userInfo', JSON.stringify(''))
+            sessionStorage.removeItem('userInfo')
         },
         CANCEL_LOGIN: state => {
             state.wantLogin = false
         },
         LOGIN: state => {
             state.wantLogin = true
+            state.is_login=1
         },
         LOGOUT: state => {
             state.is_login = 0
             state.token = ''
             state.userInfo = {}
             localStorage.setItem('token', '')
-            sessionStorage.setItem('userInfo', JSON.stringify(''))
+            // sessionStorage.setItem('userInfo', JSON.stringify(''))
+            sessionStorage.removeItem('userInfo')
         }
     },
     getters: {

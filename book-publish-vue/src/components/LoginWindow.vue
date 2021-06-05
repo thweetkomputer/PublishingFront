@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div class="content1_window" v-show="this.$store.state.wantLogin"></div>
-    <div class="content2_window" v-show="this.$store.state.wantLogin">
+<!--    <div class="content1_window" v-show="this.$store.state.wantLogin"></div>-->
+<!--    <div class="content2_window" v-show="this.$store.state.wantLogin">-->
+
+        <div class="content1_window" v-show="this.$store.state.userInfo===null"></div>
+        <div class="content2_window" v-show="this.$store.state.userInfo===null">
       <!--    <div class="bg bg-blur"></div>-->
       <el-container class="content2">
         <!--      <el-header>-->
@@ -110,6 +113,7 @@ export default {
   name: "LoginWindow",
   data() {
     const checkUsername = (rule, value, callback) => {
+      // alert(this.$store.state.userInfo)
       console.log("checkUsername")
       if (value === '') {
         console.log('value')
@@ -279,7 +283,7 @@ export default {
             this.$store.commit('SET_USERINFO', userInfo)
 
             console.log(_this.$store.getters.getUser)
-
+            this.$router.go(0)
             this.$message({
               showClose: true,
               message: '登录成功',
@@ -288,7 +292,8 @@ export default {
             })
             this.$store.state.is_login = userInfo.identity
             this.$store.commit('CANCEL_LOGIN')
-            this.$router.push('/books')
+            // this.$router.push('/books')
+
           })
         } else {
           console.log('error submit!!!');
@@ -318,7 +323,7 @@ export default {
               type: 'success',
               duration: 2000
             })
-            // _this.$router.go(0)
+            // this.$router.go(0)
             this.activeName = 'signup'
           })
         } else {

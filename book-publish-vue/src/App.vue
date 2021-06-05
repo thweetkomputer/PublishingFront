@@ -32,7 +32,7 @@
                    style="width:200px;margin-right: 10px"></Input>
             搜索
           </MenuItem>
-          <MenuItem name="1" v-if="!this.$store.state.is_login">
+          <MenuItem name="1" v-if="!this.$store.state.is_login" @click="console.log(this.$store.state.is_login)">
             图标
           </MenuItem>
           <MenuItem name="2" to="/books" v-if="!this.$store.state.is_login">
@@ -175,7 +175,7 @@ export default {
     logout() {
       this.is_login = 0;
       console.log(1111)
-      this.$store.commit('logout')
+      this.$store.commit('LOGOUT')
       this.$router.push({name: 'Books'})
     }
   }

@@ -8,7 +8,7 @@ export default new Vuex.Store({
         wantLogin: true,
         token: localStorage.getItem('token'),
         userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
-        is_login: 1,
+        is_login: 0,
     },
     mutations: {
         // set

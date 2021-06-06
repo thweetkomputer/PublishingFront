@@ -74,7 +74,7 @@
           </el-button>
         </div>
       </el-col>
-      <el-col :xs="24" :lg="8">
+      <el-col :xs="24" :lg="8" v-if="this.$store.state.userInfo!==null">
         <div class="body dewb">
           <el-image :src="article_data.cover" :fit="'cover'"></el-image>
         </div>
@@ -110,7 +110,7 @@
               :key="index"
               class="body dewb pinglun-item"
           >
-            {{ item.nickName }} 说：
+            {{ item.username }} 说：
             <el-divider></el-divider>
             {{ item.text }}
           </div>
@@ -160,7 +160,6 @@ export default {
     const query = this.$route.query;
     console.log(query.id)
     return {
-      // article_data: this.$route.query.id,
       article_data: this.$route.query.id,
       description:'',
       user_article_info: {
@@ -181,25 +180,12 @@ export default {
       // 加载进度
       loadedRatio: 0,
       curPageNum: 0,
-      // pdfUrl: this.$route.query.pdfUrl
-
     };
   },
   components: {
     BreadMenu,
     pdf
   },
-  // watch: {
-  //   $route(to) {
-  //     // console.log(to)
-  //     this.article_data = to.query.id;
-  //     // this.getArticleData(to.query.id);
-
-  //     // this.pdfUrl = 'http://127.0.0.1:8081/download?filename=xuqiuguigeshuomingshu.pdf'
-  //     // this.getAllPinglun(1, this.pinglun_pageSize);
-  //   }
-
-  // },
   created() {
 
   },
@@ -249,7 +235,8 @@ export default {
         method: "post",
         data: Qs.stringify({
           // token: this.$store.getters.isnotUserlogin,
-          article_id: this.article_id,
+          article_id: this.article_data,
+          user_id:this.$store.state.userInfo.id,
         }),
       }).then((res) => {
       });
@@ -260,7 +247,8 @@ export default {
         url: "",
         method: "post",
         data: Qs.stringify({
-          article_id: this.article_id,
+          article_id: this.article_data,
+          user_id:this.$store.state.userInfo.id,
         }),
       }).then((res) => {
         // console.log(res.data)
@@ -275,7 +263,7 @@ export default {
         params: {
           page,
           pagesize,
-          article_id: this.article_id,
+          article_id: this.article_data,
         },
       }).then((res) => {
         this.pinglun_data = res.data.data;
@@ -300,11 +288,11 @@ export default {
         url: "",
         method: "post",
         data: Qs.stringify({
-          article_id: this.article_id,
+          article_id: this.article_data,
           text: this.new_pinglun,
+          user_id:this.$store.state.userInfo.id
         }),
       }).then((res) => {
-        // console.log(res.data)
         this.getAllPinglun(1, this.pinglun_pageSize);
       });
     },
@@ -313,13 +301,13 @@ export default {
       this.getAllPinglun(page, this.pinglun_pageSize);
     },
     //跳转文章 上下
-    toOtherPage(id) {
-      if (id === 0) {
-        alert("没有了");
-        return;
-      }
-      this.$router.push({path: "/content", query: {id: id}});
-    },
+    // toOtherPage(id) {
+    //   if (id === 0) {
+    //     alert("没有了");
+    //     return;
+    //   }
+    //   this.$router.push({path: "/content", query: {id: id}});
+    // },
     getArticleDescription(id) {
       // console.log(id);
       axios({
@@ -335,7 +323,6 @@ export default {
       });
     },
   },
-
 };
 </script>
 

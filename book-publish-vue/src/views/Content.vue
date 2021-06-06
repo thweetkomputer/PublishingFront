@@ -75,9 +75,6 @@
         </div>
       </el-col>
       <el-col :xs="24" :lg="8" v-if="this.$store.state.userInfo!==null">
-        <div class="body dewb">
-          <el-image :src="article_data.cover" :fit="'cover'"></el-image>
-        </div>
         <div class="body dewb like-btn">
           <el-row>
             <el-col :span="12">
@@ -192,8 +189,24 @@ export default {
   mounted() {
     this.getArticleDescription(this.article_data);
     this.getAllPinglun(1, this.pinglun_pageSize);
+    this.getUserToArtcile();
   },
   methods: {
+    getUserToArtcile(){
+      axios({
+        url: "/",
+        method: "get",
+        params: {
+          user_id:this.$store.state.userInfo.id,
+          article_id: this.article_data,
+        },
+      }).then((res) => {
+        this.user_article_info.favor=res.data.data.favor;
+        this.user_article_info.like=res.data.data.like;
+        console.log(this.ping_num);
+        console.log(this.article_data);
+      });
+    },
     prePage() {
       var p = this.pageNum
       p = p > 1 ? p - 1 : this.pageTotalNum
@@ -264,6 +277,7 @@ export default {
           page,
           pagesize,
           article_id: this.article_data,
+          user_id: this.$store.state.userInfo.id
         },
       }).then((res) => {
         this.pinglun_data = res.data.data;

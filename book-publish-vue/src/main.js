@@ -17,6 +17,7 @@ import 'summernote'
 import 'summernote/dist/summernote.css'
 import 'summernote/lang/summernote-zh-CN'
 import './assets/css/icon/iconfont.css'
+import './assets/css/PassageAction/iconfont.css'
 router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title

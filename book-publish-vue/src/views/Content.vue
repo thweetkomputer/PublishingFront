@@ -62,7 +62,6 @@
         <div class="body dewb">
           <el-button
               @click.stop="prePage"
-
               style="margin:10px"
           >上一页
           </el-button>
@@ -77,7 +76,7 @@
       <el-col :xs="24" :lg="8" v-if="this.$store.state.userInfo!==null">
         <div class="body dewb like-btn">
           <el-row>
-            <el-col :span="12">
+            <el-col :span="8">
               <i
                   v-if="user_article_info.like"
                   class="iconfont icon-dianzan"
@@ -86,7 +85,7 @@
               ></i>
               <i @click="toLike()" v-else class="iconfont icon-dianzan"></i>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="8">
               <i
                   v-if="user_article_info.favor"
                   class="iconfont icon-collection-b"
@@ -98,6 +97,26 @@
                   v-else
                   class="iconfont icon-shoucang"
               ></i>
+            </el-col>
+            <el-col :span="8">
+              <el-popover
+                  placement="top"
+                  width="160"
+                  v-model="visible">
+                <p>这是一段内容这是一段内容确定删除吗？</p>
+                <el-input v-model="reportMessage" placeholder="请输入举报的内容"></el-input>
+                <div style="text-align: right; margin: 0">
+                  <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+                  <el-button type="primary" size="mini" @click="notFavor()" >确定</el-button>
+                </div>
+                <i
+                    v-if="user_article_info.report"
+                    class="iconfont icon-jubao"
+                    style="color:#e6e1e8"
+
+                    slot="reference"
+                ></i>
+              </el-popover>
             </el-col>
           </el-row>
         </div>
@@ -163,7 +182,8 @@ export default {
       description:'',
       user_article_info: {
         "like": false,
-        "favor": false
+        "favor": false,
+        "report":false
       },
       //评论
       new_pinglun: "",
@@ -179,6 +199,8 @@ export default {
       // 加载进度
       loadedRatio: 0,
       curPageNum: 0,
+      reportMessage:'',
+      visible: false
     };
   },
   components: {
@@ -251,7 +273,7 @@ export default {
         data: Qs.stringify({
           // token: this.$store.getters.isnotUserlogin,
           article_id: this.article_data,
-          user_id:this.$store.state.userInfo.id,
+          user_id:JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
         this.user_article_info.like=res.data.data;
@@ -264,7 +286,7 @@ export default {
         data: Qs.stringify({
           // token: this.$store.getters.isnotUserlogin,
           article_id: this.article_data,
-          user_id:this.$store.state.userInfo.id,
+          user_id:JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
         this.user_article_info.like=res.data.data;
@@ -277,7 +299,7 @@ export default {
         method: "post",
         data: Qs.stringify({
           article_id: this.article_data,
-          user_id:this.$store.state.userInfo.id,
+          user_id:JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
         this.user_article_info.favor=res.data.data;
@@ -289,10 +311,23 @@ export default {
         method: "post",
         data: Qs.stringify({
           article_id: this.article_data,
-          user_id:this.$store.state.userInfo.id,
+          user_id:JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
         this.user_article_info.favor=res.data.data;
+      });
+    },
+    toreport(){
+      axios({
+        url: "",
+        method: "post",
+        data: Qs.stringify({
+          article_id: this.article_data,
+          user_id:JSON.parse(this.$store.state.userInfo).id,
+
+        }),
+      }).then((res) => {
+
       });
     },
     //获取文章评论

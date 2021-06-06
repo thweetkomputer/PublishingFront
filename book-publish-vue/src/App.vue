@@ -20,7 +20,7 @@
             登录
           </MenuItem>
           <MenuItem name="7" to="/vip" style="float: right">
-            <Icon type="ios-paper"/>
+            <span class="iconfont">&#xe7a3;</span>
             会员中心
           </MenuItem>
           <MenuItem name="3" v-if="this.$store.state.userInfo!==null" style="float: right" to="/message">

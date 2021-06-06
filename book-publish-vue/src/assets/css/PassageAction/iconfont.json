@@ -1,0 +1,30 @@
+{
+  "id": "2595495",
+  "name": "nmsl",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7532874",
+      "name": "评论",
+      "font_class": "pinglun",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "9568052",
+      "name": "举报",
+      "font_class": "jubao",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "20000498",
+      "name": "点赞",
+      "font_class": "dianzan",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    }
+  ]
+}

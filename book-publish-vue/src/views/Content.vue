@@ -110,9 +110,9 @@
               :key="index"
               class="body dewb pinglun-item"
           >
-            {{ item.nickName }} 说：
+            {{ item.content.slice(0, item.content.indexOf(' ')) }} 说：
             <el-divider></el-divider>
-            {{ item.text }}
+            {{ item.content.slice(item.content.indexOf(' ')) }}
           </div>
         </div>
         <div class="dewb" style="margin-top:10px">
@@ -268,18 +268,18 @@ export default {
     },
 
     //获取文章评论
-    getAllPinglun(page, pagesize) {
+    getAllPinglun(page, pageSize) {
       axios({
-        url: "/",
+        url: "/getComment",
         method: "get",
         params: {
           page,
-          pagesize,
-          article_id: this.article_id,
+          pageSize,
+          article_id: this.article_data,
         },
       }).then((res) => {
-        this.pinglun_data = res.data.data;
-        this.ping_total = res.data.data.total;
+        this.pinglun_data = res.data.data.comment_list;
+        this.ping_total = res.data.data.total_num;
         if(this.ping_total%10!==0){
           this.ping_num=this.ping_total/10+1;
         }
@@ -297,7 +297,7 @@ export default {
         return;
       }
       axios({
-        url: "",
+        url: "/",
         method: "post",
         data: Qs.stringify({
           article_id: this.article_id,

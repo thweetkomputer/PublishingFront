@@ -15,12 +15,22 @@
         <ul class="userInfoBox" style="margin-left: 260px">
           <el-form class="avatarlist" ref="form"  label-width="80px">
             <el-form-item class="leftTitle" label="头像" style="margin-top:40px" ></el-form-item>
-            <el-upload  class="avatar-uploader" action="Userinfo/UploadImg" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-              <img v-if="imageURL!==null" :src="imageURL"/>
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            <el-upload
+                :limit="1"
+                class="upload-demo"
+                ref="upload"
+                action
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :file-list="fileList"
+                :auto-upload="false"
+                :http-request="UploadSubmit"
+            >
+              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
             </el-upload>
-            <img :src="imageURL" />
-
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="ruleForm.dialogImageUrl" alt />
+            </el-dialog>
             <el-form-item class="username" label="用户名">
                 <el-input v-model="username" placeholder="用户名"></el-input>
             </el-form-item>
@@ -39,7 +49,7 @@
             </el-form-item>
           </el-form>
           <div class="saveInfobtn" >
-              <el-button class="tcolors-bg" type="primary" round @click="saveInfoFun" style="margin-left: -280px;">保存</el-button>
+              <el-button class="tcolors-bg" type="primary" round @click="submitUpload" style="margin-left: -280px;">保存</el-button>
               <el-button @click="saveInfoFun" round>取消</el-button>
         </div>
         </ul>
@@ -55,56 +65,62 @@ export default {
   name: 'UserInfo',
   data () { //选项 / 数据
     return {
-      imageURL:null,
       username:'',
       email:'',
       gender:'1',
       inputContent:'',
+      uploadDisabled: false,
+      logoId: "1", //专区logo id
+      dialogVisible: false,
+      fileList: [],
+      ruleForm: {
+        dialogImageUrl: "1", //专区logo 上传到后台之后，后台会返回一个id,只需要给后台传id,但是点击编辑的时候后台返回的是http地址
+      },
     }
   },
   methods: { //事件处理器
-     handleAvatarSuccess (res,file) {//上传头像
-      // console.log('用户头像',res.image_name,file);
-      // console.log(URL.createObjectURL(file.raw));
-      this.imageURL=URL.createObjectURL(file.raw)
-       console.log(11111)
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
     },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      // if (!isLt2M) {
-      //   this.$message.error('上传头像图片大小不能超过 2MB!');
-      // }
-      return isJPG;
+    handlePreview(file) {
+      console.log(file);
     },
-    saveInfoFun: function () {//保存编辑的用户信息
-      var that = this;
-      var id=this.$store.state.userInfo.id;
-      if (!that.username) { //昵称为必填
-        that.$message.error('昵称为必填项，请填写昵称');
-        return;
-      }
-      that.state = Number(that.state);
-      axios({
+    submitUpload() {
+      this.$refs.upload.submit();
+    },
+    UploadSubmit(param) {//保存编辑的用户信息
+      var file = param.file;
+      var file_form = new FormData(); //获取上传表单（文件）
+      file_form.append("userInfo",this.$store.state.userInfo)
+      file_form.append("username",this.username);
+      file_form.append("gender",this.gender);
+      file_form.append("description",this.inputContent);
+      file_form.append("email",this.email);
+      file_form.append("image", file);
+      console.log(file_form.get('userInfo'))
+      console.log(file_form.get('username'))
+      console.log(file_form.get('gender'))
+      console.log(file_form.get('description'))
+      console.log(file_form.get('email'))
+      console.log(file_form.get('image'))
+      this.$axios({
         url: "",
-        method: "get",
-        params: {
-          id,
-          imageURL:that.imageURL,
-          name:that.name,
-          email:that.email,
-          gender:that.gender,
-          description:that.inputContent,
+        method: "POST",
+        headers: {
+          token: localStorage.getItem("token"),
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
         },
-      }).then((res) => {
-        that.$message.success('保存成功！');
-        that.isEdit = false;
-        that.routeChange();
-      });
+        data: file_form,
+      })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+
     },
     routeChange: function () {//展示页面信息
       var that = this;
@@ -112,14 +128,6 @@ export default {
       if (localStorage.getItem('userInfo')) {
         that.userInfo = JSON.parse(localStorage.getItem('userInfo'));
         that.userId = that.userInfo.userId;
-        // getUserInfo(that.userId, function (msg) {
-        //   // console.log('用户中心',msg.data);
-        //   that.userInfoObj = msg.data;
-        //   that.userInfoObj.head_start = 0;
-        //   that.userInfoObj.logo_start = 0;
-        //   that.state = msg.data.state == 1 ? true : false;
-        // })
-        // console.log(that.userInfo);
       } else {
         that.haslogin = false;
       }

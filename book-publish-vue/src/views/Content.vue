@@ -168,9 +168,10 @@ export default {
         "favor": false
       },
       //评论
-      new_pinglun: "1231",
-      ping_total: 100,
-      pinglun_pageSize: 4,
+      new_pinglun: "",
+      ping_total: 10,
+      ping_num:0,
+      pinglun_pageSize: 10,
       pinglun_data: [],
       // pdfUrl: ""
       pdfUrl: this.$axios.defaults.baseURL + '/download?filename=' + query.id,
@@ -279,13 +280,14 @@ export default {
       }).then((res) => {
         this.pinglun_data = res.data.data;
         this.ping_total = res.data.data.total;
-        if(this.total_num%10!==0){
-          this.total=this.total_num/10+1;
+        if(this.ping_total%10!==0){
+          this.ping_num=this.ping_total/10+1;
         }
         else{
-          this.total=this.total_num/10;
+          this.ping_num=this.ping_total/10;
         }
-        console.log(this.total)
+        console.log(this.ping_num);
+        console.log(this.article_data);
       });
     },
     //发表评论
@@ -294,7 +296,6 @@ export default {
         alert("内容为空");
         return;
       }
-
       axios({
         url: "",
         method: "post",
@@ -304,17 +305,7 @@ export default {
         }),
       }).then((res) => {
         // console.log(res.data)
-        if (res.data === "nologin") {
-          alert("尚未登录");
-          return;
-        }
-        if (res.data === "noperm") {
-          alert("权限不足");
-          return;
-        }
-        if (res.data === "ok") {
-          this.getAllPinglun(1, this.pinglun_pageSize);
-        }
+        this.getAllPinglun(1, this.pinglun_pageSize);
       });
     },
     // 评论翻页

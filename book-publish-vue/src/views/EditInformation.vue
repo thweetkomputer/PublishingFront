@@ -15,13 +15,14 @@
         <ul class="userInfoBox" style="margin-left: 260px">
           <el-form class="avatarlist" ref="form"  label-width="80px">
             <el-form-item class="leftTitle" label="头像" style="margin-top:40px" ></el-form-item>
-              <el-upload class="avatar-uploader" action="Userinfo/UploadImg" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                <img v-if="userInfoObj.avatar" :src="imageURL"/>
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
+            <el-upload  class="avatar-uploader" action="Userinfo/UploadImg" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+              <img v-if="imageURL!==null" :src="imageURL"/>
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <img :src="imageURL" />
 
             <el-form-item class="username" label="用户名">
-                <el-input v-model="name" placeholder="用户名"></el-input>
+                <el-input v-model="username" placeholder="用户名"></el-input>
             </el-form-item>
 
             <el-form-item label="电子邮件">
@@ -29,8 +30,8 @@
             </el-form-item>
             <el-form-item label="性别">
                   <template>
-                    <el-radio class="radio" v-model="sex" label="0" :value="sex">男</el-radio>
-                    <el-radio class="radio" v-model="sex" label="1" :value="sex">女</el-radio>
+                    <el-radio class="radio" v-model="gender" label="1" :value="gender">男</el-radio>
+                    <el-radio class="radio" v-model="gender" label="0" :value="gender">女</el-radio>
                   </template>
             </el-form-item>
             <el-form-item label="简介" class="Introduction">
@@ -54,10 +55,10 @@ export default {
   name: 'UserInfo',
   data () { //选项 / 数据
     return {
-      imageURL:'',
-      name:'',
+      imageURL:null,
+      username:'',
       email:'',
-      sex:'0',
+      gender:'1',
       inputContent:'',
     }
   },
@@ -66,27 +67,28 @@ export default {
       // console.log('用户头像',res.image_name,file);
       // console.log(URL.createObjectURL(file.raw));
       this.imageURL=URL.createObjectURL(file.raw)
+       console.log(11111)
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
 
-      // if (!isJPG) {
-      //   this.$message.error('上传头像图片只能是 JPG 格式!');
-      // }
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
       // if (!isLt2M) {
       //   this.$message.error('上传头像图片大小不能超过 2MB!');
       // }
-      return isJPG && isLt2M;
+      return isJPG;
     },
     saveInfoFun: function () {//保存编辑的用户信息
       var that = this;
       var id=this.$store.state.userInfo.id;
-      if (!that.userInfoObj.username) { //昵称为必填
+      if (!that.username) { //昵称为必填
         that.$message.error('昵称为必填项，请填写昵称');
         return;
       }
-      that.userInfoObj.state = Number(that.state);
+      that.state = Number(that.state);
       axios({
         url: "",
         method: "get",
@@ -95,7 +97,7 @@ export default {
           imageURL:that.imageURL,
           name:that.name,
           email:that.email,
-          sex:that.sex,
+          gender:that.gender,
           description:that.inputContent,
         },
       }).then((res) => {
@@ -108,7 +110,6 @@ export default {
       var that = this;
       // console.log(this.$router,this.$route);
       if (localStorage.getItem('userInfo')) {
-        that.haslogin = true;
         that.userInfo = JSON.parse(localStorage.getItem('userInfo'));
         that.userId = that.userInfo.userId;
         // getUserInfo(that.userId, function (msg) {

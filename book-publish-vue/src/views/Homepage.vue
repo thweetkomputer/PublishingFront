@@ -10,11 +10,16 @@
       </div>
 
       <div class="block" style="margin-top:50px;margin-left:200px">
-          <el-avatar :size="100" :src="userInfo.avatar"></el-avatar>
-          <div style="margin-top: -100px;margin-left:130px">{{ userInfo.name }}</div>
+          <el-avatar :size="100" :src="JSON.parse(this.$store.state.userInfo).avatar"></el-avatar>
+          <div style="margin-top: -100px;margin-left:130px">{{ JSON.parse(this.$store.state.userInfo).username }}</div>
           <div style="margin-left:120px">
-            <el-input placeholder="您还不是会员" style="width:120px;height:20px;font-size:8px"></el-input>
-            <el-button type="danger" round @click="$router.push('/vip')">开通会员</el-button>
+            <div v-if="JSON.parse(this.$store.state.userInfo).isVip===0">
+              <span  style="width:120px;height:20px;font-size:8px"> 您还不是会员</span>
+              <el-button type="danger" round @click="$router.push('/vip')" >开通会员</el-button>
+            </div>
+            <div v-else>
+              <el-button type="info" round @click="$router.push('/vip')">查看会员信息</el-button>
+            </div>
           </div>
       </div>
 
@@ -27,11 +32,11 @@
         </div>
         <div style="margin-left:10px">
           <span/>用户名 
-          <span style="margin-left:40px">{{ userInfo.username }}</span>
+          <span style="margin-left:40px">{{ JSON.parse(this.$store.state.userInfo).username }}</span>
         </div>
         <div style="margin-top:10px;margin-left:15px">
           <span/>性别
-            <svg class="icon" aria-hidden="true" style="margin-left:60px;" v-if="userInfo.gender==='man'">
+            <svg class="icon" aria-hidden="true" style="margin-left:60px;" v-if="JSON.parse(this.$store.state.userInfo).gender===1">
               <use xlink:href="#icon-xingbienan"></use>
             </svg>
           <svg class="icon" aria-hidden="true" style="margin-left:60px;" v-else>
@@ -40,17 +45,20 @@
         </div>
          <div class="id" style="margin-top:10px;margin-left:15px">
           <span/>身份 
-           <span style="margin-left:60px">{{userInfo.identity}}</span>
+           <span style="margin-left:60px">
+             <span v-if="JSON.parse(this.$store.state.userInfo).identity===1">作者</span>
+             <span v-if="JSON.parse(this.$store.state.userInfo).identity===2">审稿人</span>
+             <span v-if="JSON.parse(this.$store.state.userInfo).identity===3">编辑</span>
+           </span>
         </div>
 
-        <div class="email" style="margin-top:10px">
-            <span/>{{ userInfo.email }}
-            <span style="margin-left:10px"/>xxx@qq.com
+        <div class="email" style="margin-top:10px;margin-left:15px">
+            <span/>邮箱
+            <span style="margin-left:10px"/>{{JSON.parse(this.$store.state.userInfo).email}}
         </div>
-        
         <div>
             <span>个人简介</span>
-          <div class="introduce" style="margin-left:10px;width:200px;"> {{userInfo.description}}</div>
+          <div class="introduce" style="margin-left:10px;width:200px;"> {{JSON.parse(this.$store.state.userInfo).description}}</div>
         </div>
       </el-card>
     </div>

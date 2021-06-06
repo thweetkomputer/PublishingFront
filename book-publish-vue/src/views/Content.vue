@@ -108,6 +108,7 @@
               class="body dewb pinglun-item"
           >
             {{ item.content.slice(0, item.content.indexOf(' ')) }} 说：
+            <span style="float: right; color: #8c939d">{{ item.createdTime.replace('T', ' ') }}</span>
             <el-divider></el-divider>
             {{ item.content.slice(item.content.indexOf(' ')) }}
           </div>
@@ -198,7 +199,7 @@ export default {
         url: "/",
         method: "get",
         params: {
-          user_id:this.$store.state.userInfo.id,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
           article_id: this.article_data,
         },
       }).then((res) => {
@@ -309,7 +310,7 @@ export default {
         data: Qs.stringify({
           article_id: this.article_data,
           text: this.new_pinglun,
-          user_id:JSON.parse(this.$store.state.userInfo).id
+          user_id: JSON.parse(this.$store.state.userInfo).id
         }),
       }).then((res) => {
         this.getAllPinglun(1, this.pinglun_pageSize);

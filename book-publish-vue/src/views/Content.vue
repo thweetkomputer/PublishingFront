@@ -82,7 +82,7 @@
                   v-if="user_article_info.like"
                   class="iconfont icon-dianzan"
                   style="color:#fc5959"
-                  @click="toLike()"
+                  @click="notLike()"
               ></i>
               <i @click="toLike()" v-else class="iconfont icon-dianzan"></i>
             </el-col>
@@ -91,7 +91,7 @@
                   v-if="user_article_info.favor"
                   class="iconfont icon-collection-b"
                   style="color:#e6e1e8"
-                  @click="toFavor()"
+                  @click="notFavor()"
               ></i>
               <i
                   @click="toFavor()"
@@ -254,6 +254,20 @@ export default {
           user_id:this.$store.state.userInfo.id,
         }),
       }).then((res) => {
+        this.user_article_info.like=res.data.data;
+      });
+    },
+    notLike(){
+      axios({
+        url: "",
+        method: "post",
+        data: Qs.stringify({
+          // token: this.$store.getters.isnotUserlogin,
+          article_id: this.article_data,
+          user_id:this.$store.state.userInfo.id,
+        }),
+      }).then((res) => {
+        this.user_article_info.like=res.data.data;
       });
     },
     //收藏
@@ -266,10 +280,21 @@ export default {
           user_id:this.$store.state.userInfo.id,
         }),
       }).then((res) => {
-        // console.log(res.data)
+        this.user_article_info.favor=res.data.data;
       });
     },
-
+    notFavor(){
+      axios({
+        url: "",
+        method: "post",
+        data: Qs.stringify({
+          article_id: this.article_data,
+          user_id:this.$store.state.userInfo.id,
+        }),
+      }).then((res) => {
+        this.user_article_info.favor=res.data.data;
+      });
+    },
     //获取文章评论
     getAllPinglun(page, pageSize) {
       axios({

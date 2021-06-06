@@ -20,7 +20,7 @@
                   <div style="display: flex; margin-top: 20px; height: 100px;" v-if="item.id===ReaderId">
                     <transition name="el-fade-in-linear">
                       <el-checkbox-group v-model="checkedLabel" @change="handleCheckedCitiesChange">
-                        <el-checkbox v-for="label in LabelList" :label="label.id">{{label.name}}</el-checkbox>
+                        <el-checkbox v-for="(label, index) in LabelList" :label="label.id" :key="index">{{label.name}}</el-checkbox>
                       </el-checkbox-group>
                     </transition>
                   </div>

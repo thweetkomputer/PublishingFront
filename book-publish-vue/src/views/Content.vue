@@ -269,7 +269,7 @@ export default {
     //获取文章评论
     getAllPinglun(page, pagesize) {
       axios({
-        url: "",
+        url: "/",
         method: "get",
         params: {
           page,
@@ -277,9 +277,15 @@ export default {
           article_id: this.article_id,
         },
       }).then((res) => {
-        // console.log(res.data)
         this.pinglun_data = res.data.data;
-        this.ping_total = res.data.total;
+        this.ping_total = res.data.data.total;
+        if(this.total_num%10!==0){
+          this.total=this.total_num/10+1;
+        }
+        else{
+          this.total=this.total_num/10;
+        }
+        console.log(this.total)
       });
     },
     //发表评论
@@ -288,6 +294,7 @@ export default {
         alert("内容为空");
         return;
       }
+
       axios({
         url: "",
         method: "post",

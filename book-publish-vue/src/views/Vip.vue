@@ -1,9 +1,12 @@
 <template>
-  <el-carousel :interval="4000" height="200px" style="position: absolute;width:290px;border-radius: .25rem;margin-top:1px">
-    <el-carousel-item v-for="item in imagebox" :key="item.id">
-      <img :src="item.idView" class="image">
-    </el-carousel-item>
-  </el-carousel>
+  <div>
+    <div >
+      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>会员中心</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -20,7 +23,6 @@ export default{
   }
 }
 </script>
-
 <style>
 .el-carousel__item h3 {
   color: #475669;

@@ -10,8 +10,8 @@
       </div>
 
       <div class="block" style="margin-top:50px;margin-left:200px">
-          <el-avatar :size="100" :src="userInfo.avatar"></el-avatar>
-          <div style="margin-top: -100px;margin-left:130px">{{ userInfo.name }}</div>
+          <el-avatar :size="100" :src="null"></el-avatar>
+          <div style="margin-top: -100px;margin-left:130px">{{ 1 }}</div>
           <div style="margin-left:120px">
             <el-input placeholder="您还不是会员" style="width:120px;height:20px;font-size:8px"></el-input>
             <el-button type="danger" round @click="$router.push('/vip')">开通会员</el-button>
@@ -27,11 +27,11 @@
         </div>
         <div style="margin-left:10px">
           <span/>用户名 
-          <span style="margin-left:40px">{{ userInfo.username }}</span>
+          <span style="margin-left:40px">{{ 2 }}</span>
         </div>
         <div style="margin-top:10px;margin-left:15px">
           <span/>性别
-            <svg class="icon" aria-hidden="true" style="margin-left:60px;" v-if="userInfo.gender==='man'">
+            <svg class="icon" aria-hidden="true" style="margin-left:60px;" v-if="true">
               <use xlink:href="#icon-xingbienan"></use>
             </svg>
           <svg class="icon" aria-hidden="true" style="margin-left:60px;" v-else>
@@ -40,17 +40,17 @@
         </div>
          <div class="id" style="margin-top:10px;margin-left:15px">
           <span/>身份 
-           <span style="margin-left:60px">{{userInfo.identity}}</span>
+           <span style="margin-left:60px">{{3}}</span>
         </div>
 
         <div class="email" style="margin-top:10px">
-            <span/>{{ userInfo.email }}
+            <span/>{{ 4 }}
             <span style="margin-left:10px"/>xxx@qq.com
         </div>
         
         <div>
             <span>个人简介</span>
-          <div class="introduce" style="margin-left:10px;width:200px;"> {{userInfo.description}}</div>
+          <div class="introduce" style="margin-left:10px;width:200px;"> {{5}}</div>
         </div>
       </el-card>
     </div>

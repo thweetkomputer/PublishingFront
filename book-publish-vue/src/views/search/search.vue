@@ -1,5 +1,11 @@
 <template>
     <div id="search" >
+      <div >
+        <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>搜索</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
         <el-input class="SearchInput" v-model="input"/>
         <el-button icon="el-icon-search" circle style="margin-left: -300px;"></el-button>
 

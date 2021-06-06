@@ -107,11 +107,7 @@
               :key="index"
               class="body dewb pinglun-item"
           >
-<<<<<<< HEAD
-            {{ item.username }} 说：
-=======
             {{ item.content.slice(0, item.content.indexOf(' ')) }} 说：
->>>>>>> 8c3ddfba95d15c881005a3d8a25fd768474dc68f
             <el-divider></el-divider>
             {{ item.content.slice(item.content.indexOf(' ')) }}
           </div>

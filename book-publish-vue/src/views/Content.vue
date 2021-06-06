@@ -151,6 +151,7 @@ import axios from "axios";
 import Qs from "qs";
 import BreadMenu from "../components/BreadMenu";
 import pdf from 'vue-pdf'
+import Element from "element-ui";
 
 export default {
   data() {
@@ -275,9 +276,8 @@ export default {
         method: "get",
         params: {
           page,
-          pagesize,
+          pageSize,
           article_id: this.article_data,
-          user_id: this.$store.state.userInfo.id
         },
       }).then((res) => {
         this.pinglun_data = res.data.data.comment_list;
@@ -295,19 +295,25 @@ export default {
     //发表评论
     saveNewPinglun() {
       if (this.new_pinglun.length === 0) {
-        alert("内容为空");
+        Element.Message({
+          showClose: true,
+          message: "评论内容不能为空~",
+          type: 'error',
+          duration: 2000
+        })
         return;
       }
       axios({
-        url: "/",
+        url: "/addComment",
         method: "post",
         data: Qs.stringify({
           article_id: this.article_data,
           text: this.new_pinglun,
-          user_id:this.$store.state.userInfo.id
+          user_id:JSON.parse(this.$store.state.userInfo).id
         }),
       }).then((res) => {
         this.getAllPinglun(1, this.pinglun_pageSize);
+        this.new_pinglun = null
       });
     },
     // 评论翻页

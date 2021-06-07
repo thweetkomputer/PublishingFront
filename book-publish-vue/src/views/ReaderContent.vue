@@ -7,7 +7,7 @@
 
     <!-- 文章内容 -->
     <el-row :gutter="10">
-      <el-col :xs="24" :lg="16">
+      <el-col :xs="24" :lg="24">
         <div class="body dewb">
           <div class="header">
             {{ article_title }}
@@ -65,24 +65,22 @@
               style="margin:10px"
           >上一页
           </el-button>
-<!--          <el-button-->
-<!--              @click="downFile()"-->
-<!--              style="margin:10px"-->
-<!--          >下载-->
-<!--          </el-button>-->
           <el-button
               type="i"
               @click.stop="nextPage"
               style="margin:10px"
           >下一页
           </el-button>
-          <div>
-            <span>添加审稿人</span>
-            <el-transfer v-model="value" :data="data"></el-transfer>
-            <el-button type="success" @click="submit(article_id)">
-              确定
-            </el-button>
-          </div>
+        </div>
+        <div>
+          <span></span>
+          <el-transfer v-model="value" :data="data"></el-transfer>
+          <el-button type="success" @click="">
+            审阅成功
+          </el-button>
+          <el-button type="info">
+            审阅失败
+          </el-button>
         </div>
       </el-col>
     </el-row>
@@ -110,6 +108,7 @@ export default {
     const query = this.$route.query;
     console.log(query.id)
     return {
+      article_id:query.id,
       ReaderList: generateData(),
       value: [],
       article_data: this.$route.query.id,

@@ -65,27 +65,26 @@
               style="margin:10px"
           >上一页
           </el-button>
-<!--          <el-button-->
-<!--              @click="downFile()"-->
-<!--              style="margin:10px"-->
-<!--          >下载-->
-<!--          </el-button>-->
+          <el-button
+              @click="downFile()"
+              style="margin:10px"
+          >下载
+          </el-button>
           <el-button
               type="i"
               @click.stop="nextPage"
               style="margin:10px"
           >下一页
           </el-button>
-          <div>
-            <span>添加审稿人</span>
-            <el-transfer v-model="value" :data="data"></el-transfer>
-            <el-button type="success" @click="submit(article_id)">
-              确定
-            </el-button>
-          </div>
         </div>
       </el-col>
+
     </el-row>
+    <span>添加审稿人</span>
+    <el-transfer v-model="value" :data="data"></el-transfer>
+    <el-button type="success" @click="submit(article_id)">
+      确定
+    </el-button>
   </div>
 </template>
 
@@ -98,19 +97,10 @@ import Element from "element-ui";
 
 export default {
   data() {
-    const generateData = _ => {
-      axios({
-        url: "",
-        method: "get",
-      }).then((res) => {
-        this.ReaderList = res.data.data;
-      });
-      return data;
-    };
     const query = this.$route.query;
     console.log(query.id)
     return {
-      ReaderList: generateData(),
+      ReaderList: [],
       value: [],
       article_data: this.$route.query.id,
       article_title: '',

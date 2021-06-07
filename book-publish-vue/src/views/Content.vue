@@ -343,18 +343,11 @@ export default {
       }).then((res) => {
         this.pinglun_data = res.data.data.comment_list;
         this.ping_num = res.data.data.total_num;
-<<<<<<< HEAD
-        if(this.ping_num%10!==0){
-          this.ping_total=this.ping_num/10+1;
-        }
-        else{
-          this.ping_total=this.ping_num/10;
-=======
+
         if (this.ping_num % 10 !== 0) {
           this.ping_total = this.ping_num / 10 + 1;
         } else {
           this.ping_total = this.ping_num / 10;
->>>>>>> 5d6544460be8ec67892bd8117927c28b96e40642
         }
         console.log(this.ping_total + "??")
         console.log(this.ping_num);

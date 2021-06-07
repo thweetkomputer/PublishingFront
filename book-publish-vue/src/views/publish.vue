@@ -10,7 +10,7 @@
     <div style="margin-top:10px">
       <el-row>
         <el-col v-for="item in article_list" :key="item.id" :span="18">
-          <div class="card dewb">
+          <div class="card dewb" @click="toArticle(item.title)">
             <el-row>
               <el-col :xs="24" :lg="24">
                 <div>{{ item.title }}</div>
@@ -48,7 +48,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 10,
-      article_list: [{title:"1",id:"2"},{title: "2",id:"3"}],
+      article_list: [],
       total_num:0,
     };
   },
@@ -56,6 +56,9 @@ export default {
     this.getListData(this.currentPage);
   },
   methods: {
+    toArticle(id){
+      this.$router.push({path:'/content',query:{id:id}})
+    },
     publish(id){
       axios({
         url: "",

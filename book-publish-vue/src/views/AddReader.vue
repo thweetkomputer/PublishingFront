@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     toArticle(id){
-      this.$router.push({path:'/addreader',query:{id:id}})
+      this.$router.push({path:'/readercontent',query:{id:id}})
     },
     getReaderData() {
       axios({

@@ -93,9 +93,18 @@ export default {
     };
   },
   mounted() {
-    this.getMessageData(this.currentPage);
+    this.getListData(this.currentPage);
+    this.getReaderData();
   },
   methods: {
+    getReaderData() {
+      axios({
+        url: "",
+        method: "get",
+      }).then((res) => {
+        this.LabelList = res.data.data;
+      });
+    },
     handleClose(done) {
       this.$confirm('确认关闭？')
           .then(_ => {
@@ -132,7 +141,7 @@ export default {
       });
       this.ReaderId='';
       this.ResetReaderId();
-      this.getMessageData(this.currentPage);
+      this.getListData(this.currentPage);
     },
     setReaderId(id){
       this.ReaderId=id;
@@ -144,7 +153,7 @@ export default {
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.LabelList.length;
     },
     //跳转内容页
-    getMessageData(page) {
+    getListData(page) {
       axios({
         url: "",
         method: "get",

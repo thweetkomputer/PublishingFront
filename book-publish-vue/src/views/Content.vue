@@ -2,7 +2,7 @@
   <div>
     <!-- 面包屑导航 -->
     <BreadMenu
-        :page_name="article_data"
+        :page_name="article_title"
     ></BreadMenu>
 
     <!-- 文章内容 -->
@@ -10,7 +10,7 @@
       <el-col :xs="24" :lg="16">
         <div class="body dewb">
           <div class="header">
-            {{ article_data }}
+            {{ article_title }}
           </div>
         </div>
         <div class="body dewb">
@@ -163,6 +163,7 @@ export default {
     console.log(query.id)
     return {
       article_data: this.$route.query.id,
+      article_title: '',
       description: '',
       user_article_info: {
         "like": false,
@@ -197,7 +198,6 @@ export default {
   mounted() {
     this.getArticleDescription(this.article_data);
     this.getAllPinglun(1, this.pinglun_pageSize);
-    this.getUserToArtcile();
   },
   methods: {
     open() {
@@ -402,6 +402,7 @@ export default {
         // console.log(res.data)
         // this.getUserArticleInfo();
         this.description = res.data.data.description;
+        this.article_title=res.data.data.title;
       });
     },
   },

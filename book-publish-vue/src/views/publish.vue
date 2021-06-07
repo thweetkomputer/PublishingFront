@@ -10,7 +10,7 @@
     <div style="margin-top:10px">
       <el-row>
         <el-col v-for="item in article_list" :key="item.id" :span="18">
-          <div class="card dewb" @click="toArticle(item.title)">
+          <div class="card dewb" @click="toArticle(item.id)">
             <el-row>
               <el-col :xs="24" :lg="24">
                 <div>{{ item.title }}</div>

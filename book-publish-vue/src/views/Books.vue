@@ -5,7 +5,7 @@
       <div class="article" style="color: #00000060;width: 60%;float: left">
         <el-row>
           <el-col v-for="item in article_list" :key="item.id" :span="24" style="margin-bottom: 3px;">
-            <div class="card dewb" style="height: 120px" @click="toArticle(item.title)">
+            <div class="card dewb" style="height: 120px" @click="toArticle(item.id)">
               <el-row >
                 <el-col :xs="24" :lg="18" >
                   <div>{{ item.title }}</div>

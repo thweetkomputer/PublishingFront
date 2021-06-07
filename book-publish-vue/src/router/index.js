@@ -270,6 +270,11 @@ const routes = [{
         path:'/checkarticle',
         name:'checkarticle',
         component: ()=>import('../views/CheckArticle')
+    },
+    {
+        path:'/readercontent',
+        name:'readercontent',
+        component: ()=>import('../views/ReaderContent')
     }
 
 ]

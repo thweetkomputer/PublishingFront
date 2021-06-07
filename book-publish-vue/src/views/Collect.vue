@@ -20,10 +20,9 @@
                   <el-button
                       @click="deleteArticle(item.id)"
                       type="success"
-                      icon="el-icon-delete"
                       circle
                       style="margin: 10px"
-                  ></el-button>
+                  >取消收藏</el-button>
                 </div>
               </el-col>
             </el-row>
@@ -79,14 +78,8 @@ export default {
         },
       }).then((res) => {
         this.article_list = res.data.data.article_list;
-        this.total_num=res.data.data.total_num;
-        if(this.total_num%10!==0){
-          this.total=this.total_num/10+1;
-        }
-        else{
-          this.total=this.total_num/10;
-        }
-        console.log(this.total)
+        this.total=res.data.data.total_num;
+
       });
     },
     currentChange(val) {
@@ -108,7 +101,8 @@ export default {
               url: "",
               method: "get",
               data: Qs.stringify({
-                id,
+                article_id:id,
+                user_id:JSON.parse(this.$store.state.userInfo).id
               }),
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -124,7 +118,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 #article-list .dweb {
   padding: 10px 10px;

@@ -62,24 +62,14 @@ export default {
     publish(id){
       axios({
         url: "",
-        method: "get",
+        method: "post",
         params: {
-          id,
-          page:this.currentPage,
-          pageSize: this.pageSize,
-          ReaderId:this.checkedLabel
+          article_id:id,
         },
       }).then((res) => {
-        this.article_list = res.data.data.article_list;
-        this.total_num=res.data.data.total_num;
-        if(this.total_num%10!==0){
-          this.total=this.total_num/10+1;
-        }
-        else{
-          this.total=this.total_num/10;
-        }
-        console.log(this.total)
+        this.getListData(this.currentPage)
       });
+
     },
     //跳转内容页
     getListData(page) {

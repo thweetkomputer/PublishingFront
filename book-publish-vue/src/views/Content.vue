@@ -66,6 +66,11 @@
           >上一页
           </el-button>
           <el-button
+              @click="downFile()"
+              style="margin:10px"
+          >下载
+          </el-button>
+          <el-button
               type="i"
               @click.stop="nextPage"
               style="margin:10px"
@@ -200,6 +205,11 @@ export default {
     this.getAllPinglun(1, this.pinglun_pageSize);
   },
   methods: {
+    downFile () {
+      let a = document.createElement('a')
+      a.href = this.pdfUrl // 这里的请求方式为get，如果需要认证，接口上需要带上token
+      a.click()
+    },
     open() {
       this.$prompt('请输入举报理由', '举报', {
         confirmButtonText: '确定',

@@ -99,24 +99,12 @@
               ></i>
             </el-col>
             <el-col :span="8">
-              <el-popover
-                  placement="top"
-                  width="160"
-                  v-model="visible">
-                <p>这是一段内容这是一段内容确定删除吗？</p>
-                <el-input v-model="reportMessage" placeholder="请输入举报的内容"></el-input>
-                <div style="text-align: right; margin: 0">
-                  <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-                  <el-button type="primary" size="mini" @click="notFavor()" >确定</el-button>
-                </div>
-                <i
-                    v-if="user_article_info.report"
+                <span
+                    v-if="!user_article_info.report"
                     class="iconfont icon-jubao"
                     style="color:#e6e1e8"
-
-                    slot="reference"
-                ></i>
-              </el-popover>
+                    @click="open"
+                ></span>
             </el-col>
           </el-row>
         </div>
@@ -216,6 +204,22 @@ export default {
     this.getUserToArtcile();
   },
   methods: {
+    open() {
+      this.$prompt('请输入举报理由', '举报', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        //inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+        //inputErrorMessage: '邮箱格式不正确'
+      }).then(({ value }) => {
+        this.reportMessage='你的举报内容是: ' + value;
+        this.toReport();
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消举报'
+        });
+      });
+    },
     getUserToArtcile(){
       axios({
         url: "/",
@@ -317,14 +321,14 @@ export default {
         this.user_article_info.favor=res.data.data;
       });
     },
-    toreport(){
+    toReport(){
       axios({
         url: "",
         method: "post",
         data: Qs.stringify({
           article_id: this.article_data,
           user_id:JSON.parse(this.$store.state.userInfo).id,
-
+          reportMessage:this.reportMessage,
         }),
       }).then((res) => {
 

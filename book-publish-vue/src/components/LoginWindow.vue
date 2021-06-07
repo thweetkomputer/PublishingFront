@@ -269,6 +269,8 @@ export default {
       })
     },
     submitFormLogin(formName) {
+      this.ruleFormLogin.username = this.ruleFormLogin.username.trim()
+      this.ruleFormLogin.password = this.ruleFormLogin.password.trim()
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // alert('submit!');
@@ -301,6 +303,11 @@ export default {
       });
     },
     submitFormSignup(formName) {
+      this.ruleFormSignup.username = this.ruleFormSignup.username.trim()
+      this.ruleFormSignup.checkCode = this.ruleFormSignup.checkCode.trim()
+      this.ruleFormSignup.pass = this.ruleFormSignup.pass.trim()
+      this.ruleFormSignup.checkPass = this.ruleFormSignup.checkPass.trim()
+      this.ruleFormSignup.email = this.ruleFormSignup.email.trim()
       console.log('signup')
       this.$refs[formName].validate((valid) => {
         if (valid) {

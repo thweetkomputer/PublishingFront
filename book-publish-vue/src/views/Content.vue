@@ -15,7 +15,7 @@
         </div>
         <div class="body dewb">
           <div class="dewb">
-            {{ article_data.description }}
+            {{ description }}
           </div>
         </div>
         <div>

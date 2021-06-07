@@ -23,7 +23,7 @@
                       width="30%"
                       :before-close="handleClose">
                     <el-checkbox-group v-model="checkedLabel" @change="handleCheckedCitiesChange">
-                      <el-checkbox v-for="(label, index) in LabelList" :label="label.id" :key="index">{{label.name}}</el-checkbox>
+                      <el-checkbox v-for="(label, index) in LabelList" :label="label.id" :key="index">{{label.username}}</el-checkbox>
                     </el-checkbox-group>
                     <span slot="footer" class="dialog-footer">
                     <el-button @click="ResetReaderId">取 消</el-button>
@@ -49,7 +49,7 @@
       <el-pagination
           background
           layout="prev, pager, next"
-          :total="total"
+          :total="total_num"
           :page-size="pageSize"
           @current-change="currentChange"
       >
@@ -99,8 +99,8 @@ export default {
   methods: {
     getReaderData() {
       axios({
-        url: "",
-        method: "get",
+        url: "/getReviewer",
+        method: "post",
       }).then((res) => {
         this.LabelList = res.data.data;
       });
@@ -155,16 +155,15 @@ export default {
     //跳转内容页
     getListData(page) {
       axios({
-        url: "",
+        url: "/getPassageUnreviewed",
         method: "get",
         params: {
           page,
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.article_list = res.data.data;
+        this.article_list = res.data.data.article_list;
         this.total_num=res.data.data.total_num;
-        this.LabelList=res.data.data.ReaderId;   //这个是不对的，必须和后端保持一致，这个只是初步设计
         if(this.total_num%10!==0){
           this.total=this.total_num/10+1;
         }

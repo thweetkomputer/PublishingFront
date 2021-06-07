@@ -61,7 +61,7 @@ export default {
     },
     publish(id){
       axios({
-        url: "",
+        url: "/publishPassage",
         method: "post",
         params: {
           article_id:id,

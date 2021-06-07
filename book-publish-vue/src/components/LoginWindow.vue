@@ -253,9 +253,6 @@ export default {
         const userInfo = res.data.data
         console.log(userInfo)
 
-        // Share the data
-        this.$store.commit('SET_TOKEN', jwt)
-        this.$store.commit('SET_USERINFO', userInfo)
 
         console.log(this.$store.getters.getUser)
         // this.$message({

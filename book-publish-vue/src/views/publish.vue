@@ -10,15 +10,15 @@
     <div style="margin-top:10px">
       <el-row>
         <el-col v-for="item in article_list" :key="item.id" :span="18">
-          <div class="card dewb" @click="toArticle(item.id)">
+          <div class="card dewb" >
             <el-row>
-              <el-col :xs="24" :lg="24">
+              <el-col :xs="24" :lg="24" @click="toArticle(item.id)">
                 <div>{{ item.title }}</div>
                 <div> {{ item.description }} </div>
-                <div style="margin: 10px">
-                  <el-button type="text" @click="publish(item.id)">发布文章</el-button>
-                </div>
               </el-col>
+              <div style="margin: 10px">
+                <el-button type="text" @click="publish(item.id)">发布文章</el-button>
+              </div>
             </el-row>
           </div>
         </el-col>
@@ -48,7 +48,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 10,
-      article_list: [],
+      article_list: [{}],
       total_num:0,
     };
   },

@@ -26,7 +26,7 @@
       <el-pagination
           background
           layout="prev, pager, next"
-          :total="total"
+          :total="total_num"
           :page-size="pageSize"
           @current-change="currentChange"
       >
@@ -73,8 +73,14 @@ export default {
     this.getListData(this.currentPage);
   },
   methods: {
-    toArticle(id){
-      this.$router.push({path:'/readercontent',query:{id:id}})
+
+    getReaderData() {
+      axios({
+        url: "/getReviewer",
+        method: "post",
+      }).then((res) => {
+        this.LabelList = res.data.data;
+      });
     },
 
     handleClose(done) {
@@ -91,16 +97,15 @@ export default {
     //跳转内容页
     getListData(page) {
       axios({
-        url: "",
+        url: "/getPassageUnreviewed",
         method: "get",
         params: {
           page,
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.article_list = res.data.data;
+        this.article_list = res.data.data.article_list;
         this.total_num=res.data.data.total_num;
-        this.LabelList=res.data.data.ReaderId;   //这个是不对的，必须和后端保持一致，这个只是初步设计
         if(this.total_num%10!==0){
           this.total=this.total_num/10+1;
         }

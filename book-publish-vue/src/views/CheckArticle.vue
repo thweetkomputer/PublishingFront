@@ -30,7 +30,7 @@
       <el-pagination
           background
           layout="prev, pager, next"
-          :total="total"
+          :total="total_num"
           :page-size="pageSize"
           @current-change="currentChange"
       >
@@ -48,13 +48,13 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 10,
-      article_list: [{title:"1",id:"2"},{title: "2",id:"3"}],
+      article_list: [],
       total_num:0,
       dialogVisible: false
     };
   },
   mounted() {
-    this.getMessageData(this.currentPage);
+    this.getListData(this.currentPage);
   },
   methods: {
     open(id) {
@@ -128,18 +128,18 @@ export default {
       });
     },
     //跳转内容页
-    getMessageData(page) {
+    getListData(page) {
       axios({
-        url: "",
+        url: "/getPassageDistributedUnreviewed",
         method: "get",
         params: {
           page,
           pageSize: this.pageSize,
+          reviewer_id: JSON.parse(this.$store.state.userInfo).id
         },
       }).then((res) => {
-        this.article_list = res.data.data;
+        this.article_list = res.data.data.article_list;
         this.total_num=res.data.data.total_num;
-        this.LabelList=res.data.data.ReaderId;   //这个是不对的，我要获得所有的审稿人信息。
         if(this.total_num%10!==0){
           this.total=this.total_num/10+1;
         }

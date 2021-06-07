@@ -4,19 +4,19 @@
     <div >
       <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>未审阅文章</el-breadcrumb-item>
+        <el-breadcrumb-item>已审阅文章</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div style="margin-top:10px;">
       <el-row>
         <el-col v-for="item in article_list" :key="item.id" :span="18">
-          <div class="card dewb">
+          <div class="card dewb" @click="toArticle(item.title)" >
             <el-row>
               <el-col :xs="24" :lg="24">
                 <div>{{ item.title }}</div>
                 <div> {{ item.description }} </div>
                 <div style="margin: 10px">
-                  <el-button @click="CheckedArticle(item.id)" >删除</el-button>
+                  <el-button @click="DelCheckedArticle(item.id)">删除</el-button>
                 </div>
               </el-col>
             </el-row>
@@ -52,12 +52,14 @@ export default {
     };
   },
   mounted() {
-    this.getMessageData(this.currentPage);
+    this.getListData(this.currentPage);
   },
   methods: {
-    CheckedArticle(id){
+    toArticle(id){
+      this.$router.push({path:'/content',query:{id:id}})
+    },
+    DelCheckedArticle(id){
       axios({
-
         url: "",
         method: "get",
         params: {
@@ -66,19 +68,12 @@ export default {
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.article_list = res.data.data;
-        this.total_num=res.data.data.total_num;
-        if(this.total_num%10!==0){
-          this.total=this.total_num/10+1;
-        }
-        else{
-          this.total=this.total_num/10;
-        }
+        this.getListData(this.currentPage);
         console.log(this.total)
       });
     },
     //跳转内容页
-    getMessageData(page) {
+    getListData(page) {
       axios({
         url: "",
         method: "get",

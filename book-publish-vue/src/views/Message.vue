@@ -84,7 +84,7 @@ export default {
     currentChange(val) {
       console.log("第" + val + "页");
       this.currentPage = val;
-      this.getListData(val);
+      this.getMessageData(val);
     },
   },
 };

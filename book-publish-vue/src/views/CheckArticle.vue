@@ -7,16 +7,17 @@
         <el-breadcrumb-item>未审阅文章</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div  style="margin-top:10px">
+    <div style="margin-top:10px;">
       <el-row>
-        <el-col v-for="item in article_list" :key="item.id" :span="19">
+        <el-col v-for="item in article_list" :key="item.id" :span="18">
           <div class="card dewb">
             <el-row>
               <el-col :xs="24" :lg="24">
                 <div>{{ item.title }}</div>
                 <div> {{ item.description }} </div>
                 <div style="margin: 10px">
-                  <el-button @click="CheckedArticle(item.id)" >完成审阅</el-button>
+                  <el-button @click="CheckedArticle(item.id)" >审阅通过</el-button>
+                  <el-button  @click="open(item.id)">审阅不通过</el-button>
                 </div>
               </el-col>
             </el-row>
@@ -47,14 +48,41 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 10,
-      article_list: [{title:"1",id:"2",description:'3'},{title: "2",id:"3",description:'3'}],
+      article_list: [{title:"1",id:"2"},{title: "2",id:"3"}],
       total_num:0,
+      dialogVisible: false
     };
   },
   mounted() {
-    this.getArticleData(this.currentPage);
+    this.getMessageData(this.currentPage);
   },
   methods: {
+    open(id) {
+      this.$prompt('请输入文章问题', '审阅失败原因', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        // inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+        // inputErrorMessage: '邮箱格式不正确'
+      }).then(({ value }) => {
+        this.$message({
+          type: 'success',
+          message:"操作成功"
+        });
+        this.UnCheckedArticle(id,value);
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消'
+        });
+      });
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+    },
     CheckedArticle(id){
       axios({
         url: "",
@@ -63,6 +91,29 @@ export default {
           id,
           page:this.currentPage,
           pageSize: this.pageSize,
+          successMessage:"审阅成功"
+        },
+      }).then((res) => {
+        this.article_list = res.data.data;
+        this.total_num=res.data.data.total_num;
+        if(this.total_num%10!==0){
+          this.total=this.total_num/10+1;
+        }
+        else{
+          this.total=this.total_num/10;
+        }
+        console.log(this.total)
+      });
+    },
+    UnCheckedArticle(id,value){
+      axios({
+        url: "",
+        method: "get",
+        params: {
+          id,
+          page:this.currentPage,
+          pageSize: this.pageSize,
+          failMessage:"文章审阅失败，"+"原因是"+value,
         },
       }).then((res) => {
         this.article_list = res.data.data;
@@ -77,7 +128,7 @@ export default {
       });
     },
     //跳转内容页
-    getArticleData(page) {
+    getMessageData(page) {
       axios({
         url: "",
         method: "get",
@@ -117,4 +168,4 @@ export default {
   align-items: center;
   justify-content: center;
 }
-</style>
+</style>s

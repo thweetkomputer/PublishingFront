@@ -76,9 +76,20 @@
       </el-col>
 
     </el-row>
-    <span>添加审稿人</span>
-    <el-transfer v-model="value" :data="data"></el-transfer>
-    <el-button type="success" @click="submit(article_id)">
+
+    <span>添加第一个审稿人</span>
+    <select v-model="firstValue">
+      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum}}</option>
+    </select>
+    <span>添加第二个审稿人</span>
+    <select v-model="secondValue">
+      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum}}</option>
+    </select>
+    <span>添加第三个审稿人</span>
+    <select v-model="thirdValue">
+      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum}}</option>
+    </select>
+    <el-button type="success" @click="submit(article_data)">
       确定
     </el-button>
   </div>
@@ -86,29 +97,18 @@
 
 <script>
 import axios from "axios";
-import Qs from "qs";
 import BreadMenu from "../components/BreadMenu";
 import pdf from 'vue-pdf'
-import Element from "element-ui";
 
 export default {
   data() {
-    const generateData = _ => {
-      const data = [];
-      for (let i = 0; i < this.ReaderList.length; i++) {
-        data.push({
-          key: i,
-          label: `备选项 ${ this.ReaderList[i] }`,
-        });
-      }
-      return data;
-    };
     const query = this.$route.query;
     console.log(query.id)
     return {
       ReaderList: [],
-      data:generateData(),
-      value: [],
+      firstValue: '',
+      secondValue:'',
+      thirdValue:'',
       article_data: this.$route.query.id,
       article_title: '',
       description: '',

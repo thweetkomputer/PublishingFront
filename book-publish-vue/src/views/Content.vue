@@ -10,7 +10,7 @@
       <el-col :xs="24" :lg="16">
         <div class="body dewb">
           <div class="header">
-            {{ article_data}}
+            {{ article_data }}
           </div>
         </div>
         <div class="body dewb">
@@ -126,7 +126,7 @@
               small
               :pager-count="5"
               layout="prev, pager, next"
-              :total="ping_total"
+              :total="ping_num"
               :page-size="pinglun_pageSize"
               @current-change="pinglunCurrentChange"
           >
@@ -167,16 +167,16 @@ export default {
     console.log(query.id)
     return {
       article_data: this.$route.query.id,
-      description:'',
+      description: '',
       user_article_info: {
         "like": false,
         "favor": false,
-        "report":false
+        "report": false
       },
       //评论
       new_pinglun: "",
       ping_total: 10,
-      ping_num:0,
+      ping_num: 0,
       pinglun_pageSize: 10,
       pinglun_data: [],
       // pdfUrl: ""
@@ -187,7 +187,7 @@ export default {
       // 加载进度
       loadedRatio: 0,
       curPageNum: 0,
-      reportMessage:'',
+      reportMessage: '',
       visible: false
     };
   },
@@ -210,8 +210,8 @@ export default {
         cancelButtonText: '取消',
         //inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
         //inputErrorMessage: '邮箱格式不正确'
-      }).then(({ value }) => {
-        this.reportMessage= value;
+      }).then(({value}) => {
+        this.reportMessage = value;
         this.toReport();
       }).catch(() => {
         this.$message({
@@ -220,7 +220,7 @@ export default {
         });
       });
     },
-    getUserToArtcile(){
+    getUserToArtcile() {
       axios({
         url: "/getUserToArticle",
         method: "get",
@@ -229,8 +229,8 @@ export default {
           article_id: this.article_data,
         },
       }).then((res) => {
-        this.user_article_info.favor=res.data.data.favor;
-        this.user_article_info.like=res.data.data.like;
+        this.user_article_info.favor = res.data.data.favor;
+        this.user_article_info.like = res.data.data.like;
         console.log(this.ping_num);
         console.log(this.article_data);
       });
@@ -277,23 +277,23 @@ export default {
         data: Qs.stringify({
           // token: this.$store.getters.isnotUserlogin,
           article_id: this.article_data,
-          user_id:JSON.parse(this.$store.state.userInfo).id,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
-        this.user_article_info.like=res.data.data.like;
+        this.user_article_info.like = res.data.data.like;
       });
     },
-    notLike(){
+    notLike() {
       axios({
         url: "/cancelLikeArticle",
         method: "post",
         data: Qs.stringify({
           // token: this.$store.getters.isnotUserlogin,
           article_id: this.article_data,
-          user_id:JSON.parse(this.$store.state.userInfo).id,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
-        this.user_article_info.like=res.data.data.like;
+        this.user_article_info.like = res.data.data.like;
       });
     },
     //收藏
@@ -303,32 +303,32 @@ export default {
         method: "post",
         data: Qs.stringify({
           article_id: this.article_data,
-          user_id:JSON.parse(this.$store.state.userInfo).id,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
-        this.user_article_info.favor=res.data.data.favor;
+        this.user_article_info.favor = res.data.data.favor;
       });
     },
-    notFavor(){
+    notFavor() {
       axios({
         url: "/cancelFavorArticle",
         method: "post",
         data: Qs.stringify({
           article_id: this.article_data,
-          user_id:JSON.parse(this.$store.state.userInfo).id,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
-        this.user_article_info.favor=res.data.data.favor;
+        this.user_article_info.favor = res.data.data.favor;
       });
     },
-    toReport(){
+    toReport() {
       axios({
         url: "/submitComplaint",
         method: "post",
         data: Qs.stringify({
           article_id: this.article_data,
-          user_id:JSON.parse(this.$store.state.userInfo).id,
-          report_message:this.reportMessage,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
+          report_message: this.reportMessage,
         }),
       }).then((res) => {
 
@@ -346,13 +346,13 @@ export default {
         },
       }).then((res) => {
         this.pinglun_data = res.data.data.comment_list;
-        this.ping_total = res.data.data.total_num;
-        if(this.ping_total%10!==0){
-          this.ping_num=this.ping_total/10+1;
+        this.ping_num = res.data.data.total_num;
+        if (this.ping_num % 10 !== 0) {
+          this.ping_total = this.ping_num / 10 + 1;
+        } else {
+          this.ping_total = this.ping_num / 10;
         }
-        else{
-          this.ping_num=this.ping_total/10;
-        }
+        console.log(this.ping_total + "??")
         console.log(this.ping_num);
         console.log(this.article_data);
       });
@@ -448,7 +448,7 @@ export default {
   height: 1% !important;
 }
 
-.linkAnnotation > a:hover{
+.linkAnnotation > a:hover {
   color: #20a0ff;
 }
 </style>

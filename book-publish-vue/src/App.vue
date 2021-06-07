@@ -19,18 +19,18 @@
             <Icon type="ios-construct"/>
             登录
           </MenuItem>
-          <MenuItem name="7" to="/vip" style="float: right">
-            <span class="iconfont">&#xe7a3;</span>
-            会员中心
+          <MenuItem name="7" v-if="this.$store.state.userInfo===null" style="float: right" @click.native="login">
+            <Icon type="ios-construct"/>
+            消息中心
           </MenuItem>
           <MenuItem name="3" v-if="this.$store.state.userInfo!==null" style="float: right" to="/message">
             <Icon type="ios-construct"/>
             消息中心
           </MenuItem>
-          <MenuItem name="6" style="float: right" to="/search">
+          <MenuItem name="6" style="float: right" >
             <Input v-model="value4" icon="ios-search" placeholder="请输入..."
                    style="width:200px;margin-right: 10px"></Input>
-            搜索
+            <span @click="tosearch">搜索</span>
           </MenuItem>
           <MenuItem name="1" v-if="this.$store.state.userInfo===null" @click="console.log(this.$store.state.is_login)">
             图标
@@ -135,7 +135,17 @@ export default {
       this.$store.commit('WANT_LOGIN')
     },
     tosearch() {
-      this.$router.push({name: 'search'})
+      if(this.value4==''){
+        this.$alert('搜索内容不能为空','', {
+          confirmButtonText: '确定',
+          callback: action => {
+          }
+        });
+      }
+      else{
+        this.$router.push({name: 'search',query:{searchContent:this.value4}});
+        this.value4='';
+      }
     }
     ,
     toLogin() {

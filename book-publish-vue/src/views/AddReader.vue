@@ -16,16 +16,27 @@
                 <div>{{ item.title }}</div>
                 <div> {{ item.description }} </div>
                 <div style="margin: 10px">
-                  <el-button @click="setReaderId(item.id)" >添加审稿人</el-button>
-                  <div style="display: flex; margin-top: 20px; height: 100px;" v-if="item.id===ReaderId">
-                    <transition name="el-fade-in-linear">
-                      <el-checkbox-group v-model="checkedLabel" @change="handleCheckedCitiesChange">
-                        <el-checkbox v-for="(label, index) in LabelList" :label="label.id" :key="index">{{label.name}}</el-checkbox>
-                      </el-checkbox-group>
-                    </transition>
-                  </div>
-                  <el-button @click="submit(item.id)" type="primary" v-if="item.id===ReaderId">确定</el-button>
-                  <el-button @click="ResetReaderId" type="primary" v-if="item.id===ReaderId">取消添加</el-button>
+                  <el-button @click="setReaderId(item.id)">添加审稿人</el-button>
+                  <el-dialog
+                      title="请选择审稿人"
+                      :visible.sync="dialogVisible"
+                      width="30%"
+                      :before-close="handleClose">
+                    <el-checkbox-group v-model="checkedLabel" @change="handleCheckedCitiesChange">
+                      <el-checkbox v-for="(label, index) in LabelList" :label="label.id" :key="index">{{label.name}}</el-checkbox>
+                    </el-checkbox-group>
+                    <span slot="footer" class="dialog-footer">
+                    <el-button @click="ResetReaderId">取 消</el-button>
+                    <el-button type="primary" @click="submit(item.id)">确 定</el-button>
+                    </span>
+                  </el-dialog>
+<!--                  <div style="display: flex; margin-top: 20px; height: 100px;" v-if="item.id===ReaderId">-->
+<!--                    <transition name="el-fade-in-linear">-->
+
+<!--                    </transition>-->
+<!--                  </div>-->
+<!--                  <el-button @click="submit(item.id)" type="primary" v-if="item.id===ReaderId">确定</el-button>-->
+<!--                  <el-button @click="ResetReaderId" type="primary" v-if="item.id===ReaderId">取消添加</el-button>-->
                 </div>
               </el-col>
             </el-row>
@@ -60,6 +71,7 @@ export default {
       article_list: [{title:"1",id:"2"},{title: "2",id:"3"}],
       total_num:0,
       checkedLabel: [],
+      dialogVisible: false,
       ReaderId:'',
       LabelList:[{
         id:'1',
@@ -84,10 +96,18 @@ export default {
     this.getMessageData(this.currentPage);
   },
   methods: {
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+    },
     ResetReaderId(){
       this.ReaderId='';
       console.log(this.checkedLabel)
       this.checkedLabel=[];
+      this.dialogVisible = false;
     },
     submit(id){
       axios({
@@ -111,9 +131,13 @@ export default {
         console.log(this.total)
       });
       this.ReaderId='';
+      this.ResetReaderId();
+      this.getMessageData(this.currentPage);
     },
     setReaderId(id){
       this.ReaderId=id;
+
+      this.dialogVisible = true
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
@@ -140,7 +164,6 @@ export default {
         }
         console.log(this.total)
       });
-
     },
     currentChange(val) {
       console.log("第" + val + "页");

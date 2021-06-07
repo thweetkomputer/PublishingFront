@@ -93,10 +93,21 @@ import Element from "element-ui";
 
 export default {
   data() {
+    const generateData = _ => {
+      const data = [];
+      for (let i = 0; i < this.ReaderList.length; i++) {
+        data.push({
+          key: i,
+          label: `备选项 ${ this.ReaderList[i] }`,
+        });
+      }
+      return data;
+    };
     const query = this.$route.query;
     console.log(query.id)
     return {
       ReaderList: [],
+      data:generateData(),
       value: [],
       article_data: this.$route.query.id,
       article_title: '',

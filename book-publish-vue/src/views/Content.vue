@@ -88,8 +88,8 @@
             <el-col :span="8">
               <i
                   v-if="user_article_info.favor"
-                  class="iconfont icon-collection-b"
-                  style="color:#e6e1e8"
+                  class="iconfont icon-shoucang"
+                  style="color:#fc5959"
                   @click="notFavor()"
               ></i>
               <i
@@ -211,7 +211,7 @@ export default {
         //inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
         //inputErrorMessage: '邮箱格式不正确'
       }).then(({ value }) => {
-        this.reportMessage='你的举报内容是: ' + value;
+        this.reportMessage= value;
         this.toReport();
       }).catch(() => {
         this.$message({
@@ -222,7 +222,7 @@ export default {
     },
     getUserToArtcile(){
       axios({
-        url: "/",
+        url: "/getUserToArticle",
         method: "get",
         params: {
           user_id: JSON.parse(this.$store.state.userInfo).id,
@@ -272,7 +272,7 @@ export default {
     //点赞
     toLike() {
       axios({
-        url: "",
+        url: "/likeArticle",
         method: "post",
         data: Qs.stringify({
           // token: this.$store.getters.isnotUserlogin,
@@ -280,12 +280,12 @@ export default {
           user_id:JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
-        this.user_article_info.like=res.data.data;
+        this.user_article_info.like=res.data.data.like;
       });
     },
     notLike(){
       axios({
-        url: "",
+        url: "/cancelLikeArticle",
         method: "post",
         data: Qs.stringify({
           // token: this.$store.getters.isnotUserlogin,
@@ -293,42 +293,42 @@ export default {
           user_id:JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
-        this.user_article_info.like=res.data.data;
+        this.user_article_info.like=res.data.data.like;
       });
     },
     //收藏
     toFavor() {
       axios({
-        url: "",
+        url: "/favorArticle",
         method: "post",
         data: Qs.stringify({
           article_id: this.article_data,
           user_id:JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
-        this.user_article_info.favor=res.data.data;
+        this.user_article_info.favor=res.data.data.favor;
       });
     },
     notFavor(){
       axios({
-        url: "",
+        url: "/cancelFavorArticle",
         method: "post",
         data: Qs.stringify({
           article_id: this.article_data,
           user_id:JSON.parse(this.$store.state.userInfo).id,
         }),
       }).then((res) => {
-        this.user_article_info.favor=res.data.data;
+        this.user_article_info.favor=res.data.data.favor;
       });
     },
     toReport(){
       axios({
-        url: "",
+        url: "/submitComplaint",
         method: "post",
         data: Qs.stringify({
           article_id: this.article_data,
           user_id:JSON.parse(this.$store.state.userInfo).id,
-          reportMessage:this.reportMessage,
+          report_message:this.reportMessage,
         }),
       }).then((res) => {
 

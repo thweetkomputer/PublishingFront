@@ -132,36 +132,35 @@ export default {
   },
   mounted() {
     this.getArticleDescription(this.article_data);
+    this.getReaderList();
   },
   methods: {
-    submit(id){
-      if(this.value.length!==3){
+    submit(id) {
+      if (this.value.length !== 3) {
         alert('审稿人人数必须为3')
-      }
-      else{
+      } else {
         axios({
           url: "",
           method: "get",
           params: {
             article_title: id,
-            ReaderList:this.value
+            ReaderList: this.value
           },
         }).then((res) => {
-          this.$router.push({path:'/addreader'});
+          this.$router.push({path: '/addreader'});
         });
       }
     },
     getReaderList() {
       axios({
-        url: "",
-        method: "get",
-        params: {
-        },
+        url: "/getReviewer",
+        method: "post",
+        params: {},
       }).then((res) => {
-        this.ReaderList=res.data.data;
+        this.value = res.data.data;
       });
     },
-    downFile () {
+    downFile() {
       let a = document.createElement('a')
       a.href = this.pdfUrl // 这里的请求方式为get，如果需要认证，接口上需要带上token
       a.click()
@@ -212,7 +211,7 @@ export default {
         // console.log(res.data)
         // this.getUserArticleInfo();
         this.description = res.data.data.description;
-        this.article_title=res.data.data.title;
+        this.article_title = res.data.data.title;
       });
     },
   },

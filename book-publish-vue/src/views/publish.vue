@@ -67,7 +67,7 @@ export default {
           ReaderId:this.checkedLabel
         },
       }).then((res) => {
-        this.article_list = res.data.data;
+        this.article_list = res.data.data.article_list;
         this.total_num=res.data.data.total_num;
         if(this.total_num%10!==0){
           this.total=this.total_num/10+1;
@@ -81,14 +81,14 @@ export default {
     //跳转内容页
     getListData(page) {
       axios({
-        url: "",
+        url: "/getPassageReviewedUnpublished",
         method: "get",
         params: {
           page,
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.article_list = res.data.data;
+        this.article_list = res.data.data.article_list;
         this.total_num=res.data.data.total_num;
         this.LabelList=res.data.data.ReaderId;   //这个是不对的，我要获得所有的审稿人信息。
         if(this.total_num%10!==0){

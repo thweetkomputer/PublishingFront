@@ -93,7 +93,7 @@ export default {
 
         //imagebox是assets下一个放图片的文件夹
       ],
-      article_list:{title:'1',description:"2",desc:"3",incare1: "1",f1:1,f2:2,f3:4,f4:'5',f6:'6',f7:'7'},
+      article_list:{},
       currentPage: 1,
       pageSize: 10,
       total: 10,

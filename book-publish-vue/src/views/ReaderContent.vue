@@ -7,7 +7,7 @@
 
     <!-- 文章内容 -->
     <el-row :gutter="10">
-      <el-col :xs="24" :lg="24">
+      <el-col :xs="24" :lg="16">
         <div class="body dewb">
           <div class="header">
             {{ article_title }}
@@ -65,19 +65,24 @@
               style="margin:10px"
           >上一页
           </el-button>
+<!--          <el-button-->
+<!--              @click="downFile()"-->
+<!--              style="margin:10px"-->
+<!--          >下载-->
+<!--          </el-button>-->
           <el-button
               type="i"
               @click.stop="nextPage"
               style="margin:10px"
           >下一页
           </el-button>
-        </div>
-        <div>
-          <span>添加审稿人</span>
-          <el-transfer v-model="value" :data="data"></el-transfer>
-          <el-button type="success" @click="submit(article_id)">
-            确定
-          </el-button>
+          <div>
+            <span>添加审稿人</span>
+            <el-transfer v-model="value" :data="data"></el-transfer>
+            <el-button type="success" @click="submit(article_id)">
+              确定
+            </el-button>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -105,7 +110,6 @@ export default {
     const query = this.$route.query;
     console.log(query.id)
     return {
-      article_id:query.id,
       ReaderList: generateData(),
       value: [],
       article_data: this.$route.query.id,
@@ -139,22 +143,47 @@ export default {
     pdf
   },
   created() {
+
   },
   mounted() {
     this.getArticleDescription(this.article_data);
     this.getAllPinglun(1, this.pinglun_pageSize);
   },
   methods: {
-    submit(id){
+    downFile () {
+      let a = document.createElement('a')
+      a.href = this.pdfUrl // 这里的请求方式为get，如果需要认证，接口上需要带上token
+      a.click()
+    },
+    open() {
+      this.$prompt('请输入举报理由', '举报', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        //inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+        //inputErrorMessage: '邮箱格式不正确'
+      }).then(({value}) => {
+        this.reportMessage = value;
+        this.toReport();
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消举报'
+        });
+      });
+    },
+    getUserToArtcile() {
       axios({
-        url: "",
+        url: "/getUserToArticle",
         method: "get",
         params: {
-          article_id:id,
-          ReaderList:this.value
+          user_id: JSON.parse(this.$store.state.userInfo).id,
+          article_id: this.article_data,
         },
       }).then((res) => {
-        this.$router.push({path:'/addreader'});
+        this.user_article_info.favor = res.data.data.favor;
+        this.user_article_info.like = res.data.data.like;
+        console.log(this.ping_num);
+        console.log(this.article_data);
       });
     },
     prePage() {
@@ -191,6 +220,131 @@ export default {
     pdfPrint() {
       this.$refs.pdf.print(100, [1, 2])
     },
+    //点赞
+    toLike() {
+      axios({
+        url: "/likeArticle",
+        method: "post",
+        data: Qs.stringify({
+          // token: this.$store.getters.isnotUserlogin,
+          article_id: this.article_data,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
+        }),
+      }).then((res) => {
+        this.user_article_info.like = res.data.data.like;
+      });
+    },
+    notLike() {
+      axios({
+        url: "/cancelLikeArticle",
+        method: "post",
+        data: Qs.stringify({
+          // token: this.$store.getters.isnotUserlogin,
+          article_id: this.article_data,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
+        }),
+      }).then((res) => {
+        this.user_article_info.like = res.data.data.like;
+      });
+    },
+    //收藏
+    toFavor() {
+      axios({
+        url: "/favorArticle",
+        method: "post",
+        data: Qs.stringify({
+          article_id: this.article_data,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
+        }),
+      }).then((res) => {
+        this.user_article_info.favor = res.data.data.favor;
+      });
+    },
+    notFavor() {
+      axios({
+        url: "/cancelFavorArticle",
+        method: "post",
+        data: Qs.stringify({
+          article_id: this.article_data,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
+        }),
+      }).then((res) => {
+        this.user_article_info.favor = res.data.data.favor;
+      });
+    },
+    toReport() {
+      axios({
+        url: "/submitComplaint",
+        method: "post",
+        data: Qs.stringify({
+          article_id: this.article_data,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
+          report_message: this.reportMessage,
+        }),
+      }).then((res) => {
+
+      });
+    },
+    //获取文章评论
+    getAllPinglun(page, pageSize) {
+      axios({
+        url: "/getComment",
+        method: "get",
+        params: {
+          page,
+          pageSize,
+          article_id: this.article_data,
+        },
+      }).then((res) => {
+        this.pinglun_data = res.data.data.comment_list;
+        this.ping_num = res.data.data.total_num;
+
+        if (this.ping_num % 10 !== 0) {
+          this.ping_total = this.ping_num / 10 + 1;
+        } else {
+          this.ping_total = this.ping_num / 10;
+        }
+        console.log(this.ping_total + "??")
+        console.log(this.ping_num);
+        console.log(this.article_data);
+      });
+    },
+    //发表评论
+    saveNewPinglun() {
+      if (this.new_pinglun.length === 0) {
+        Element.Message({
+          showClose: true,
+          message: "评论内容不能为空~",
+          type: 'error',
+          duration: 2000
+        })
+        return;
+      }
+      axios({
+        url: "/addComment",
+        method: "post",
+        data: Qs.stringify({
+          article_id: this.article_data,
+          text: this.new_pinglun,
+          user_id: JSON.parse(this.$store.state.userInfo).id
+        }),
+      }).then((res) => {
+        this.getAllPinglun(1, this.pinglun_pageSize);
+        this.new_pinglun = null
+      });
+    },
+    // 评论翻页
+    pinglunCurrentChange(page) {
+      this.getAllPinglun(page, this.pinglun_pageSize);
+    },
+    //跳转文章 上下
+    // toOtherPage(id) {
+    //   if (id === 0) {
+    //     alert("没有了");
+    //     return;
+    //   }
+    //   this.$router.push({path: "/content", query: {id: id}});
+    // },
     getArticleDescription(id) {
       // console.log(id);
       axios({

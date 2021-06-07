@@ -73,7 +73,9 @@ export default {
     this.getListData(this.currentPage);
   },
   methods: {
-
+    toArticle(id){
+      this.$router.push({path:'/addreader',query:{id:id}})
+    },
     getReaderData() {
       axios({
         url: "/getReviewer",

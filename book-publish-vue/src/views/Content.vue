@@ -89,14 +89,10 @@
               <i
                   v-if="user_article_info.favor"
                   class="iconfont icon-collection-b"
-                  style="color:#e6e1e8"
+                  style="color:#fc5959"
                   @click="notFavor()"
               ></i>
-              <i
-                  @click="toFavor()"
-                  v-else
-                  class="iconfont icon-shoucang"
-              ></i>
+              <i @click="toFavor()" v-else class="iconfont icon-shoucang"></i>
             </el-col>
             <el-col :span="8">
                 <span
@@ -346,12 +342,12 @@ export default {
         },
       }).then((res) => {
         this.pinglun_data = res.data.data.comment_list;
-        this.ping_total = res.data.data.total_num;
-        if(this.ping_total%10!==0){
-          this.ping_num=this.ping_total/10+1;
+        this.ping_num = res.data.data.total_num;
+        if(this.ping_num%10!==0){
+          this.ping_total=this.ping_num/10+1;
         }
         else{
-          this.ping_num=this.ping_total/10;
+          this.ping_total=this.ping_num/10;
         }
         console.log(this.ping_num);
         console.log(this.article_data);

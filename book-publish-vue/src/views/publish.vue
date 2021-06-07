@@ -53,7 +53,7 @@ export default {
     };
   },
   mounted() {
-    this.getMessageData(this.currentPage);
+    this.getListData(this.currentPage);
   },
   methods: {
     publish(id){
@@ -79,7 +79,7 @@ export default {
       });
     },
     //跳转内容页
-    getMessageData(page) {
+    getListData(page) {
       axios({
         url: "",
         method: "get",

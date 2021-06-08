@@ -401,6 +401,9 @@ export default {
         //   duration: 2000
         // })
         // _this.$router.go(0)
+
+        this.activeName = 'signup'
+
       })
     },
     submitFormLogin(formName) {
@@ -474,7 +477,6 @@ export default {
             const userInfo = res.data.data
             console.log(userInfo)
             this.activeName = 'login'
-            this.wantChangePass = false
           })
         } else {
           console.log('error submit!!');

@@ -7,7 +7,7 @@
         </el-breadcrumb>
       </div>
         <el-input class="SearchInput" v-model="input"/>
-        <el-button icon="el-icon-search" circle style="margin-left: -300px;" @click="getSearchContent"></el-button>
+        <el-button icon="el-icon-search" circle style="margin-left: -300px;" @click="getSearchContent(1)"></el-button>
 
         <ul class="SearchLevel" style="margin-left: 300px;color:black">
         <span>搜索选项:</span>
@@ -38,6 +38,17 @@
           </el-col>
         </el-row>
       </div>
+      <!-- 分页器 -->
+      <div class="dweb" style="margin-top:10px">
+        <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="total"
+            :page-size="pageSize"
+            @current-change="currentChange"
+        >
+        </el-pagination>
+      </div>
     </div>
 </template>
 
@@ -61,69 +72,66 @@ export default {
     }
   },
   mounted() {
-    this.getSearchAticleName();
+    this.getSearchContent(1);
   },
   computed: {
-    isSearch() {
-      return this.isFocus;
-    }
   },
   methods:{
-    getSearchContent(){
-      if(this.label===1){
-        this.getSearchAticleName();
+    getSearchContent(val){
+      if(this.label==='1'){
+        this.getSearchAticleName(val);
       }
-      else if(this.label===2){
-        this.getSearchAticleTag();
+      else if(this.label==='2'){
+        this.getSearchAticleTag(val);
       }
-      else if(this.label===3){
-        this.getSearchAticleAuthor();
+      else if(this.label==='3'){
+        this.getSearchAticleAuthor(val);
       }
     },
-    getSearchAticleName(){
+    getSearchAticleName(val){
       console.log(this.input);
       axios({
         url: "/",
         method: "get",
         params: {
           input:this.input,
-          page:this.currentPage,
+          page:val,
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.article_list=res.data.data;
+        this.article_list=res.data.data.article_list;
         this.total=res.data.data.total_num;
         console.log(this.total)
       });
     },
-    getSearchAticleTag(){
+    getSearchAticleTag(val){
       console.log(this.input);
       axios({
         url: "/",
         method: "get",
         params: {
           input:this.input,
-          page:this.currentPage,
+          page:val,
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.article_list=res.data.data;
+        this.article_list=res.data.data.article_list;
         this.total=res.data.data.total_num;
         console.log(this.total)
       });
     },
-    getSearchAticleAuthor(){
+    getSearchAticleAuthor(val){
       console.log(this.input);
       axios({
         url: "/",
         method: "get",
         params: {
           input:this.input,
-          page:this.currentPage,
+          page:val,
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.article_list=res.data.data;
+        this.article_list=res.data.data.article_list;
         this.total=res.data.data.total_num;
         console.log(this.total)
       });
@@ -131,30 +139,10 @@ export default {
     toArticle(id){
       this.$router.push({path:'/content',query:{id:id}})
     },
-    getListData(page) {
-      axios({
-        url: "/newPassages",
-        method: "get",
-        params: {
-          page,
-          pageSize: this.pageSize,
-        },
-      }).then((res) => {
-        this.article_list = res.data.data.article_list;
-        this.total_num=res.data.data.total_num;
-        if(this.total_num%10!==0){
-          this.total=this.total_num/10+1;
-        }
-        else{
-          this.total=this.total_num/10;
-        }
-        console.log(this.total)
-      });
-    },
     currentChange(val) {
       console.log("第" + val + "页");
       this.currentPage = val;
-      this.getListData(val);
+      this.getSearchContent(val);
     },
   }
 }

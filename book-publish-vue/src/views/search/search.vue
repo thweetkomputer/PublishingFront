@@ -77,15 +77,14 @@ export default {
   computed: {
   },
   methods:{
-
     getSearchContent(val){
-      if(this.label==='1'){
+      if(this.ridio==='1'){
         this.getSearchAticleName(val);
       }
-      else if(this.label==='2'){
+      else if(this.ridio==='2'){
         this.getSearchAticleTag(val);
       }
-      else if(this.label==='3'){
+      else if(this.ridio==='3'){
         this.getSearchAticleAuthor(val);
       }
     },
@@ -93,7 +92,7 @@ export default {
       console.log(this.input);
       axios({
         url: "/searchByKeyword",
-        method: "get",
+        method: "post",
         params: {
           input:this.input,
           page:val,
@@ -109,7 +108,7 @@ export default {
       console.log(this.input);
       axios({
         url: "/searchByTag",
-        method: "get",
+        method: "post",
         params: {
           input:this.input,
           page:val,
@@ -125,7 +124,7 @@ export default {
       console.log(this.input);
       axios({
         url: "/searchByWriter",
-        method: "get",
+        method: "post",
         params: {
           input:this.input,
           page:val,

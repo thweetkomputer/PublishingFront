@@ -74,8 +74,11 @@
         </div>
       </el-col>
     </el-row>
-    <el-button type="success" @click="submit(article_data)">
-      发表
+    <el-button type="success" @click="CheckedArticle()">
+      审阅成功
+    </el-button>
+    <el-button type="success" @click="open">
+      审阅失败
     </el-button>
   </div>
 </template>
@@ -131,17 +134,52 @@ export default {
     this.getReaderList();
   },
   methods: {
+    open() {
+      this.$prompt('请输入文章问题', '反馈', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        // inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+        // inputErrorMessage: '邮箱格式不正确'
+      }).then(({ value }) => {
+        this.UnCheckedArticle(value);
+        this.$router.push({path:'/books'});
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        });
+      });
+    },
+    CheckedArticle(){
+      axios({
+        url: "",
+        method: "get",
+        params: {
+          article_id:this.article_data,},
+      }).then((res) => {
+      });
+    },
+    UnCheckedArticle(value){
+      axios({
+        url: "",
+        method: "get",
+        params: {
+          article_id: this.article_data,},
+      }).then((res) => {
+
+      });
+    },
     submit(id) {
 
-        axios({
-          url: "",
-          method: "get",
-          params: {
-            article_title: id,
-          },
-        }).then((res) => {
-          this.$router.push({path: '/books'});
-        });
+      axios({
+        url: "",
+        method: "get",
+        params: {
+          article_title: id,
+        },
+      }).then((res) => {
+        this.$router.push({path: '/books'});
+      });
     },
     getReaderList() {
       axios({

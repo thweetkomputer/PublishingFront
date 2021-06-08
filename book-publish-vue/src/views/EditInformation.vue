@@ -14,20 +14,8 @@
       </header>
         <ul class="userInfoBox" style="margin-left: 260px">
           <el-form class="avatarlist" ref="form"  label-width="80px">
-            <el-form-item class="leftTitle" label="头像" style="margin-top:40px" ></el-form-item>
-            <el-upload
-                :limit="1"
-                class="upload-demo"
-                ref="upload"
-                action
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :file-list="fileList"
-                :auto-upload="false"
-                :http-request="UploadSubmit"
-            >
-              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-            </el-upload>
+
+
             <el-dialog :visible.sync="dialogVisible">
               <img width="100%" :src="ruleForm.dialogImageUrl" alt />
             </el-dialog>
@@ -49,7 +37,7 @@
             </el-form-item>
           </el-form>
           <div class="saveInfobtn" >
-              <el-button class="tcolors-bg" type="primary" round @click="submitUpload" style="margin-left: -280px;">保存</el-button>
+              <el-button class="tcolors-bg" type="primary" round @click="UploadSubmit" style="margin-left: -280px;">保存</el-button>
               <el-button @click="saveInfoFun" round>取消</el-button>
         </div>
         </ul>
@@ -89,38 +77,21 @@ export default {
       this.$refs.upload.submit();
     },
     UploadSubmit(param) {//保存编辑的用户信息
-      var file = param.file;
-      var file_form = new FormData(); //获取上传表单（文件）
-      file_form.append("userInfo",this.$store.state.userInfo)
-      file_form.append("username",this.username);
-      file_form.append("gender",this.gender);
-      file_form.append("description",this.inputContent);
-      file_form.append("email",this.email);
-      file_form.append("image", file);
-      console.log(file_form.get('userInfo'))
-      console.log(file_form.get('username'))
-      console.log(file_form.get('gender'))
-      console.log(file_form.get('description'))
-      console.log(file_form.get('email'))
-      console.log(file_form.get('image'))
-      this.$axios({
-        url: "",
-        method: "POST",
-        headers: {
-          token: localStorage.getItem("token"),
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
+      axios({
+        url: "/editInfo",
+        method: "post",
+        params: {
+          user_id: JSON.parse(this.$store.state.userInfo).id,
+          description: this.inputContent
         },
-        data: file_form,
-      })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      }).then((res) => {
+        const userInfo = res.data.data
+        console.log(userInfo)
+        this.$store.commit('SET_USERINFO', userInfo)
 
+        console.log(this.$store.getters.getUser)
+        this.$router.push("/Homepage")
+      });
     },
     routeChange: function () {//展示页面信息
       var that = this;

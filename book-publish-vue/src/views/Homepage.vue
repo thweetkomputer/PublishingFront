@@ -9,20 +9,7 @@
         </el-breadcrumb>
       </div>
 
-      <div class="block" style="margin-top:50px;margin-left:200px">
 
-          <el-avatar :size="100" :src="JSON.parse(this.$store.state.userInfo).avatar"></el-avatar>
-          <div style="margin-top: -100px;margin-left:130px">{{ JSON.parse(this.$store.state.userInfo).username }}</div>
-          <div style="margin-left:120px">
-            <div v-if="JSON.parse(this.$store.state.userInfo).isVip===0">
-              <span  style="width:120px;height:20px;font-size:8px"> 您还不是会员</span>
-              <el-button type="danger" round @click="$router.push('/vip')" >开通会员</el-button>
-            </div>
-            <div v-else>
-              <el-button type="info" round @click="$router.push('/vip')">查看会员信息</el-button>
-            </div>
-          </div>
-      </div>
 
       <el-card class="box-card" shadow="hover" style="margin-top: 100px;margin-left: 130px;">
         <div slot="header" class="clearfix">

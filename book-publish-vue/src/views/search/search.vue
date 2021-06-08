@@ -123,13 +123,13 @@ export default {
       this.inputValue = '';
     },
     getSearchContent(val){
-      if(this.label==='1'){
+      if(this.ridio==='1'){
         this.getSearchAticleName(val);
       }
-      else if(this.label==='2'){
+      else if(this.ridio==='2'){
         this.getSearchAticleTag(val);
       }
-      else if(this.label==='3'){
+      else if(this.ridio==='3'){
         this.getSearchAticleAuthor(val);
       }
     },

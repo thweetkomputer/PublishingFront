@@ -10,15 +10,12 @@
     <div style="margin-top:10px;">
       <el-row>
         <el-col v-for="item in article_list" :key="item.id" :span="18">
-          <div class="card dewb">
+          <div class="card dewb" @click="toArticle(item.id)">
             <el-row>
               <el-col :xs="24" :lg="24">
                 <div>{{ item.title }}</div>
                 <div> {{ item.description }} </div>
-                <div style="margin: 10px">
-                  <el-button @click="CheckedArticle(item.id)" >审阅通过</el-button>
-                  <el-button  @click="open(item.id)">审阅不通过</el-button>
-                </div>
+
               </el-col>
             </el-row>
           </div>
@@ -57,25 +54,14 @@ export default {
     this.getListData(this.currentPage);
   },
   methods: {
-    open(id) {
-      this.$prompt('请输入文章问题', '审阅失败原因', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        // inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-        // inputErrorMessage: '邮箱格式不正确'
-      }).then(({ value }) => {
-        this.$message({
-          type: 'success',
-          message:"操作成功"
-        });
-        this.UnCheckedArticle(id,value);
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消'
-        });
+    toArticle(id){
+      let routeUrl = this.$router.resolve({
+        path: "/reviewcontent",
+        query: {id:id}
       });
+      window.open(routeUrl.href, '_blank');
     },
+
     handleClose(done) {
       this.$confirm('确认关闭？')
           .then(_ => {
@@ -83,22 +69,7 @@ export default {
           })
           .catch(_ => {});
     },
-    CheckedArticle(id){
-      axios({
-        url: "",
-        method: "get",
-        params: {
-          article_id:id,
-          page:this.currentPage,
-          pageSize: this.pageSize,
-          successMessage:"审阅成功"
-        },
-      }).then((res) => {
-        this.article_list = res.data.data;
-        this.total=res.data.data.total_num;
-        this.getListData(this.currentPage);
-      });
-    },
+
     UnCheckedArticle(id,value){
       axios({
         url: "",

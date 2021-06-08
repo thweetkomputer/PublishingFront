@@ -15,6 +15,27 @@
         <el-radio class="radio" v-model="ridio" label="2">按标签搜索</el-radio>
           <el-radio class="radio" v-model="ridio" label="3">按作者名搜索</el-radio>
         </ul>
+      <div v-if="label!=='2'">
+        <el-tag
+            :key="tag"
+            v-for="tag in dynamicTags"
+            closable
+            :disable-transitions="false"
+            @close="handleClose(tag)">
+          {{tag}}
+        </el-tag>
+        <el-input
+            class="input-new-tag"
+            v-if="inputVisible"
+            v-model="inputValue"
+            ref="saveTagInput"
+            size="small"
+            @keyup.enter.native="handleInputConfirm"
+            @blur="handleInputConfirm"
+        >
+        </el-input>
+        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+      </div>
       <div class="article" style="color: #00000060;width: 80%;float: left">
         <el-row>
           <el-col v-for="item in article_list" :key="item.id" :span="24">
@@ -60,6 +81,9 @@ export default {
    data() {
      const query = this.$route.query;
     return {
+      dynamicTags: ['科技'],
+      inputVisible: false,
+      inputValue: '',
       input: query.searchContent,
       ridio:'1',
       currentPage: 1,
@@ -77,6 +101,25 @@ export default {
   computed: {
   },
   methods:{
+    handleClose(tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    },
+
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.dynamicTags.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
+    },
     getSearchContent(val){
       if(this.ridio==='1'){
         this.getSearchAticleName(val);
@@ -110,6 +153,7 @@ export default {
         url: "/searchByTag",
         method: "post",
         params: {
+          dynamicTags:this.dynamicTags,
           input:this.input,
           page:val,
           pageSize: this.pageSize,

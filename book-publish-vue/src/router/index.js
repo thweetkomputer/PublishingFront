@@ -286,6 +286,11 @@ const routes = [{
         name:'reviewcontent',
         component: ()=>import('../views/ReviewContent')
     },
+    {
+        path:'/reviewedarticle',
+        name:'/reviewedarticle',
+        component: ()=>import('../views/ReviewedArticle')
+    }
 ]
 const routerPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {

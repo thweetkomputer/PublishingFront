@@ -290,6 +290,11 @@ const routes = [{
         path:'/reviewedarticle',
         name:'/reviewedarticle',
         component: ()=>import('../views/ReviewedArticle')
+    },
+    {
+        path:'/modifypassword',
+        name:'modifypassaword',
+        component: ()=>import('../views/ModifyPassword')
     }
 ]
 const routerPush = VueRouter.prototype.push

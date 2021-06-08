@@ -10,9 +10,9 @@
     <div style="margin-top:10px">
       <el-row>
         <el-col v-for="item in article_list" :key="item.id" :span="18">
-          <div class="card dewb" >
+          <div class="card dewb" @click="toArticle(item.id)">
             <el-row>
-              <el-col :xs="24" :lg="24" @click="toArticle(item.id)">
+              <el-col :xs="24" :lg="24" >
                 <div>{{ item.title }}</div>
                 <div> {{ item.description }} </div>
               </el-col>
@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     toArticle(id){
-      this.$router.push({path:'/pubishcontent',query:{id:id}})
+      this.$router.push({path:'/publishcontent',query:{id:id}})
     },
     //跳转内容页
     getListData(page) {

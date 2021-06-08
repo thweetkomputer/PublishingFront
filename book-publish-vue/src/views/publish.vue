@@ -16,9 +16,6 @@
                 <div>{{ item.title }}</div>
                 <div> {{ item.description }} </div>
               </el-col>
-              <div style="margin: 10px">
-                <el-button type="text" @click="publish(item.id)">发布文章</el-button>
-              </div>
             </el-row>
           </div>
         </el-col>
@@ -57,19 +54,7 @@ export default {
   },
   methods: {
     toArticle(id){
-      this.$router.push({path:'/content',query:{id:id}})
-    },
-    publish(id){
-      axios({
-        url: "/publishPassage",
-        method: "post",
-        params: {
-          article_id:id,
-        },
-      }).then((res) => {
-        this.getListData(this.currentPage)
-      });
-
+      this.$router.push({path:'/pubishcontent',query:{id:id}})
     },
     //跳转内容页
     getListData(page) {

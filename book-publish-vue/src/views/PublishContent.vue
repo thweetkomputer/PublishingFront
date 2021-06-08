@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 70%;position: center">
+  <div >
     <!-- 面包屑导航 -->
     <BreadMenu
         :page_name="article_title"
@@ -75,7 +75,7 @@
       </el-col>
     </el-row>
     <el-button type="success" @click="submit(article_data)">
-      发表
+      发布文章
     </el-button>
   </div>
 </template>
@@ -128,11 +128,9 @@ export default {
   },
   mounted() {
     this.getArticleDescription(this.article_data);
-    this.getReaderList();
   },
   methods: {
     submit(id) {
-
         axios({
           url: "",
           method: "get",
@@ -142,15 +140,6 @@ export default {
         }).then((res) => {
           this.$router.push({path: '/books'});
         });
-    },
-    getReaderList() {
-      axios({
-        url: "/getReviewer",
-        method: "post",
-        params: {},
-      }).then((res) => {
-        this.value = res.data.data;
-      });
     },
     downFile() {
       let a = document.createElement('a')

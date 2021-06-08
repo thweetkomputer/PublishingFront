@@ -275,8 +275,12 @@ const routes = [{
         path:'/readercontent',
         name:'readercontent',
         component: ()=>import('../views/ReaderContent')
+    },
+    {
+        path:'/publishcontent',
+        name:'publishcontent',
+        component: ()=>import('../views/PublishContent')
     }
-
 ]
 const routerPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {

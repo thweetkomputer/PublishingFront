@@ -83,7 +83,7 @@ export default {
     getSearchAticleName(){
       console.log(this.input);
       axios({
-        url: "/",
+        url: "/searchByKeyword",
         method: "get",
         params: {
           input:this.input,
@@ -99,7 +99,7 @@ export default {
     getSearchAticleTag(){
       console.log(this.input);
       axios({
-        url: "/",
+        url: "/searchByTag",
         method: "get",
         params: {
           input:this.input,
@@ -115,7 +115,7 @@ export default {
     getSearchAticleAuthor(){
       console.log(this.input);
       axios({
-        url: "/",
+        url: "/searchByWriter",
         method: "get",
         params: {
           input:this.input,

@@ -46,7 +46,6 @@ import axios from "axios";
 
 export default {
   name: "search",
-
    data() {
      const query = this.$route.query;
     return {
@@ -62,7 +61,7 @@ export default {
     }
   },
   mounted() {
-    this.getSearchContent();
+    this.getSearchAticleName();
   },
   computed: {
     isSearch() {
@@ -71,23 +70,55 @@ export default {
   },
   methods:{
     getSearchContent(){
+      if(this.label===1){
+        this.getSearchAticleName();
+      }
+      else if(this.label===2){
+        this.getSearchAticleTag();
+      }
+      else if(this.label===3){
+        this.getSearchAticleAuthor();
+      }
+    },
+    getSearchAticleName(){
       console.log(this.input);
       axios({
         url: "/",
         method: "get",
         params: {
-          label:this.label,
           input:this.input,
         },
       }).then((res) => {
         this.article_list=res.data.data;
-        this.total_num=res.data.data.total_num;
-        if(this.total_num%10!==0){
-          this.total=this.total_num/10+1;
-        }
-        else{
-          this.total=this.total_num/10;
-        }
+        this.total=res.data.data.total_num;
+        console.log(this.total)
+      });
+    },
+    getSearchAticleTag(){
+      console.log(this.input);
+      axios({
+        url: "/",
+        method: "get",
+        params: {
+          input:this.input,
+        },
+      }).then((res) => {
+        this.article_list=res.data.data;
+        this.total=res.data.data.total_num;
+        console.log(this.total)
+      });
+    },
+    getSearchAticleAuthor(){
+      console.log(this.input);
+      axios({
+        url: "/",
+        method: "get",
+        params: {
+          input:this.input,
+        },
+      }).then((res) => {
+        this.article_list=res.data.data;
+        this.total=res.data.data.total_num;
         console.log(this.total)
       });
     },

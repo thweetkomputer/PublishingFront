@@ -147,14 +147,26 @@ export default {
   },
   methods: {
     submit(id) {
+      var value1,value2,value3;
+      for(let i=0;i<this.ReaderList.length;i++){
+        if(this.ReaderList[i].username===this.firstValue){
+          value1=this.ReaderList[i].id;
+        }
+        if(this.ReaderList[i].username===this.secondValue){
+          value2=this.ReaderList[i].id;
+        }
+        if(this.ReaderList[i].username===this.thirdValue){
+          value3=this.ReaderList[i].id;
+        }
+      }
         axios({
           url: "",
           method: "get",
           params: {
             article_title: id,
-            reviewer_id1:this.firstValue.id,
-            reviewer_id2:this.secondValue.id,
-            reviewer_id3:this.thirdValue.id,
+            reviewer_id1:value1,
+            reviewer_id2:value2,
+            reviewer_id3:value3,
           },
         }).then((res) => {
           this.$router.push({path: '/addreader'});

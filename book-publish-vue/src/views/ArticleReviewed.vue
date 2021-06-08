@@ -57,7 +57,7 @@ export default {
   methods: {
     toArticle(id){
       let routeUrl = this.$router.resolve({
-        path: "/content",
+        path: "/reviewedarticle",
         query: {id:id}
       });
       window.open(routeUrl.href, '_blank');

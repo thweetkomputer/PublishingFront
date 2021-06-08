@@ -87,6 +87,8 @@ export default {
         method: "get",
         params: {
           input:this.input,
+          page:this.currentPage,
+          pageSize: this.pageSize,
         },
       }).then((res) => {
         this.article_list=res.data.data;
@@ -101,6 +103,8 @@ export default {
         method: "get",
         params: {
           input:this.input,
+          page:this.currentPage,
+          pageSize: this.pageSize,
         },
       }).then((res) => {
         this.article_list=res.data.data;
@@ -115,6 +119,8 @@ export default {
         method: "get",
         params: {
           input:this.input,
+          page:this.currentPage,
+          pageSize: this.pageSize,
         },
       }).then((res) => {
         this.article_list=res.data.data;

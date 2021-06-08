@@ -78,15 +78,15 @@ export default {
   },
   methods:{
 
-    getSearchContent(){
+    getSearchContent(val){
       if(this.label==='1'){
-        this.getSearchAticleName();
+        this.getSearchAticleName(val);
       }
       else if(this.label==='2'){
-        this.getSearchAticleTag();
+        this.getSearchAticleTag(val);
       }
       else if(this.label==='3'){
-        this.getSearchAticleAuthor();
+        this.getSearchAticleAuthor(val);
       }
     },
     getSearchAticleName(val){

@@ -74,9 +74,10 @@ export default {
     },
     getListData(page) {
       axios({
-        url: "",
+        url: "/searchFavorArticle",
         method: "get",
         params: {
+          user_id: JSON.parse(this.$store.state.userInfo).id,
           page,
           pageSize: this.pageSize,
         },
@@ -94,30 +95,16 @@ export default {
 
     //删除文章
     deleteArticle(id) {
-      if (confirm("是否确定取消收藏")) {
-        let checkInfo = {
-          contentType: "blog_article",
-          permissions: ["delete"],
-        };
-        this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
-          if (res) {
-            axios({
-              url: "",
-              method: "get",
-              data: Qs.stringify({
-                article_id:id,
-                user_id:JSON.parse(this.$store.state.userInfo).id
-              }),
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-            }).then((res) => {
-              console.log(res);
-              this.getListData(this.currentPage);
-            });
-          }
-        });
-      }
+      axios({
+        url: "/cancelFavorArticle",
+        method: "post",
+        data: Qs.stringify({
+          article_id: id,
+          user_id: JSON.parse(this.$store.state.userInfo).id,
+        }),
+      }).then((res) => {
+        this.getListData(this.currentPage)
+      });
     },
   },
 };

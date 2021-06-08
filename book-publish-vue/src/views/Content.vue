@@ -201,6 +201,7 @@ export default {
 
   },
   mounted() {
+    this.getUserToArtcile();
     this.getArticleDescription(this.article_data);
     this.getAllPinglun(1, this.pinglun_pageSize);
   },

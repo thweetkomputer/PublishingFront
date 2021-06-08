@@ -1,12 +1,13 @@
 <template>
-  <div style="width: 70%;position: center">
+  <div>
     <!-- 面包屑导航 -->
     <BreadMenu
         :page_name="article_title"
     ></BreadMenu>
+
     <!-- 文章内容 -->
     <el-row :gutter="10">
-      <el-col :xs="24" :lg="24">
+      <el-col :xs="24" :lg="16">
         <div class="body dewb">
           <div class="header">
             {{ article_title }}
@@ -64,7 +65,11 @@
               style="margin:10px"
           >上一页
           </el-button>
-
+          <el-button
+              @click="downFile()"
+              style="margin:10px"
+          >下载
+          </el-button>
           <el-button
               type="i"
               @click.stop="nextPage"
@@ -73,13 +78,28 @@
           </el-button>
         </div>
       </el-col>
+      <el-col :xs="24" :lg="8" v-if="this.$store.state.userInfo!==null" style="position:fixed;">
+        <div class="body dewb">
+          <el-input
+              type="textarea"
+              :maxlength="120"
+              :rows="5"
+              placeholder="发表您对这篇文章的意见"
+              v-model="new_pinglun"
+          >
+          </el-input>
+          <el-button type="success" @click="CheckedArticle()">
+            审阅成功
+          </el-button>
+          <el-button type="success" @click="open">
+            审阅失败
+          </el-button>
+        </div>
+        <div>
+          <a id="payLink" href="" target="_blank"></a>
+        </div>
+      </el-col>
     </el-row>
-    <el-button type="success" @click="CheckedArticle()">
-      审阅成功
-    </el-button>
-    <el-button type="success" @click="open">
-      审阅失败
-    </el-button>
   </div>
 </template>
 
@@ -155,6 +175,7 @@ export default {
         url: "",
         method: "get",
         params: {
+          message:this.new_pinglun,
           article_id:this.article_data,},
       }).then((res) => {
       });
@@ -164,9 +185,9 @@ export default {
         url: "",
         method: "get",
         params: {
+          message:this.new_pinglun,
           article_id: this.article_data,},
       }).then((res) => {
-
       });
     },
     submit(id) {

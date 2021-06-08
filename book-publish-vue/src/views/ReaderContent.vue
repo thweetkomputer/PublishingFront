@@ -147,23 +147,23 @@ export default {
   },
   methods: {
     submit(id) {
-      var value1,value2,value3;
+      let value1, value2, value3;
       for(let i=0;i<this.ReaderList.length;i++){
-        if(this.ReaderList[i].username===this.firstValue){
+        if(this.ReaderList[i].username.trim()==this.firstValue.trim()){
           value1=this.ReaderList[i].id;
         }
-        if(this.ReaderList[i].username===this.secondValue){
+        if(this.ReaderList[i].username.trim()==this.secondValue.trim()){
           value2=this.ReaderList[i].id;
         }
-        if(this.ReaderList[i].username===this.thirdValue){
+        if(this.ReaderList[i].username.trim()==this.thirdValue.trim()){
           value3=this.ReaderList[i].id;
         }
       }
         axios({
-          url: "",
-          method: "get",
+          url: "/distributePassage",
+          method: "post",
           params: {
-            article_title: id,
+            article_id: id,
             reviewer_id1:value1,
             reviewer_id2:value2,
             reviewer_id3:value3,

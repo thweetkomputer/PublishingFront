@@ -77,21 +77,22 @@ export default {
   computed: {
   },
   methods:{
-    getSearchContent(val){
+
+    getSearchContent(){
       if(this.label==='1'){
-        this.getSearchAticleName(val);
+        this.getSearchAticleName();
       }
       else if(this.label==='2'){
-        this.getSearchAticleTag(val);
+        this.getSearchAticleTag();
       }
       else if(this.label==='3'){
-        this.getSearchAticleAuthor(val);
+        this.getSearchAticleAuthor();
       }
     },
     getSearchAticleName(val){
       console.log(this.input);
       axios({
-        url: "/",
+        url: "/searchByKeyword",
         method: "get",
         params: {
           input:this.input,
@@ -107,7 +108,7 @@ export default {
     getSearchAticleTag(val){
       console.log(this.input);
       axios({
-        url: "/",
+        url: "/searchByTag",
         method: "get",
         params: {
           input:this.input,
@@ -123,7 +124,7 @@ export default {
     getSearchAticleAuthor(val){
       console.log(this.input);
       axios({
-        url: "/",
+        url: "/searchByWriter",
         method: "get",
         params: {
           input:this.input,

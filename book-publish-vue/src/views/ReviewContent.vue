@@ -78,7 +78,7 @@
           </el-button>
         </div>
       </el-col>
-      <el-col :xs="24" :lg="8" v-if="this.$store.state.userInfo!==null" style="position:fixed;">
+      <el-col :xs="24" :lg="8" v-if="this.$store.state.userInfo!==null" style="float: right;">
         <div class="body dewb">
           <el-input
               type="textarea"
@@ -88,10 +88,10 @@
               v-model="new_pinglun"
           >
           </el-input>
-          <el-button type="success" @click="CheckedArticle()">
+          <el-button type="success" @click="CheckedArticle">
             审阅成功
           </el-button>
-          <el-button type="success" @click="open">
+          <el-button type="success" @click="UnCheckedArticle">
             审阅失败
           </el-button>
         </div>
@@ -115,8 +115,8 @@ export default {
     return {
       ReaderList: [],
       firstValue: '',
-      secondValue:'',
-      thirdValue:'',
+      secondValue: '',
+      thirdValue: '',
       article_data: this.$route.query.id,
       article_title: '',
       description: '',
@@ -160,9 +160,9 @@ export default {
         cancelButtonText: '取消',
         // inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
         // inputErrorMessage: '邮箱格式不正确'
-      }).then(({ value }) => {
+      }).then(({value}) => {
         this.UnCheckedArticle(value);
-        this.$router.push({path:'/books'});
+        this.$router.push({path: '/books'});
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -170,23 +170,27 @@ export default {
         });
       });
     },
-    CheckedArticle(){
+    CheckedArticle() {
       axios({
-        url: "",
-        method: "get",
+        url: "/passReview",
+        method: "post",
         params: {
-          message:this.new_pinglun,
-          article_id:this.article_data,},
+          message: this.new_pinglun,
+          article_id: this.article_data,
+          reviewer_id: JSON.parse(this.$store.state.userInfo).id
+        },
       }).then((res) => {
       });
     },
-    UnCheckedArticle(value){
+    UnCheckedArticle(value) {
       axios({
-        url: "",
-        method: "get",
+        url: "/unpassReview",
+        method: "post",
         params: {
-          message:this.new_pinglun,
-          article_id: this.article_data,},
+          message: this.new_pinglun,
+          article_id: this.article_data,
+          reviewer_id: JSON.parse(this.$store.state.userInfo).id
+        },
       }).then((res) => {
       });
     },

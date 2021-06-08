@@ -70,13 +70,13 @@ export default {
   },
   methods:{
     getSearchContent(){
-      if(this.label===1){
+      if(this.label==='1'){
         this.getSearchAticleName();
       }
-      else if(this.label===2){
+      else if(this.label==='2'){
         this.getSearchAticleTag();
       }
-      else if(this.label===3){
+      else if(this.label==='3'){
         this.getSearchAticleAuthor();
       }
     },
@@ -91,7 +91,7 @@ export default {
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.article_list=res.data.data;
+        this.article_list=res.data.data.article_list;
         this.total=res.data.data.total_num;
         console.log(this.total)
       });
@@ -107,7 +107,7 @@ export default {
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.article_list=res.data.data;
+        this.article_list=res.data.data.article_list;
         this.total=res.data.data.total_num;
         console.log(this.total)
       });
@@ -123,7 +123,7 @@ export default {
           pageSize: this.pageSize,
         },
       }).then((res) => {
-        this.article_list=res.data.data;
+        this.article_list=res.data.data.article_list;
         this.total=res.data.data.total_num;
         console.log(this.total)
       });

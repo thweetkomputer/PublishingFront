@@ -132,10 +132,10 @@ export default {
   methods: {
     submit(id) {
         axios({
-          url: "",
+          url: "/publishPassage",
           method: "get",
           params: {
-            article_title: id,
+            article_id: id,
           },
         }).then((res) => {
           this.$router.push({path: '/books'});

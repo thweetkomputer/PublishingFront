@@ -106,9 +106,9 @@ export default {
     console.log(query.id)
     return {
       ReaderList: [],
-      firstValue: '',
-      secondValue:'',
-      thirdValue:'',
+      firstValue: null,
+      secondValue:null,
+      thirdValue:null,
       article_data: this.$route.query.id,
       article_title: '',
       description: '',
@@ -147,20 +147,18 @@ export default {
   },
   methods: {
     submit(id) {
-      if (this.value.length !== 3) {
-        alert('审稿人人数必须为3')
-      } else {
         axios({
           url: "",
           method: "get",
           params: {
             article_title: id,
-            ReaderList: this.value
+            reviewer_id1:this.firstValue.id,
+            reviewer_id2:this.secondValue.id,
+            reviewer_id3:this.thirdValue.id,
           },
         }).then((res) => {
           this.$router.push({path: '/addreader'});
         });
-      }
     },
     getReaderList() {
       axios({

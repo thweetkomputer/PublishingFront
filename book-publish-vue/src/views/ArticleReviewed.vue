@@ -16,7 +16,7 @@
                 <div>{{ item.title }}</div>
                 <div> {{ item.description }} </div>
                 <div style="margin: 10px">
-                  <el-button @click="DelCheckedArticle(item.id)">删除</el-button>
+<!--                  <el-button @click="DelCheckedArticle(item.id)">删除</el-button>-->
                 </div>
               </el-col>
             </el-row>
@@ -57,20 +57,6 @@ export default {
   methods: {
     toArticle(id){
       this.$router.push({path:'/content',query:{id:id}})
-    },
-    DelCheckedArticle(id){
-      axios({
-        url: "",
-        method: "get",
-        params: {
-          id,
-          page:this.currentPage,
-          pageSize: this.pageSize,
-        },
-      }).then((res) => {
-        this.getListData(this.currentPage);
-        console.log(this.total)
-      });
     },
     //跳转内容页
     getListData(page) {

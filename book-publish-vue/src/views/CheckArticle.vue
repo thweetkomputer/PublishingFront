@@ -88,21 +88,15 @@ export default {
         url: "",
         method: "get",
         params: {
-          id,
+          article_id:id,
           page:this.currentPage,
           pageSize: this.pageSize,
           successMessage:"审阅成功"
         },
       }).then((res) => {
         this.article_list = res.data.data;
-        this.total_num=res.data.data.total_num;
-        if(this.total_num%10!==0){
-          this.total=this.total_num/10+1;
-        }
-        else{
-          this.total=this.total_num/10;
-        }
-        console.log(this.total)
+        this.total=res.data.data.total_num;
+        this.getListData(this.currentPage);
       });
     },
     UnCheckedArticle(id,value){
@@ -110,21 +104,15 @@ export default {
         url: "",
         method: "get",
         params: {
-          id,
+          article_id: id,
           page:this.currentPage,
           pageSize: this.pageSize,
           failMessage:"文章审阅失败，"+"原因是"+value,
         },
       }).then((res) => {
         this.article_list = res.data.data;
-        this.total_num=res.data.data.total_num;
-        if(this.total_num%10!==0){
-          this.total=this.total_num/10+1;
-        }
-        else{
-          this.total=this.total_num/10;
-        }
-        console.log(this.total)
+        this.total=res.data.data.total_num;
+        this.getListData(this.currentPage);
       });
     },
     //跳转内容页

@@ -1,22 +1,20 @@
 <template>
   <div>
-<!--    <div class="content1_window" v-show="this.$store.state.wantLogin"></div>-->
-<!--    <div class="content2_window" v-show="this.$store.state.wantLogin">-->
+    <!--    <div class="content1_window" v-show="this.$store.state.wantLogin"></div>-->
+    <!--    <div class="content2_window" v-show="this.$store.state.wantLogin">-->
 
-        <div class="content1_window" v-show="this.$store.state.userInfo===null && this.$store.state.doNotWantLogin === null"></div>
-        <div class="content2_window" v-show="this.$store.state.userInfo===null && this.$store.state.doNotWantLogin === null">
+    <div class="content1_window"
+         v-show="this.$store.state.userInfo===null && this.$store.state.doNotWantLogin === null"></div>
+    <div class="content2_window"
+         v-show="this.$store.state.userInfo===null && this.$store.state.doNotWantLogin === null">
       <!--    <div class="bg bg-blur"></div>-->f
       <el-container class="content2">
-        <!--      <el-header>-->
-        <!--        < img class="mlogo" src="http://o.bookschina.com/images/logo0508.png" alt="">-->
-        <!--      </el-header>-->
-
         <!--      <el-main>-->
         <el-tabs v-model="activeName" type="border-card" style="width: 340px; margin:100px auto auto;">
           <el-tab-pane name="login">
-            <div slot="label" style="width: 129px; color: #333333;">登录</div>
+            <div slot="label" style="width: 129px; color: #333333;" v-show="!wantChangePass">登录</div>
             <el-form :model="ruleFormLogin" status-icon :rules="rulesLogin" ref="ruleFormLogin" label-width="100px"
-                     class="demo-ruleForm">
+                     class="demo-ruleForm" v-show="!wantChangePass">
               <el-form-item prop="username" style="margin-left: -70px;">
                 <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleFormLogin.username" clearable
                           prefix-icon="el-icon-user-solid"
@@ -32,7 +30,8 @@
               <el-form-item style="margin-left: -70px;">
                 <el-row style="text-align: center; margin-top: -10px;">
                   <el-checkbox v-model="remember_me" style="float: left; padding-top: 1px">记住我</el-checkbox>
-                  <el-link :underline="false" style="float: right; padding-bottom: 130px">忘记密码？</el-link>
+                  <el-link :underline="false" style="float: right; padding-bottom: 130px" @click="changePass()">忘记密码？
+                  </el-link>
                   <!--                <el-link type="primary">g</el-link>-->
                 </el-row>
               </el-form-item>
@@ -45,7 +44,63 @@
                 <el-link @click="cancelLogin" :underline="false" style="margin-left: -70px">游客登录</el-link>
               </el-form-item>
             </el-form>
+
+            <div slot="label" style="width: 129px; color: #333333;" v-show="wantChangePass">修改密码</div>
+            <el-form :model="ruleFormChangePass" status-icon :rules="rulesChangePass" ref="ruleFormChangePass" label-width="100px"
+                     class="demo-ruleForm" v-show="wantChangePass">
+              <el-form-item prop="username" style="margin-left: -70px;">
+                <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleFormChangePass.username" clearable
+                          prefix-icon="el-icon-user-solid"
+                          autocomplete="new-password"
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="pass" style="margin-left: -70px;">
+                <el-input maxlength="19" placeholder="请输入新密码(6-18位)" type="password"
+                          v-model="ruleFormChangePass.pass"
+                          autocomplete="new-password"
+                          show-password
+                          clearable prefix-icon="el-icon-goods"
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="checkPass" style="margin-left: -70px;">
+                <el-input maxlength="19" placeholder="请输入确认新密码" type="password"
+                          v-model="ruleFormChangePass.checkPass"
+                          show-password clearable
+                          autocomplete="new-password"
+                          prefix-icon="el-icon-s-goods"
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="email" style="margin-left: -70px;">
+                <el-input maxlength="321" placeholder="请输入邮箱" type="email" v-model="ruleFormChangePass.email" clearable
+                          prefix-icon="el-icon-message"
+                          autocomplete="off"
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="checkCode" style="margin-left: -70px; width: 340px;">
+                <el-row>
+                  <el-col :span="13">
+                    <el-input maxlength="4" placeholder="邮件验证码" type="text" v-model="ruleFormChangePass.checkCode" clearable
+                              autocomplete="new-password"></el-input>
+                  </el-col>
+                  <el-col :span="11">
+                    <el-link :underline="false" style="padding-top: 10px; float: right;"
+                             @click="submitEmailChangePass('ruleFormChangePass')">发送验证码
+                    </el-link>
+                  </el-col>
+                </el-row>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="submitFormChangePass('ruleFormChangePass')" style="background-color: #333333">
+                  立即修改
+                </el-button>
+                <el-button @click="resetForm('ruleFormChangePass')">重置</el-button>
+              </el-form-item>
+              <el-form-item style="margin-top: -20px">
+                <el-link @click="cancelChangePass" :underline="false" style="margin-left: -70px">取消</el-link>
+              </el-form-item>
+            </el-form>
           </el-tab-pane>
+
           <el-tab-pane name="signup">
             <div slot="label" style="width: 129px; color: #333333;">注册</div>
             <el-form :model="ruleFormSignup" status-icon :rules="rulesSignup" ref="ruleFormSignup" label-width="100px"
@@ -57,7 +112,8 @@
                 ></el-input>
               </el-form-item>
               <el-form-item prop="pass" style="margin-left: -70px;">
-                <el-input maxlength="19" placeholder="请输入密码(6-18位)" type="password" v-model="ruleFormSignup.pass"
+                <el-input maxlength="19" placeholder="请输入密码(6-18位)" type="password"
+                          v-model="ruleFormSignup.pass"
                           autocomplete="new-password"
                           show-password
                           clearable prefix-icon="el-icon-goods"
@@ -160,6 +216,7 @@ export default {
       }, 100)
     }
     const validatePass1 = (rule, value, callback) => {
+      // alert('nmsl9')
       if (value === '') {
         callback(new Error('密码不能为空'));
       } else if ((value + "").toString().length > 18 || (value + "").toString().length < 6) {
@@ -180,6 +237,28 @@ export default {
         callback();
       }
     };
+    const validateChangePass1 = (rule, value, callback) => {
+      // alert('nmsl')
+      if (value === '') {
+        callback(new Error('密码不能为空'));
+      } else if ((value + "").toString().length > 18 || (value + "").toString().length < 6) {
+        callback(new Error('密码长度为6-18位'));
+      } else {
+        if (this.ruleFormChangePass.checkPass !== '') {
+          this.$refs.ruleFormChangePass.validateField('checkPass');
+        }
+        callback();
+      }
+    };
+    const validateChangePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('确认密码不能为空'));
+      } else if (value !== this.ruleFormChangePass.pass) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
     const validateCheckCode = (rule, value, callback) => {
       if (value === '' || (value + '').toString().length !== 4) {
         callback(new Error('请输入邮箱的4位验证码'));
@@ -188,12 +267,20 @@ export default {
       }
     };
     return {
+      wantChangePass: false,
       wantLogin: true,
       ruleFormLogin: {
         username: '',
         password: ''
       },
       ruleFormSignup: {
+        username: '',
+        pass: '',
+        checkPass: '',
+        email: '',
+        checkCode: ''
+      },
+      ruleFormChangePass: {
         username: '',
         pass: '',
         checkPass: '',
@@ -209,6 +296,7 @@ export default {
           {validator: validatePass, trigger: 'change'}
         ]
       },
+
       rulesSignup: {
         username: [
           {validator: checkUsername2, trigger: 'change'},
@@ -226,6 +314,23 @@ export default {
           {validator: validateCheckCode, trigger: 'change'},
         ]
       },
+      rulesChangePass: {
+        username: [
+          {validator: checkUsername2, trigger: 'change'},
+        ],
+        pass: [
+          {validator: validateChangePass1, trigger: 'change'},
+        ],
+        checkPass: [
+          {validator: validateChangePass2, trigger: 'change'},
+        ],
+        email: [
+          {validator: checkEmail, trigger: 'change'},
+        ],
+        checkCode: [
+          {validator: validateCheckCode, trigger: 'change'},
+        ]
+      },
       isLogin: true,
       remember_me: false,
     };
@@ -233,8 +338,15 @@ export default {
   created() {
     this.isLogin = true
     this.wantLogin = true
+    this.wantChangePass = false
   },
   methods: {
+    cancelChangePass() {
+      this.wantChangePass = false
+    },
+    changePass() {
+      this.wantChangePass = true
+    },
     cancelLogin() {
       this.$store.commit('DONT_WANT_LOGIN')
     },
@@ -249,6 +361,33 @@ export default {
       // })
       const _this = this
       this.$axios.post('/sendVerificationCode', this.ruleFormSignup).then(res => {
+        const jwt = res.headers['authorization']
+        const userInfo = res.data.data
+        console.log(userInfo)
+
+
+        console.log(this.$store.getters.getUser)
+        // this.$message({
+        //   showClose: true,
+        //   message: '发送成功，请邮箱查收',
+        //   type: 'success',
+        //   duration: 2000
+        // })
+        // _this.$router.go(0)
+        this.activeName = 'signup'
+      })
+    },
+    submitEmailChangePass(formName) {
+      // ifthis.$refs[formName].((valid)=>{
+      //   if (valid) {
+      //     const _this = this
+      //     this.$axios.post('/sendVerificationCode',this.email)
+      //   } else {
+      //     return false;
+      //   }
+      // })
+      const _this = this
+      this.$axios.post('/sendVerificationCode', this.ruleFormChangePass).then(res => {
         const jwt = res.headers['authorization']
         const userInfo = res.data.data
         console.log(userInfo)
@@ -308,25 +447,33 @@ export default {
       console.log('signup')
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // alert('submit!');
           const _this = this
           this.$axios.post('/signup', this.ruleFormSignup).then(res => {
             const jwt = res.headers['authorization']
             const userInfo = res.data.data
             console.log(userInfo)
-
-            // // Share the data
-            // _this.$store.commit('SET_TOKEN', jwt)
-            // _this.$store.commit('SET_USERINFO', userInfo)
-            //
-            // console.log(_this.$store.getters.getUser)
-            // this.$message({
-            //   showClose: true,
-            //   message: '注册成功，请重新登录',
-            //   type: 'success',
-            //   duration: 2000
-            // })
-            // this.$router.go(0)
+            this.activeName = 'login'
+          })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    submitFormChangePass(formName) {
+      this.ruleFormChangePass.username = this.ruleFormChangePass.username.trim()
+      this.ruleFormChangePass.checkCode = this.ruleFormChangePass.checkCode.trim()
+      this.ruleFormChangePass.pass = this.ruleFormChangePass.pass.trim()
+      this.ruleFormChangePass.checkPass = this.ruleFormChangePass.checkPass.trim()
+      this.ruleFormChangePass.email = this.ruleFormChangePass.email.trim()
+      console.log('changePass')
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          const _this = this
+          this.$axios.post('/changePass', this.ruleFormChangePass).then(res => {
+            const jwt = res.headers['authorization']
+            const userInfo = res.data.data
+            console.log(userInfo)
             this.activeName = 'login'
           })
         } else {

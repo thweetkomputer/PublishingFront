@@ -79,15 +79,15 @@
 
     <span>添加第一个审稿人</span>
     <select v-model="firstValue">
-      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum}}</option>
+      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum.username}}</option>
     </select>
     <span>添加第二个审稿人</span>
     <select v-model="secondValue">
-      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum}}</option>
+      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum.username}}</option>
     </select>
     <span>添加第三个审稿人</span>
     <select v-model="thirdValue">
-      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum}}</option>
+      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum.username}}</option>
     </select>
     <el-button type="success" @click="submit(article_data)">
       确定
@@ -168,7 +168,7 @@ export default {
         method: "post",
         params: {},
       }).then((res) => {
-        this.value = res.data.data;
+        this.ReaderList = res.data.data;
       });
     },
     downFile() {

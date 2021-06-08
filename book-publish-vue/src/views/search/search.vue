@@ -15,7 +15,7 @@
         <el-radio class="radio" v-model="ridio" label="2">按标签搜索</el-radio>
           <el-radio class="radio" v-model="ridio" label="3">按作者名搜索</el-radio>
         </ul>
-      <div v-if="label!=='2'">
+      <div v-if="ridio==='2'">
         <el-tag
             :key="tag"
             v-for="tag in dynamicTags"
@@ -148,13 +148,12 @@ export default {
       });
     },
     getSearchAticleTag(val){
-      console.log(this.input);
+      console.log(this.input),
       axios({
         url: "/searchByTag",
         method: "post",
         params: {
-          dynamicTags:this.dynamicTags,
-          input:this.input,
+          input:this.dynamicTags.toString(),
           page:val,
           pageSize: this.pageSize,
         },

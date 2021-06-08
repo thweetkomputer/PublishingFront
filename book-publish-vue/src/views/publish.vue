@@ -54,7 +54,11 @@ export default {
   },
   methods: {
     toArticle(id){
-      this.$router.push({path:'/publishcontent',query:{id:id}})
+      let routeUrl = this.$router.resolve({
+        path: "/publishcontent",
+        query: {id:id}
+      });
+      window.open(routeUrl.href, '_blank');
     },
     //跳转内容页
     getListData(page) {

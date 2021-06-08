@@ -66,7 +66,11 @@ export default {
   methods: {
     //跳转内容页
     toArticle(id){
-      this.$router.push({path:'/content',query:{id:id}})
+      let routeUrl = this.$router.resolve({
+        path: "/content",
+        query: {id:id}
+      });
+      window.open(routeUrl.href, '_blank');
     },
     getListData(page) {
       axios({

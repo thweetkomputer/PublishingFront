@@ -6,7 +6,7 @@
     </div>
     <div id="app">
       <div id="top-menu" class="dewb">
-        <Menu mode="horizontal" style="background-color: #00000020;border: none;">
+        <Menu mode="horizontal" style="border: none;">
           <Submenu name="5" style="float:right " v-if="this.$store.state.userInfo!==null">
             <template slot="title">
               <Icon type="ios-people"></Icon>
@@ -27,9 +27,10 @@
             <Icon type="ios-construct"/>
             消息中心
           </MenuItem>
-          <MenuItem name="6" style="float: right" >
+          <MenuItem name="6" style="float: right">
             <Input v-model="value4" icon="ios-search" placeholder="请输入..."
-                   style="width:200px;margin-right: 10px"></Input>
+                   style="width:200px;margin-right: 10px"
+                   @keyup.enter.native="tosearch"></Input>
             <span @click="tosearch">搜索</span>
           </MenuItem>
           <MenuItem name="1" v-if="this.$store.state.userInfo===null" @click="console.log(this.$store.state.is_login)">
@@ -48,7 +49,7 @@
           <el-menu
               class="el-menu-vertical-demo"
               background-color="#00000020"
-              text-color="#fff"
+              text-color="#000"
               active-text-color="#ffd04b"
               router
               @select="chooseMenu"
@@ -135,16 +136,19 @@ export default {
       this.$store.commit('WANT_LOGIN')
     },
     tosearch() {
-      if(this.value4==''){
-        this.$alert('搜索内容不能为空','', {
+      if (this.value4 === '') {
+        this.$alert('搜索内容不能为空', '', {
           confirmButtonText: '确定',
           callback: action => {
           }
         });
-      }
-      else{
-        this.$router.push({name: 'search',query:{searchContent:this.value4}});
-        this.value4='';
+      } else {
+        if (this.$route.path==='search') {
+          this.$route.query.searchContent = this.value4;
+        }
+        this.$router.push({name: 'search', query: {searchContent: this.value4}});
+        this.value4 = '';
+        this.$router.go(0)
       }
     }
     ,
@@ -189,6 +193,24 @@ export default {
       this.$store.commit('LOGOUT')
       // this.$router.push({name: 'Books'})
       this.$router.go(0)
+    },
+    onKeyPress(e) {
+      var keyCode = null;
+
+      if (e.which)
+        keyCode = e.which;
+      else if (e.keyCode)
+        keyCode = e.keyCode;
+
+      if (keyCode == 13) {
+        this.SendMessage();
+        return false;
+      }
+      return true;
+    },
+
+    SendMessage() {
+      this.tosearch()
     }
   }
   ,
@@ -196,9 +218,15 @@ export default {
     LoginWindow,
   }
 }
+
+
 </script>
 <style scoped>
 .ivu-menu-horizontal .ivu-menu-item[data-v-7ba5bd90], .ivu-menu-horizontal .ivu-menu-submenu[data-v-7ba5bd90] {
-  color: #FFFFFF;
+  color: #000;
+}
+
+.el-menu :hover {
+  color: #488ce9 !important;
 }
 </style>

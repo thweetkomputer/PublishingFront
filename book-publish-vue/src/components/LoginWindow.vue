@@ -49,7 +49,8 @@
             </el-form>
 
             <div slot="label" style="width: 129px; color: #333333;" v-show="wantChangePass">修改密码</div>
-            <el-form :model="ruleFormChangePass" status-icon :rules="rulesChangePass" ref="ruleFormChangePass" label-width="100px"
+            <el-form :model="ruleFormChangePass" status-icon :rules="rulesChangePass" ref="ruleFormChangePass"
+                     label-width="100px"
                      class="demo-ruleForm" v-show="wantChangePass">
               <el-form-item prop="username" style="margin-left: -70px;">
                 <el-input maxlength="16" placeholder="请输入用户名" v-model="ruleFormChangePass.username" clearable
@@ -82,18 +83,21 @@
               <el-form-item prop="checkCode" style="margin-left: -70px; width: 340px;">
                 <el-row>
                   <el-col :span="13">
-                    <el-input maxlength="4" placeholder="邮件验证码" type="text" v-model="ruleFormChangePass.checkCode" clearable
+                    <el-input maxlength="4" placeholder="邮件验证码" type="text" v-model="ruleFormChangePass.checkCode"
+                              clearable
                               autocomplete="new-password"></el-input>
                   </el-col>
                   <el-col :span="11">
                     <el-link :underline="false" style="padding-top: 10px; float: right;"
-                             @click="submitEmailChangePass('ruleFormChangePass')">发送验证码
+                             @click="submitEmailChangePass('ruleFormChangePass')"
+                             :disabled="linkValue !== '发送验证码'">{{ this.linkValue }}
                     </el-link>
                   </el-col>
                 </el-row>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitFormChangePass('ruleFormChangePass')" style="background-color: #333333">
+                <el-button type="primary" @click="submitFormChangePass('ruleFormChangePass')"
+                           style="background-color: #333333">
                   立即修改
                 </el-button>
                 <el-button @click="resetForm('ruleFormChangePass')">重置</el-button>
@@ -144,7 +148,8 @@
                   </el-col>
                   <el-col :span="11">
                     <el-link :underline="false" style="padding-top: 10px; float: right;"
-                             @click="submitEmail('ruleFormSignup')">发送验证码
+                             @click="submitEmail('ruleFormSignup')"
+                             :disabled="linkValue !== '发送验证码'">{{ this.linkValue }}
                     </el-link>
                   </el-col>
                 </el-row>
@@ -168,6 +173,8 @@
 </template>
 
 <script>
+import Element from "element-ui";
+
 export default {
   name: "LoginWindow",
   data() {
@@ -270,6 +277,8 @@ export default {
       }
     };
     return {
+      linkValue: '发送验证码',
+      checkTime: 60,
       wantChangePass: false,
       wantLogin: true,
       ruleFormLogin: {
@@ -344,15 +353,36 @@ export default {
     this.wantChangePass = false
   },
   methods: {
+
+    sleep(delay) {
+      return new Promise((resolve) => setTimeout(resolve, delay));
+    },
+    countDown() {
+
+      for (let i = 0; i < 60; i++) {
+        setTimeout(() => {
+          this.linkValue = (60 - i) + 's后重新发送'
+          console.log(this.linkValue)
+          if (i === 59) {
+            this.linkValue = '发送验证码'
+          }
+        }, 1000*i)
+
+      }
+
+    },
     cancelChangePass() {
       this.wantChangePass = false
-    },
+    }
+    ,
     changePass() {
       this.wantChangePass = true
-    },
+    }
+    ,
     cancelLogin() {
       this.$store.commit('DONT_WANT_LOGIN')
-    },
+    }
+    ,
     submitEmail(formName) {
       // ifthis.$refs[formName].((valid)=>{
       //   if (valid) {
@@ -362,7 +392,19 @@ export default {
       //     return false;
       //   }
       // })
+      const mailReg = /^.+@.+\.+.+/
       const _this = this
+      if (!mailReg.test(this.ruleFormSignup.email)) {
+        Element.Message({
+          showClose: true,
+          message: '邮箱格式不正确',
+          type: 'error',
+          duration: 2000
+        })
+        return
+      }
+      this.countDown()
+
       this.$axios.post('/sendVerificationCode', this.ruleFormSignup).then(res => {
         const jwt = res.headers['authorization']
         const userInfo = res.data.data
@@ -379,7 +421,8 @@ export default {
         // _this.$router.go(0)
         this.activeName = 'signup'
       })
-    },
+    }
+    ,
     submitEmailChangePass(formName) {
       // ifthis.$refs[formName].((valid)=>{
       //   if (valid) {
@@ -389,7 +432,18 @@ export default {
       //     return false;
       //   }
       // })
+      const mailReg = /^.+@.+\.+.+/
       const _this = this
+      if (!mailReg.test(this.ruleFormSignup.email)) {
+        Element.Message({
+          showClose: true,
+          message: '邮箱格式不正确',
+          type: 'error',
+          duration: 2000
+        })
+        return
+      }
+      this.countDown()
       this.$axios.post('/sendVerificationCode', this.ruleFormChangePass).then(res => {
         const jwt = res.headers['authorization']
         const userInfo = res.data.data
@@ -408,7 +462,8 @@ export default {
         this.activeName = 'signup'
 
       })
-    },
+    }
+    ,
     submitFormLogin(formName) {
       this.ruleFormLogin.username = this.ruleFormLogin.username.trim()
       this.ruleFormLogin.password = this.ruleFormLogin.password.trim()
@@ -442,7 +497,8 @@ export default {
           return false;
         }
       });
-    },
+    }
+    ,
     submitFormSignup(formName) {
       this.ruleFormSignup.username = this.ruleFormSignup.username.trim()
       this.ruleFormSignup.checkCode = this.ruleFormSignup.checkCode.trim()
@@ -464,7 +520,8 @@ export default {
           return false;
         }
       });
-    },
+    }
+    ,
     submitFormChangePass(formName) {
       this.ruleFormChangePass.username = this.ruleFormChangePass.username.trim()
       this.ruleFormChangePass.checkCode = this.ruleFormChangePass.checkCode.trim()
@@ -486,12 +543,19 @@ export default {
           return false;
         }
       });
-    },
+    }
+    ,
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
   }
 }
+
+const shuijiao = async () => {
+  await sleep(100000)
+}
+
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
 </script>
 
 <style scoped>
@@ -616,9 +680,16 @@ body > .el-container {
   border-color: #333333 !important;
 }
 
-.el-link:hover {
+
+
+.my_link:hover {
   color: #333333 !important;
 }
+
+.your_link {
+  color: red!important;
+}
+
 </style>
 
 

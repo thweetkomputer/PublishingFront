@@ -23,7 +23,7 @@
             <el-button @click="consoleSubmit" style="margin-top: 10px;margin-left: 100px;">取消</el-button>
           </div>
           <div v-show="!isopen" style="margin-top: 20px">
-            <div v-show="userInfo.description===''" style="margin-left: 100px">
+            <div v-show="userInfo.description==='' || userInfo.description===undefined || userInfo.description===null" style="margin-left: 100px">
               该用户比较懒，什么都没有留下～
             </div>
             <div v-show="userInfo.description!==''" style="margin-left: 100px">
@@ -76,7 +76,7 @@ export default {
         method: "post",
         params: {
           user_id: JSON.parse(this.$store.state.userInfo).id,
-          description: this.description
+          description: (this.description === undefined || this.description === null) ? '':this.description
         },
       }).then((res) => {
         this.userInfo = res.data.data

@@ -9,13 +9,13 @@
     <el-row :gutter="10">
       <el-col :xs="24" :lg="24">
         <div class="body dewb">
-          <div class="header">
-            {{ article_title }}
+          <div>
+            <p style="font-weight: bold; display: inline-block; margin-right: 10px">作者</p>{{ type }}
           </div>
         </div>
         <div class="body dewb">
-          <div class="dewb">
-            {{ description }}
+          <div>
+            <p style="font-weight: bold; display: inline-block;  margin-right: 10px">简介</p>{{ description }}
           </div>
         </div>
         <div>
@@ -77,19 +77,19 @@
 
     </el-row>
 
-    <span>添加第一个审稿人</span>
+    <span style="margin-right: 10px; margin-left: 10px">第一个审稿人</span>
     <select v-model="firstValue">
-      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum.username}}</option>
+      <option v-for="(curriculum, index) in ReaderList" :key="index">{{ curriculum.username }}</option>
     </select>
-    <span>添加第二个审稿人</span>
+    <span style="margin-right: 10px; margin-left: 10px">第二个审稿人</span>
     <select v-model="secondValue">
-      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum.username}}</option>
+      <option v-for="(curriculum, index) in ReaderList" :key="index">{{ curriculum.username }}</option>
     </select>
-    <span>添加第三个审稿人</span>
+    <span style="margin-right: 10px; margin-left: 10px">第三个审稿人</span>
     <select v-model="thirdValue">
-      <option v-for="(curriculum, index) in ReaderList" :key="index">{{curriculum.username}}</option>
+      <option v-for="(curriculum, index) in ReaderList" :key="index">{{ curriculum.username }}</option>
     </select>
-    <el-button type="success" @click="submit(article_data)">
+    <el-button type="success" @click="submit(article_data)" style="background-color: #409EFF; margin-left: 10px; margin-top: 10px">
       确定
     </el-button>
   </div>
@@ -105,10 +105,11 @@ export default {
     const query = this.$route.query;
     console.log(query.id)
     return {
+      type: '',
       ReaderList: [],
       firstValue: null,
-      secondValue:null,
-      thirdValue:null,
+      secondValue: null,
+      thirdValue: null,
       article_data: this.$route.query.id,
       article_title: '',
       description: '',
@@ -148,29 +149,29 @@ export default {
   methods: {
     submit(id) {
       let value1, value2, value3;
-      for(let i=0;i<this.ReaderList.length;i++){
-        if(this.ReaderList[i].username.trim()==this.firstValue.trim()){
-          value1=this.ReaderList[i].id;
+      for (let i = 0; i < this.ReaderList.length; i++) {
+        if (this.ReaderList[i].username.trim() == this.firstValue.trim()) {
+          value1 = this.ReaderList[i].id;
         }
-        if(this.ReaderList[i].username.trim()==this.secondValue.trim()){
-          value2=this.ReaderList[i].id;
+        if (this.ReaderList[i].username.trim() == this.secondValue.trim()) {
+          value2 = this.ReaderList[i].id;
         }
-        if(this.ReaderList[i].username.trim()==this.thirdValue.trim()){
-          value3=this.ReaderList[i].id;
+        if (this.ReaderList[i].username.trim() == this.thirdValue.trim()) {
+          value3 = this.ReaderList[i].id;
         }
       }
-        axios({
-          url: "/distributePassage",
-          method: "post",
-          params: {
-            article_id: id,
-            reviewer_id1:value1,
-            reviewer_id2:value2,
-            reviewer_id3:value3,
-          },
-        }).then((res) => {
-          this.$router.push({path: '/addreader'});
-        });
+      axios({
+        url: "/distributePassage",
+        method: "post",
+        params: {
+          article_id: id,
+          reviewer_id1: value1,
+          reviewer_id2: value2,
+          reviewer_id3: value3,
+        },
+      }).then((res) => {
+        this.$router.push({path: '/addreader'});
+      });
     },
     getReaderList() {
       axios({
@@ -233,6 +234,7 @@ export default {
         // this.getUserArticleInfo();
         this.description = res.data.data.description;
         this.article_title = res.data.data.title;
+        this.type = res.data.data.type;
       });
     },
   },

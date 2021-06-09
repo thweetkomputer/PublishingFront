@@ -8,13 +8,13 @@
     <el-row :gutter="10">
       <el-col :xs="24" :lg="24">
         <div class="body dewb">
-          <div class="header">
-            {{ article_title }}
+          <div>
+            <p style="font-weight: bold; display: inline-block; margin-right: 10px">作者</p>{{ type }}
           </div>
         </div>
         <div class="body dewb">
-          <div class="dewb">
-            {{ description }}
+          <div>
+            <p style="font-weight: bold; display: inline-block;  margin-right: 10px">简介</p>{{ description }}
           </div>
         </div>
         <div>
@@ -74,8 +74,12 @@
         </div>
       </el-col>
     </el-row>
-    <el-button type="success" @click="submit(article_data)">
+    <el-button type="success" @click="submit(article_data)" style="margin-top:10px; background-color: #409EFF">
       发布文章
+    </el-button>
+
+    <el-button type="success" @click="delete1(article_data)" style="margin-top:10px; background-color: #409EFF">
+      删除文章
     </el-button>
   </div>
 </template>
@@ -90,6 +94,7 @@ export default {
     const query = this.$route.query;
     console.log(query.id)
     return {
+      type: '',
       ReaderList: [],
       firstValue: '',
       secondValue:'',
@@ -140,6 +145,17 @@ export default {
         }).then((res) => {
           this.$router.push({path: '/books'});
         });
+    },
+    delete1(id) {
+      axios({
+        url: "/deletePassage",
+        method: "get",
+        params: {
+          article_id: id,
+        },
+      }).then((res) => {
+        this.$router.push({path: '/books'});
+      });
     },
     downFile() {
       let a = document.createElement('a')
@@ -193,6 +209,7 @@ export default {
         // this.getUserArticleInfo();
         this.description = res.data.data.description;
         this.article_title = res.data.data.title;
+        this.type = res.data.data.type;
       });
     },
   },

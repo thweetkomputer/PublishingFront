@@ -68,7 +68,7 @@
                 <span>文章管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/article">我的文章</el-menu-item>
+                <el-menu-item index="/article" v-show="JSON.parse(this.$store.state.userInfo).identity===1">我的文章</el-menu-item>
                 <el-menu-item index="/collect">收藏文章</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -196,8 +196,8 @@ export default {
       this.is_login = 0;
       console.log(1111)
       this.$store.commit('LOGOUT')
-      // this.$router.push({name: 'Books'})
-      this.$router.go(0)
+      this.$router.push({name: 'Books'})
+      // this.$router.go(0)
     },
     onKeyPress(e) {
       var keyCode = null;

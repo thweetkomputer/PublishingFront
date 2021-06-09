@@ -14,9 +14,7 @@
       <el-card class="box-card" shadow="hover" style="margin-top: 100px;margin-left: 130px;">
         <div slot="header" class="clearfix">
           <span>基本信息</span>
-           <el-button type="primary" icon="el-icon-edit" circle 
-                    @click="$router.push('/EditInformation')" style="float: right;">
-                </el-button>
+
         </div>
         <div style="margin-left:10px">
           <span/>用户名 
@@ -47,12 +45,22 @@
         </div>
         <div>
             <span>个人简介</span>
-          <div class="introduce" style="margin-left:10px;width:200px;"> {{JSON.parse(this.$store.state.userInfo).description}}</div>
+          <el-input
+              type="textarea"
+              :rows="2"
+              placeholder="请输入内容"
+              v-model="textarea" style="margin-left:10px;width:200px;">
+          </el-input>
+          <el-button type="primary" icon="el-icon-edit" circle
+                     @click="submitInfo()" style="float: right;">
+          </el-button>
         </div>
       </el-card>
     </div>
 </template>
 <script src="../assets/css/sex/iconfont.js">
+  import axios from "axios";
+
   export default{
     data () {
       return {
@@ -60,7 +68,8 @@
         input: '',
         userInfo: {
 
-        }
+        },
+        textarea:JSON.parse(this.$store.state.userInfo).description
       }
     },
     mounted() {
@@ -69,7 +78,23 @@
     methods:{
       getUserInfo(){
         this.userInfo=store.state.userInfo
-      }
+      },
+      submitInfo() {//保存编辑的用户信息
+        axios({
+          url: "/editInfo",
+          method: "post",
+          params: {
+            user_id: JSON.parse(this.$store.state.userInfo).id,
+            description: this.textarea
+          },
+        }).then((res) => {
+          const userInfo = res.data.data
+          console.log(userInfo)
+          this.$store.commit('SET_USERINFO', userInfo)
+          console.log(this.$store.getters.getUser)
+          this.$router.push("/Homepage")
+        });
+      },
     },
   }
 </script>

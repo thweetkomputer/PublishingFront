@@ -12,29 +12,20 @@
         <el-col v-for="item in message" :key="item.id" :span="24">
           <div class="card dewb"@click="open(item.id)">
             <el-row>
-              <el-col :xs="24" :lg="18" v-show="item.has_read===400">
-                <div></div>
-                <div> {{ item.content }} </div>
-                <div>
-                  <el-button
-                      type="success"
-                      icon="el-icon-delete"
-                      circle
-                      style="margin: 10px"
-                  ></el-button>
+
+              <el-col :xs="24" :lg="18" v-show="item.hasRead===1" >
+                <div @click="open(item.id)">
+                  <span style="float: left">该消息已读 </span>
+                  <span style="float: right">{{item.createdTime}}</span>
+                  <div> {{ item.content }} </div>
                 </div>
+
               </el-col>
-              <el-col :xs="24" :lg="18" v-show="item.has_read!==400">
-                <span>您有一条新通知</span>
-                <span>{{i}}</span>
-                <div> {{ item.content }} </div>
-                <div>
-                  <el-button
-                      type="success"
-                      icon="el-icon-delete"
-                      circle
-                      style="margin: 10px"
-                  ></el-button>
+              <el-col :xs="24" :lg="18" v-show="item.hasRead!==1" >
+                <div @click="open(item.id)">
+                  <span style="float: left">您有一条新通知 </span>
+                  <span style="float: right">{{item.createdTime}}</span>
+                  <div> {{ item.content}} </div>
                 </div>
               </el-col>
             </el-row>
@@ -74,6 +65,17 @@ export default {
   },
   methods: {
     open(id) {
+      for (let i = 0; i < this.message.length; i++) {
+        // console.log(this.message[i].id)
+        if (this.message[i].id === id) {
+          // alert(this.message[i].content)
+          this.$alert(this.message[i].content,  "消息内容",{
+            confirmButtonText: '确定',
+            callback: action => {
+            }
+          });
+        }
+      }
       axios({
         url: "/readNotice",
         method: "get",
@@ -81,16 +83,21 @@ export default {
           notice_id:id
         },
       }).then((res) => {
-      });
-      this.$alert(this.notice.content, this.notice.title, {
-        confirmButtonText: '确定',
-        callback: action => {
-          this.$message({
-            type: 'info',
-            message: `action: ${ action }`
-          });
+
+        // for (let m in  this.message) {
+        //   if (m.id === id) {
+        //     m.hasRead = 1
+        //   }
+        // }
+        for (let i = 0; i < this.message.length; i++) {
+          // console.log(this.message[i].id)
+          if (this.message[i].id === id) {
+            // alert(this.message[i].content)
+            this.message[i].hasRead = 1
+          }
         }
       });
+
     },
     //跳转内容页
     readNotice(id){

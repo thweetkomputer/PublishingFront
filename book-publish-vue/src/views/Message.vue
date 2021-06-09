@@ -7,46 +7,46 @@
       </el-breadcrumb>
     </div>
     <!-- 文章列表 -->
-    <div class="dewb" style="margin-top:10px;width: 70%">
-      <el-row>
-        <el-col v-for="item in message" :key="item.id" :span="24">
-          <div class="card dewb"@click="open(item.id)">
-            <el-row>
-
-              <el-col :xs="24" :lg="18" v-show="item.hasRead===1" >
-                <div @click="open(item.id)">
-                  <span style="float: left">该消息已读 </span>
-                  <span style="float: right">{{item.createdTime}}</span>
+    <div id="content" style="margin-left: 0px;margin-top: -70px">
+      <!--      margin-top可以选择不用-->
+      <div class="article" style="color: #00000060;width: 80%;float: left" >
+        <el-row class="fudong">
+          <el-col v-for="item in message" :key="item.id" :span="24" style="margin-bottom: 3px;">
+            <div class="card dewb" style="height: 90px" @click="open(item.id)">
+              <el-row>
+                <el-col :xs="24" :lg="18" v-show="item.hasRead===1" >
+                  <div>
+                    <div style="float: left">该消息已读 </div>
+                    <div style="float: right">{{item.createdTime}}</div>
+                  </div>
+                </el-col>
+                <el-col style="margin-top: 10px">
                   <div> {{ item.content }} </div>
-                </div>
-
-              </el-col>
-              <el-col :xs="24" :lg="18" v-show="item.hasRead!==1" >
-                <div @click="open(item.id)">
-                  <span style="float: left">您有一条新通知 </span>
-                  <span style="float: right">{{item.createdTime}}</span>
-                  <div> {{ item.content}} </div>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
-    <!-- 分页器 -->
-    <div class="dweb" style="margin-top:10px">
-      <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="total"
-          :page-size="pageSize"
-          @current-change="currentChange"
-      >
-      </el-pagination>
+                </el-col>
+                <el-col :xs="24" :lg="18" v-show="item.hasRead!==1" >
+                  <div @click="open(item.id)">
+                    <span style="float: left">您有一条新通知 </span>
+                    <span style="float: right">{{item.createdTime}}</span>
+                    <div> {{ item.content}} </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+          </el-col>
+        </el-row>
+        <el-pagination
+            background
+            :hide-on-single-page="value"
+            layout="prev, pager, next"
+            :total="total"
+            :page-size="pageSize"
+            @current-change="currentChange"
+        >
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 export default {
@@ -127,14 +127,70 @@ export default {
 </script>
 
 <style scoped>
+.el-row {
+  padding-bottom: 5px;
+}
+
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+
+.el-tag.el-tag--info {
+  margin: 5px;
+}
+
+.el-tag.el-tag--info {
+  background-color: #00000060;
+  border-color: #00000060;
+  color: white;
+}
+
 #article-list .dweb {
   padding: 10px 10px;
 }
+
 .card.dweb .text-item {
   color: #fff;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.tag{
+  border-color: #d9d9d9!important;
+  background: #d9d9d9!important;
+  color: black!important;
+}
+
+
+.tag:hover{
+  color: #409EFF!important;
+
+}
+
+.fudong :hover {
+  background: #f7f7f7;
+  border-radius: 5px;
+  cursor:pointer
+}
+
+.word{
+  color: black;
+}
+.word:hover{
+  color: #265194!important;
 }
 </style>

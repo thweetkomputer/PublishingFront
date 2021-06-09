@@ -8,47 +8,51 @@
       </el-breadcrumb>
     </div>
     <!-- 文章列表 -->
-    <div class="dewb" style="margin-top:10px;width: 70%">
-      <el-row>
-        <el-col v-for="item in article_list" :key="item.id" :span="24">
-          <div class="card dewb" >
-            <el-row>
-              <el-col :xs="24" :lg="18">
-                <div>{{ item.title }}</div>
-                <div> {{ item.description }} </div>
-                <div>
-                  <el-button
-                      @click="deleteArticle(item.id)"
-                      type="success"
-                      circle
-                      style="margin: 10px"
-                  >取消收藏</el-button>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-        </el-col>
-      </el-row>
+    <Advertisement style="margin-left: 1000px;margin-top: 35px"></Advertisement>
+    <div id="Books">
+      <div id="content" style="margin-left: 0px;margin-top: -70px">
+        <!--      margin-top可以选择不用-->
+        <div class="article" style="color: #00000060;width: 60%;float: left">
+          <el-row class="fudong">
+            <el-col v-for="item in article_list" :key="item.id" :span="24" style="margin-bottom: 3px;">
+              <div class="card dewb" style="height: 160px" >
+                <el-row>
+                  <el-col :xs="24" :lg="18">
+                    <div style="padding-left: 30px; padding-top: 10px" @click="toArticle(item.id)">
+                      <div class="word"><h2 style="display: inline">{{ item.title }}</h2><span style="padding-left: 10px; padding-top: 15px; float: right">{{item.type}}</span></div>
+                      <hr>
+                      <div class="word"> {{ item.description }}</div>
+                    </div>
+                    <el-button @click="deleteArticle(item.id)" type="primary" style="margin-left: 30px;margin-top: 10px;background-color: #409EFF;color: black" size="15">取消收藏</el-button>
+                  </el-col>
+
+                </el-row>
+
+              </div>
+            </el-col>
+          </el-row>
+          <el-pagination
+              background
+              :hide-on-single-page="value"
+              layout="prev, pager, next"
+              :total="total"
+              :page-size="pageSize"
+              @current-change="currentChange"
+          >
+          </el-pagination>
+        </div>
+      </div>
     </div>
-    <!-- 分页器 -->
-    <div class="dweb" style="margin-top:10px">
-      <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="total"
-          :page-size="pageSize"
-          @current-change="currentChange"
-      >
-      </el-pagination>
     </div>
-  </div>
 </template>
 
 <script>
 import axios from "axios";
 import Qs from "qs";
+import Advertisement from "@/components/Advertisement";
 export default {
   props: ["screenWidth"],
+  components:{Advertisement},
   data() {
     return {
       currentPage: 1,
@@ -110,14 +114,70 @@ export default {
 };
 </script>
 <style scoped>
+.el-row {
+  padding-bottom: 5px;
+}
+
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+
+.el-tag.el-tag--info {
+  margin: 5px;
+}
+
+.el-tag.el-tag--info {
+  background-color: #00000060;
+  border-color: #00000060;
+  color: white;
+}
+
 #article-list .dweb {
   padding: 10px 10px;
 }
+
 .card.dweb .text-item {
   color: #fff;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.tag{
+  border-color: #d9d9d9!important;
+  background: #d9d9d9!important;
+  color: black!important;
+}
+
+
+.tag:hover{
+  color: #409EFF!important;
+
+}
+
+.fudong :hover {
+  background: #f7f7f7;
+  border-radius: 5px;
+  cursor:pointer
+}
+
+.word{
+  color: black;
+}
+.word:hover{
+  color: #265194!important;
 }
 </style>

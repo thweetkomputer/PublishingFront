@@ -79,7 +79,7 @@
               </template>
               <el-menu-item-group v-if="JSON.parse(this.$store.state.userInfo).identity===1">
                 <!--        作者界面      -->
-                <el-menu-item index="/add-article">编辑文章</el-menu-item>
+<!--                <el-menu-item index="/add-article">编辑文章</el-menu-item>-->
                 <el-menu-item index="/submit">提交文章</el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group v-if="JSON.parse(this.$store.state.userInfo).identity===2">

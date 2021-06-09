@@ -9,7 +9,7 @@
     <el-row :gutter="10">
       <el-col :xs="24" :lg="16">
         <div class="body dewb">
-          <div class="header">
+          <div class="header" style="color: black!important;">
             {{ article_title }}
           </div>
         </div>
@@ -21,7 +21,6 @@
         <div>
           <div class="pdf-tab">
             <el-button
-
                 @click.stop="clock"
                 style="margin:10px"
             >顺时针
@@ -100,12 +99,12 @@
               <i @click="toFavor()" v-else class="iconfont icon-shoucang"></i>
             </el-col>
             <el-col :span="8">
-                <span
+                <i
                     v-if="!user_article_info.report"
                     class="iconfont icon-jubao"
-                    style="color:#e6e1e8"
+                    style="color:#000"
                     @click="open"
-                ></span>
+                ></i>
             </el-col>
           </el-row>
         </div>
@@ -114,6 +113,7 @@
               v-for="(item, index) in pinglun_data"
               :key="index"
               class="body dewb pinglun-item"
+              style="color: #000;"
           >
             {{ item.content.slice(0, item.content.indexOf(' ')) }} 说：
             <span style="float: right; color: #8c939d">{{ item.createdTime.replace('T', ' ') }}</span>
@@ -137,12 +137,13 @@
           <el-input
               type="textarea"
               :maxlength="120"
-              :rows="2"
+              :rows="4"
               placeholder="请输入内容"
               v-model="new_pinglun"
+              style="background-color:#ffffff00!important; border-radius: 5px"
           >
           </el-input>
-          <el-button @click="saveNewPinglun()" type="success"
+          <el-button @click="saveNewPinglun()" type="success" style="margin-top: 10px;background-color: #409EFF"
           >发表评论
           </el-button
           >
@@ -423,7 +424,7 @@ export default {
 <style scoped>
 .body.dewb .dewb {
   padding: 10px;
-  color: #b7b7b7;
+  color: #00000060;
   font-size: 12px;
   font-style: italic;
 }
@@ -431,6 +432,14 @@ export default {
 .body.dewb {
   padding: 10px 10px;
   margin-top: 10px;
+  color: black!important;
+}
+
+.dewb .header {
+  font-size: 18px;
+  color: #000;
+  text-align: center;
+  font-weight: 500;
 }
 
 .like-btn {
@@ -459,5 +468,10 @@ export default {
 
 .linkAnnotation > a:hover {
   color: #20a0ff;
+}
+
+.body.dewb.pinglun-item[data-v-76cda6af] {
+  color: #000!important;
+  font-size: 16px;
 }
 </style>

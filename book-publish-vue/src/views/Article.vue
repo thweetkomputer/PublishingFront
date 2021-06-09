@@ -2,53 +2,50 @@
   <div id="article-list">
     <!-- 面包屑导航 -->
     <div >
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
+      <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px;margin-right: 400px">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item >文章列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!-- 文章列表 -->
-    <div class="dewb" style="margin-top:10px">
-      <el-row>
-        <el-col v-for="item in article_list" :key="item.id" :span="24">
-          <div class="card dewb">
-            <el-row>
-              <el-col :xs="24" :lg="18">
-                <div>{{ item.title }}</div>
-                <div> {{ item.description }} </div>
-                <div>
-                  <el-button
-                      @click="toArticle(item.id)"
-                      type="success"
-                      icon="el-icon-search"
-                      circle
-                      style="margin: 10px"
-                  ></el-button>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
-    <!-- 分页器 -->
-<!--    total绑定data中的total-->
-    <div class="dweb" style="margin-top:10px">
-      <el-pagination
-          background
-          :hide-on-single-page="value"
-          layout="prev, pager, next"
-          :total="total"
-          :page-size="pageSize"
-          @current-change="currentChange"
-      >
-      </el-pagination>
+    <Advertisement style="margin-left: 1000px;margin-top: 35px"></Advertisement>
+    <div id="Books">
+      <div id="content" style="margin-left: 0px;margin-top: -70px">
+        <!--      margin-top可以选择不用-->
+        <div class="article" style="color: #00000060;width: 60%;float: left">
+          <el-row class="fudong">
+            <el-col v-for="item in article_list" :key="item.id" :span="24" style="margin-bottom: 3px;">
+              <div class="card dewb" style="height: 120px" @click="toArticle(item.id)">
+                <el-row>
+                  <el-col :xs="24" :lg="18">
+                    <div style="padding-left: 30px; padding-top: 10px">
+                      <div class="word"><h2 style="display: inline">{{ item.title }}</h2><span style="padding-left: 10px; padding-top: 15px; float: right">{{item.type}}</span></div>
+                      <hr>
+                      <div class="word"> {{ item.description }}</div>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-col>
+          </el-row>
+          <el-pagination
+              background
+              :hide-on-single-page="value"
+              layout="prev, pager, next"
+              :total="total"
+              :page-size="pageSize"
+              @current-change="currentChange"
+          >
+          </el-pagination>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import axios from "axios";
-import Qs from "qs";
+
+import Advertisement from "@/components/Advertisement";
 export default {
   props: ["screenWidth"],
   data() {
@@ -65,6 +62,7 @@ export default {
   mounted() {
     this.getListData(this.currentPage);
   },
+  components: {Advertisement},
   methods: {
     //跳转内容页
     toArticle(id){
@@ -99,46 +97,75 @@ export default {
       this.currentPage = val;
       this.getListData(val);
     },
-    //删除文章
-    // deleteArticle(id) {
-    //   if (confirm("是否确定删除")) {
-    //     let checkInfo = {
-    //       contentType: "blog_article",
-    //       permissions: ["delete"],
-    //     };
-    //     this.$store.dispatch("checkUserPerm", checkInfo).then((res) => {
-    //       console.log(res);
-    //       if (res) {
-    //         axios({
-    //           url: "",
-    //           method: "delete",
-    //           data: Qs.stringify({
-    //             id,
-    //           }),
-    //           headers: {
-    //             "Content-Type": "application/x-www-form-urlencoded",
-    //           },
-    //         }).then((res) => {
-    //           console.log(res);
-    //           this.getListData(this.currentPage);
-    //         });
-    //       }
-    //     });
-    //   }
-    // },
   },
 };
 </script>
 
 <style scoped>
+.el-row {
+  padding-bottom: 5px;
+}
+
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+
+.el-tag.el-tag--info {
+  margin: 5px;
+}
+
+.el-tag.el-tag--info {
+  background-color: #00000060;
+  border-color: #00000060;
+  color: white;
+}
+
 #article-list .dweb {
   padding: 10px 10px;
 }
+
 .card.dweb .text-item {
   color: #fff;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.tag{
+  border-color: #d9d9d9!important;
+  background: #d9d9d9!important;
+  color: black!important;
+}
+
+
+.tag:hover{
+  color: #409EFF!important;
+
+}
+
+.fudong :hover {
+  background: #f7f7f7;
+  border-radius: 5px;
+  cursor:pointer
+}
+
+.word{
+  color: black;
+}
+.word:hover{
+  color: #265194!important;
 }
 </style>

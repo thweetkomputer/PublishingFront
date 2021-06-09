@@ -48,7 +48,7 @@
           <el-input
               type="textarea"
               :rows="2"
-              placeholder="请输入内容"
+              placeholder=
               v-model="textarea" style="margin-left:10px;width:200px;">
           </el-input>
           <el-button type="primary" icon="el-icon-edit" circle
@@ -69,7 +69,7 @@
         userInfo: {
 
         },
-        textarea:JSON.parse(this.$store.state.userInfo).description
+        textarea:''
       }
     },
     mounted() {

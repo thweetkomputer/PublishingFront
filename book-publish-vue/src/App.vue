@@ -2,29 +2,36 @@
   <!--  未登录状态-->
   <div>
     <div>
-      <LoginWindow style="position:relative;z-index: 1"></LoginWindow>
+      <LoginWindow style="position:absolute;z-index: 999"></LoginWindow>
     </div>
+    <div>
+      <span style="color: #2468f6; position: absolute; z-index: 998; margin-top: 12px; margin-left: 290px">
+        <h3 style="font-weight: bold">网上出版系统</h3>
+      </span>
+    </div>
+
+    <!--    <div style="position: absolute; z-index: 1; color: #488ce9">网上出版系统</div>-->
     <div id="app">
-      <div id="top-menu" class="dewb">
+      <div id="top-menu" class="dewb" style="position: absolute; z-index: 500">
         <Menu mode="horizontal" style="border: none;">
           <Submenu name="5" style="float:right " v-if="this.$store.state.userInfo!==null">
             <template slot="title">
-              <Icon type="ios-people"></Icon>
-              用户
+              <Icon type="md-person" size="20"/>
+              {{ JSON.parse(this.$store.state.userInfo).username }}
             </template>
             <Menu-item name="5-1" to="/Homepage">个人信息</Menu-item>
             <Menu-item name="5-2" @click.native="logout">退出登录</Menu-item>
           </Submenu>
           <MenuItem name="4" @click.native="login" v-if="this.$store.state.userInfo===null" style="float: right">
-            <Icon type="ios-construct"/>
+            <Icon type="md-log-in" size="20"/>
             登录
           </MenuItem>
           <MenuItem name="7" v-if="this.$store.state.userInfo===null" style="float: right" @click.native="login">
-            <Icon type="ios-construct"/>
+            <Icon type="ios-notifications" size="20"/>
             消息中心
           </MenuItem>
           <MenuItem name="3" v-if="this.$store.state.userInfo!==null" style="float: right" to="/message">
-            <Icon type="ios-construct"/>
+            <Icon type="ios-notifications" size="20"/>
             消息中心
           </MenuItem>
           <MenuItem name="6" style="float: right">
@@ -32,9 +39,6 @@
                    style="width:200px;margin-right: 10px"
                    @keyup.enter.native="tosearch"></Input>
             <span @click="tosearch">搜索</span>
-          </MenuItem>
-          <MenuItem name="1" v-if="this.$store.state.userInfo===null" @click="console.log(this.$store.state.is_login)">
-            图标
           </MenuItem>
           <MenuItem name="2" to="/books" v-if="this.$store.state.userInfo===null">
             <Icon type="ios-paper"/>
@@ -100,6 +104,7 @@
 </template>
 <script>
 import LoginWindow from '@/components/LoginWindow'
+import search from "@/views/search/search";
 
 export default {
   name: "Book",
@@ -143,15 +148,17 @@ export default {
           }
         });
       } else {
-        if (this.$route.path==='search') {
-          this.$route.query.searchContent = this.value4;
-        }
+
         this.$router.push({name: 'search', query: {searchContent: this.value4}});
         this.value4 = '';
-        this.$router.go(0)
+        if (this.$route.path === '/search') {
+          this.$router.go(0)
+        }
+        // this.$route.query.searchContent = this.value4;
+        search.$emit('demo', this.value4);
+
       }
-    }
-    ,
+    },
     toLogin() {
       this.$router.push({name: 'Login'})
     },

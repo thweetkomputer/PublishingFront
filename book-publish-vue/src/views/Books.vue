@@ -1,78 +1,50 @@
 <template>
-  <div id="Books">
-    <div id="content" style="margin-left: 0px;margin-top: -70px">
-      <!--      margin-top可以选择不用-->
-      <div class="article" style="color: #00000060;width: 60%;float: left">
-        <el-row class="fudong">
-          <el-col v-for="item in article_list" :key="item.id" :span="24" style="margin-bottom: 3px;">
-            <div class="card dewb" style="height: 120px" @click="toArticle(item.id)">
-              <el-row>
-                <el-col :xs="24" :lg="18">
-                  <div style="padding-left: 30px; padding-top: 10px">
-                    <div class="word"><h2 style="display: inline">{{ item.title }}</h2><span style="padding-left: 10px; padding-top: 15px; float: right">{{item.type}}</span></div>
-                    <hr>
-                    <div class="word"> {{ item.description }}</div>
-                  </div>
-                </el-col>
-              </el-row>
-            </div>
-          </el-col>
-        </el-row>
-        <el-pagination
-            background
-            :hide-on-single-page="value"
-            layout="prev, pager, next"
-            :total="total"
-            :page-size="pageSize"
-            @current-change="currentChange"
-        >
-        </el-pagination>
+  <div>
+    <Advertisement style="margin-top: 65px"></Advertisement>
+    <div id="Books">
+      <div id="content" style="margin-left: 0px;margin-top: -70px">
+        <!--      margin-top可以选择不用-->
+        <div class="article" style="color: #00000060;width: 60%;float: left">
+          <el-row class="fudong">
+            <el-col v-for="item in article_list" :key="item.id" :span="24" style="margin-bottom: 3px;">
+              <div class="card dewb" style="height: 120px" @click="toArticle(item.id)">
+                <el-row>
+                  <el-col :xs="24" :lg="18">
+                    <div style="padding-left: 30px; padding-top: 10px">
+                      <div class="word"><h2 style="display: inline">{{ item.title }}</h2><span style="padding-left: 10px; padding-top: 15px; float: right">{{item.type}}</span></div>
+                      <hr>
+                      <div class="word"> {{ item.description }}</div>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+            </el-col>
+          </el-row>
+          <el-pagination
+              background
+              :hide-on-single-page="value"
+              layout="prev, pager, next"
+              :total="total"
+              :page-size="pageSize"
+              @current-change="currentChange"
+          >
+          </el-pagination>
+        </div>
       </div>
-      <div class="side" style="width: 39%;margin-left: 888px; position: fixed">
-        <el-row>
-
-          <el-col :xs="10" :lg="10">
-            <div style=" ">
-              <el-carousel :interval="4000" height="240px" style="float: left;width:290px;border-radius: .25rem;">
-                <el-carousel-item v-for="item in imagebox" :key="item.id">
-                  <img :src="item.idView" class="image">
-                </el-carousel-item>
-              </el-carousel>
-            </div>
-          </el-col>
-          <el-col :xs='10' :lg="10" style="float: left;margin-top: 245px;position: absolute">
-            <div class=""
-                 style="background-color:#fff; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
-              <h5 style="color:black; padding-top: 7px; padding-left: 5px">热门标签</h5>
-              <hr>
-              <el-tag type="info" class="tag">历史</el-tag>
-              <el-tag type="info" class="tag">科技</el-tag>
-              <br>
-              <el-tag type="info" class="tag">人文</el-tag>
-              <el-tag type="info" class="tag">军事</el-tag>
-              <el-tag type="info" class="tag">地理</el-tag>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-
     </div>
   </div>
+
 </template>
 
 <script>
 import axios from "axios";
+import Advertisement from "@/components/Advertisement";
 
 export default {
   name: "books",
+  components: {Advertisement},
   data() {
     return {
-      imagebox: [{id: 0, idView: require('../assets/img/img1.jpg')},
-        {id: 1, idView: require('../assets/img/img2.jpg')},
-        {id: 2, idView: require('../assets/img/img4.png')},
-
-        //imagebox是assets下一个放图片的文件夹
-      ],
       article_list: {},
       currentPage: 1,
       pageSize: 10,
@@ -181,6 +153,7 @@ export default {
 .fudong :hover {
   background: #f7f7f7;
   border-radius: 5px;
+  cursor:pointer
 }
 
 .word{

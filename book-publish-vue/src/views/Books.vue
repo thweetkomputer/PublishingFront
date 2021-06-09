@@ -1,15 +1,18 @@
 <template>
   <div id="Books">
     <div id="content" style="margin-left: 0px;margin-top: -70px">
-<!--      margin-top可以选择不用-->
+      <!--      margin-top可以选择不用-->
       <div class="article" style="color: #00000060;width: 60%;float: left">
-        <el-row>
+        <el-row class="fudong">
           <el-col v-for="item in article_list" :key="item.id" :span="24" style="margin-bottom: 3px;">
             <div class="card dewb" style="height: 120px" @click="toArticle(item.id)">
-              <el-row >
-                <el-col :xs="24" :lg="18" >
-                  <div>{{ item.title }}</div>
-                  <div> {{ item.description }} </div>
+              <el-row>
+                <el-col :xs="24" :lg="18">
+                  <div style="padding-left: 30px; padding-top: 10px">
+                    <div class="word"><h2 style="display: inline">{{ item.title }}</h2><span style="padding-left: 10px; padding-top: 15px; float: right">{{item.type}}</span></div>
+                    <hr>
+                    <div class="word"> {{ item.description }}</div>
+                  </div>
                 </el-col>
               </el-row>
             </div>
@@ -25,8 +28,8 @@
         >
         </el-pagination>
       </div>
-      <div class="side" style="width: 39%;float: right; ">
-        <el-row >
+      <div class="side" style="width: 39%;margin-left: 888px; position: fixed">
+        <el-row>
 
           <el-col :xs="10" :lg="10">
             <div style=" ">
@@ -38,39 +41,16 @@
             </div>
           </el-col>
           <el-col :xs='10' :lg="10" style="float: left;margin-top: 245px;position: absolute">
-            <div class="" style="background-color:#00000060; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
-              <h5 style="color:white">热门标签</h5>
+            <div class=""
+                 style="background-color:#fff; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
+              <h5 style="color:black; padding-top: 7px; padding-left: 5px">热门标签</h5>
               <hr>
               <el-tag type="info" class="tag">历史</el-tag>
-              <el-tag type="info">科技</el-tag>
+              <el-tag type="info" class="tag">科技</el-tag>
               <br>
-              <el-tag type="info">人文</el-tag>
-              <el-tag type="info">军事</el-tag>
-              <el-tag type="info">地理</el-tag>
-            </div>
-          </el-col>
-          <el-col :xs='10' :lg="10" style="float: left;margin-top: 500px;position: absolute">
-            <div class="" style="background-color:#00000060; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
-              <h5 style="color:white">热门标签</h5>
-              <hr>
-              <el-tag type="info" class="tag">历史</el-tag>
-              <el-tag type="info">科技</el-tag>
-              <br>
-              <el-tag type="info">人文</el-tag>
-              <el-tag type="info">军事</el-tag>
-              <el-tag type="info">地理</el-tag>
-            </div>
-          </el-col>
-          <el-col :xs='10' :lg="10" style="float: left;margin-top: 740px;position: absolute">
-            <div class="" style="background-color:#00000060; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
-              <h5 style="color:white">热门标签</h5>
-              <hr>
-              <el-tag type="info" class="tag">历史</el-tag>
-              <el-tag type="info">科技</el-tag>
-              <br>
-              <el-tag type="info">人文</el-tag>
-              <el-tag type="info">军事</el-tag>
-              <el-tag type="info">地理</el-tag>
+              <el-tag type="info" class="tag">人文</el-tag>
+              <el-tag type="info" class="tag">军事</el-tag>
+              <el-tag type="info" class="tag">地理</el-tag>
             </div>
           </el-col>
         </el-row>
@@ -85,21 +65,21 @@ import axios from "axios";
 
 export default {
   name: "books",
-  data(){
+  data() {
     return {
-      imagebox:[{id:0,idView:require('../assets/img/img1.jpg')},
-        {id:1,idView:require('../assets/img/img2.jpg')},
-        {id:2,idView:require('../assets/img/img4.png')},
+      imagebox: [{id: 0, idView: require('../assets/img/img1.jpg')},
+        {id: 1, idView: require('../assets/img/img2.jpg')},
+        {id: 2, idView: require('../assets/img/img4.png')},
 
         //imagebox是assets下一个放图片的文件夹
       ],
-      article_list:{},
+      article_list: {},
       currentPage: 1,
       pageSize: 10,
       total: 10,
       //total是条目总数，
-      total_num:0,
-      value:false
+      total_num: 0,
+      value: false
     }
   },
   mounted() {
@@ -107,10 +87,10 @@ export default {
   },
   methods: {
     //跳转内容页
-    toArticle(id){
+    toArticle(id) {
       let routeUrl = this.$router.resolve({
         path: "/content",
-        query: {id:id}
+        query: {id: id}
       });
       window.open(routeUrl.href, '_blank');
     },
@@ -124,12 +104,11 @@ export default {
         },
       }).then((res) => {
         this.article_list = res.data.data.article_list;
-        this.total_num=res.data.data.total_num;
-        if(this.total_num%10!==0){
-          this.total=this.total_num/10+1;
-        }
-        else{
-          this.total=this.total_num/10;
+        this.total_num = res.data.data.total_num;
+        if (this.total_num % 10 !== 0) {
+          this.total = this.total_num / 10 + 1;
+        } else {
+          this.total = this.total_num / 10;
         }
         console.log(this.total)
       });
@@ -145,9 +124,10 @@ export default {
 
 
 <style scoped>
-.el-row{
+.el-row {
   padding-bottom: 5px;
 }
+
 .el-carousel__item h3 {
   color: #475669;
   font-size: 14px;
@@ -163,22 +143,50 @@ export default {
 .el-carousel__item:nth-child(2n+1) {
   background-color: #d3dce6;
 }
+
 .el-tag.el-tag--info {
-  margin:5px;
+  margin: 5px;
 }
+
 .el-tag.el-tag--info {
-    background-color: #00000060;
-    border-color: #00000060;
-    color: white;
+  background-color: #00000060;
+  border-color: #00000060;
+  color: white;
 }
+
 #article-list .dweb {
   padding: 10px 10px;
 }
+
 .card.dweb .text-item {
   color: #fff;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.tag{
+  border-color: #d9d9d9!important;
+  background: #d9d9d9!important;
+  color: black!important;
+}
+
+
+.tag:hover{
+  color: #409EFF!important;
+
+}
+
+.fudong :hover {
+  background: #f7f7f7;
+  border-radius: 5px;
+}
+
+.word{
+  color: black;
+}
+.word:hover{
+  color: #265194!important;
 }
 </style>

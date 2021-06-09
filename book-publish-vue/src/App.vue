@@ -148,7 +148,6 @@ export default {
           }
         });
       } else {
-
         this.$router.push({name: 'search', query: {searchContent: this.value4}});
         this.value4 = '';
         if (this.$route.path === '/search') {
@@ -156,7 +155,6 @@ export default {
         }
         // this.$route.query.searchContent = this.value4;
         search.$emit('demo', this.value4);
-
       }
     },
     toLogin() {

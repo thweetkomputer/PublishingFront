@@ -12,24 +12,34 @@
       <div class="article" style="color: #00000060;width: 80%;float: left" >
         <el-row class="fudong">
           <el-col v-for="item in message" :key="item.id" :span="24" style="margin-bottom: 3px;">
-            <div class="card dewb" style="height: 90px" @click="open(item.id)">
-              <el-row>
-                <el-col :xs="24" :lg="18" v-show="item.hasRead===1" >
-                  <div>
-                    <div style="float: left">该消息已读 </div>
-                    <div style="float: right">{{item.createdTime}}</div>
+            <div class="card dewb" style="height: 120px" @click="open(item.id)">
+              <el-row style="margin-left: 10px">
+                <div v-show="item.hasRead===1">
+                  <el-col :xs="24" :lg="18" >
+                    <div style="margin-top: 10px">
+                      <div style="float: left;">该消息已读 </div>
+                      <div style="float: right">{{ item.createdTime.replace('T', ' ') }}</div>
+                    </div>
+                  </el-col>
+                  <el-col><hr></el-col>
+                  <el-col style="margin-top: 0px">
+                    <div> {{ item.content }} </div>
+                  </el-col>
+                </div>
+
+                <div v-show="item.hasRead===0" style="color: black" class="red-point">
+                <el-col :xs="24" :lg="18">
+                  <div style="margin-top: 10px">
+                    <div style="float: left;">您有一条新通知 </div>
+                    <div style="float: right">{{ item.createdTime.replace('T', ' ') }}</div>
                   </div>
                 </el-col>
-                <el-col style="margin-top: 10px">
+                <el-col><hr></el-col>
+                <el-col style="margin-top: 0px">
                   <div> {{ item.content }} </div>
                 </el-col>
-                <el-col :xs="24" :lg="18" v-show="item.hasRead!==1" >
-                  <div @click="open(item.id)">
-                    <span style="float: left">您有一条新通知 </span>
-                    <span style="float: right">{{item.createdTime}}</span>
-                    <div> {{ item.content}} </div>
-                  </div>
-                </el-col>
+                </div>
+
               </el-row>
             </div>
           </el-col>
@@ -192,5 +202,20 @@ export default {
 }
 .word:hover{
   color: #265194!important;
+}
+
+.red-point{
+  position: relative;
+}
+
+.red-point::before{
+  content: " ";
+  border: 5px solid red;/*设置红色*/
+  border-radius:5px;/*设置圆角*/
+  position: absolute;
+  z-index: 1000;
+  right: 0;
+  margin-right: -2px;
+  margin-top: -2px;
 }
 </style>

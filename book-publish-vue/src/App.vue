@@ -1,6 +1,6 @@
 <template>
   <!--  未登录状态-->
-  <div>
+  <div style="background-color: #f6f6f6">
     <div>
       <LoginWindow style="position:absolute;z-index: 999"></LoginWindow>
     </div>

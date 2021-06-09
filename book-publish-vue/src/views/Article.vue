@@ -74,11 +74,12 @@ export default {
     },
     getListData(page) {
       axios({
-        url: "/newPassages",
+        url: "/searchMyArticle",
         method: "get",
         params: {
           page,
           pageSize: this.pageSize,
+          user_id: JSON.parse(this.$store.state.userInfo).id
         },
       }).then((res) => {
         this.article_list = res.data.data.article_list;

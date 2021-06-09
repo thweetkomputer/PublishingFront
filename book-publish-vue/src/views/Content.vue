@@ -202,8 +202,11 @@ export default {
 
   },
   mounted() {
-    this.getUserToArtcile();
     this.getArticleDescription(this.article_data);
+    if (this.$store.state.userInfo === null) {
+      return
+    }
+    this.getUserToArtcile();
     this.getAllPinglun(1, this.pinglun_pageSize);
   },
   methods: {
@@ -404,6 +407,7 @@ export default {
     // },
     getArticleDescription(id) {
       // console.log(id);
+      // alert(id)
       axios({
         url: "/getPassage",
         method: "get",

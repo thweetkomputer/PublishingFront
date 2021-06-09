@@ -25,6 +25,7 @@
                 <el-input maxlength="19" placeholder="请输入密码" type="password" v-model="ruleFormLogin.password"
                           show-password
                           clearable prefix-icon="el-icon-s-goods"
+                          @keyup.enter.native="submitFormLogin('ruleFormLogin')"
                 ></el-input>
               </el-form-item>
               <el-form-item style="margin-left: -70px;">
@@ -36,7 +37,9 @@
                 </el-row>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitFormLogin('ruleFormLogin')" style="background-color: #333333">登录
+                <el-button type="primary" @click="submitFormLogin('ruleFormLogin')"
+                           style="background-color: #333333">
+                  登录
                 </el-button>
                 <el-button @click="resetForm('ruleFormLogin')">重置</el-button>
               </el-form-item>

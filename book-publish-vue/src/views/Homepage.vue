@@ -1,85 +1,37 @@
 <template>
   <div id="Books">
-    <div>
+    <div style="margin-top: 50px; margin-left: -50px">
       <el-row>
         <el-col  :span="24" style="margin-bottom: 3px;">
-          <h3 style="margin-left: 100px">用户名：{{}}</h3>
-          <div style="margin-top: 10px;margin-left: 100px">身份：{{}}</div>
-          <div style="margin-top: 10px;margin-left: 100px">邮箱：{{}}</div>
+          <h3 style="margin-left: 100px">用户名：{{userInfo.username}}</h3>
+          <div v-show="userInfo.identity===1" style="margin-top: 10px;margin-left: 100px;">身份：作者</div>
+          <div v-show="userInfo.identity===2" style="margin-top: 10px;margin-left: 100px;">身份：审稿人</div>
+          <div v-show="userInfo.identity===3" style="margin-top: 10px;margin-left: 100px;">身份：编辑</div>
+          <div style="margin-top: 10px;margin-left: 100px">邮箱：{{userInfo.email}}</div>
 
           <div style="margin-top: 10px;margin-left: 100px;">
             个人简介
-            <span style="float: right;margin-right: 460px;margin-top:-25px"><el-button @click="modify()" style="margin-top: 10px">修改个人简介</el-button></span>
+            <span style="float: right;margin-right: 460px;margin-top:-25px"><el-button @click="modify()" style="margin-top: 10px;margin-bottom: 10px"><i class="el-icon-edit"></i></el-button></span>
           </div>
           <div v-show="isopen" >
-            <el-input v-model="description" placeholder="请输入内容" style="margin-top: 10px;margin-left: 100px" type="textarea"
-                      :maxlength="120"
-                      :rows="2"></el-input>
-            <el-button @click="submit" style="margin-top: 10px;margin-left: 100px">确定</el-button>
-            <el-button @click="consoleSubmit" style="margin-top: 10px;margin-left: 100px">取消</el-button>
+            <el-form>
+              <el-form-item  style="margin-top: 10px;margin-left: 100px;">
+                <el-input placeholder="请输入内容" type="textarea" v-model="description" :autosize="{ minRows: 10, maxRows: 15}" style="width: 900px"></el-input>
+              </el-form-item>
+            </el-form>
+            <el-button @click="submit" style="margin-top: 10px;margin-left: 100px;">确定</el-button>
+            <el-button @click="consoleSubmit" style="margin-top: 10px;margin-left: 100px;">取消</el-button>
           </div>
-          <div v-show="!isopen" style="margin-left: 100px">
-            {{}}
+          <div v-show="!isopen" style="margin-top: 20px">
+            <div v-show="userInfo.description===''" style="margin-left: 100px">
+              该用户比较懒，什么都没有留下～
+            </div>
+            <div v-show="userInfo.description!==''" style="margin-left: 100px">
+              {{userInfo.description}}
+            </div>
           </div>
-
         </el-col>
       </el-row>
-    </div>
-    <div id="content" style="margin-left: 0px;margin-top: -70px">
-      <h5>我的动态</h5>
-      <div class="article" style="color: #00000060;width: 60%;float: left">
-        <el-row class="fudong">
-          <el-col v-for="item in article_list" :key="item.id" :span="24" style="margin-bottom: 3px;">
-            <div class="card dewb" style="height: 120px" @click="toArticle(item.id)">
-              <el-row>
-                <el-col :xs="24" :lg="18">
-                  <div style="padding-left: 30px; padding-top: 10px">
-                    <div class="word"><h2 style="display: inline">{{ item.title }}</h2><span style="padding-left: 10px; padding-top: 15px; float: right">{{item.type}}</span></div>
-                    <hr>
-                    <div class="word"> {{ item.description }}</div>
-                  </div>
-                </el-col>
-              </el-row>
-            </div>
-          </el-col>
-        </el-row>
-        <el-pagination
-            background
-            :hide-on-single-page="value"
-            layout="prev, pager, next"
-            :total="total"
-            :page-size="pageSize"
-            @current-change="currentChange"
-        >
-        </el-pagination>
-      </div>
-      <div class="side" style="width: 39%;margin-left: 888px; position: fixed">
-        <el-row>
-          <el-col :xs="10" :lg="10">
-            <div style=" ">
-              <el-carousel :interval="4000" height="240px" style="float: left;width:290px;border-radius: .25rem;">
-                <el-carousel-item v-for="item in imagebox" :key="item.id">
-                  <img :src="item.idView" class="image">
-                </el-carousel-item>
-              </el-carousel>
-            </div>
-          </el-col>
-          <el-col :xs='10' :lg="10" style="float: left;margin-top: 245px;position: absolute">
-            <div class=""
-                 style="background-color:#fff; height:240px;width: 290px; box-shadow: 0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius: .25rem;">
-              <h5 style="color:black; padding-top: 7px; padding-left: 5px">热门标签</h5>
-              <hr>
-              <el-tag type="info" class="tag">历史</el-tag>
-              <el-tag type="info" class="tag">科技</el-tag>
-              <br>
-              <el-tag type="info" class="tag">人文</el-tag>
-              <el-tag type="info" class="tag">军事</el-tag>
-              <el-tag type="info" class="tag">地理</el-tag>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
-
     </div>
   </div>
 </template>
@@ -110,25 +62,28 @@ export default {
     }
   },
   mounted() {
-    this.getListData(this.currentPage);
+    // this.getListData(this.currentPage);
+    this.userInfo = JSON.parse(this.$store.state.userInfo)
+    this.description = JSON.parse(this.$store.state.userInfo).description
   },
   methods: {
     consoleSubmit(){
       this.isopen=false;
-      this.description='';
     },
     submit(){
-      alert(this.description)
       axios({
-        url: "",
-        method: "get",
+        url: "/editInfo",
+        method: "post",
         params: {
-          user_id:this.userInfo.id,
-          description:this.description
+          user_id: JSON.parse(this.$store.state.userInfo).id,
+          description: this.description
         },
       }).then((res) => {
-        this.isopen=false;
-        this.description='';
+        this.userInfo = res.data.data
+        console.log(this.userInfo)
+        this.$store.commit('SET_USERINFO', this.userInfo)
+        console.log(this.$store.getters.getUser)
+        this.isopen=false
       });
     },
     modify(){

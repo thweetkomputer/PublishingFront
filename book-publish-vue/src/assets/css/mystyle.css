@@ -1,5 +1,5 @@
-body,
-html {
+
+body, html {
     margin: 0;
     /*background-image: url("../../assets/img/img5.jpg");*/
 
@@ -135,7 +135,7 @@ html {
 }
 
 .el-form-item__label {
-    color: #fff!important;
+    color: #000!important;
 }
 
 

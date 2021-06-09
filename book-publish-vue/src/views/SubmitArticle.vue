@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: #f6f6f6">
     <div>
       <!-- 面包屑导航 -->
     <div>
@@ -8,9 +8,9 @@
         <el-breadcrumb-item>文章提交</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-      <el-button type="success" style="float: right;margin-right: 100px"  @click="submitUpload">提交文章</el-button>
+      <el-button type="success" style="float: right;margin-right: 100px;background-color:#409EFF"  @click="submitUpload">提交文章</el-button>
       <el-form ref="form" :model="form" label-width="80px" style="margin-right:400px">
-        <el-form-item label="文章标题">
+        <el-form-item label="文章标题" style="color: black!important;">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="作者" ref="form" :model="form" label-width="80px">
@@ -234,4 +234,8 @@ p{
 el-upload-list__item-name{
   color: black;
 }
+.el-form-item__label{
+  color: black!important;
+}
+
 </style>

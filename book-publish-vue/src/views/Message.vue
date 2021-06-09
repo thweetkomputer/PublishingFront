@@ -12,17 +12,15 @@
         <el-col v-for="item in message" :key="item.id" :span="24">
           <div class="card dewb" >
             <el-row>
-              <el-col :xs="24" :lg="18">
-                <div>{{ item.title }}</div>
-                <div> {{ item.description }} </div>
-                <div>
-                  <el-button
-                      type="success"
-                      icon="el-icon-delete"
-                      circle
-                      style="margin: 10px"
-                  ></el-button>
-                </div>
+              <el-col :xs="24" :lg="18" v-show="item.has_read===400" @click="open(item.id)">
+                <span style="float: left">该消息已读</span>
+                <span style="float: right">{{item.created_time}}</span>
+                <div> {{ item.content }} </div>
+              </el-col>
+              <el-col :xs="24" :lg="18" v-show="item.has_read!==400" @click="open(item.id)">
+                <span style="float: left">您有一条新通知</span>
+                <span style="float: right">{{item.created_time}}</span>
+                <div> {{ item.content}} </div>
               </el-col>
             </el-row>
           </div>
@@ -52,7 +50,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 10,
-      message: [{title:"1",desctiption:"2"}],
+      message:[],
       total_num:0,
     };
   },
@@ -60,25 +58,34 @@ export default {
     this.getMessageData(this.currentPage);
   },
   methods: {
+    open(id) {
+      axios({
+        url: "/readNotice",
+        method: "get",
+        params: {
+          notice_id:id
+        },
+      }).then((res) => {
+      });
+      this.$alert(this.notice.content, this.notice.title, {
+        confirmButtonText: '确定',
+        callback: action => {
+        }
+      });
+    },
     //跳转内容页
     getMessageData(page) {
       axios({
-        url: "/newPassages",
+        url: "/getNotice",
         method: "get",
         params: {
           page,
           pageSize: this.pageSize,
+          user_id:JSON.parse(this.$store.state.userInfo).id,
         },
       }).then((res) => {
-        this.message = res.data.data;
-        this.total_num=res.data.data.total_num;
-        if(this.total_num%10!==0){
-          this.total=this.total_num/10+1;
-        }
-        else{
-          this.total=this.total_num/10;
-        }
-        console.log(this.total)
+        this.message = res.data.data.notice_list;
+        this.total=res.data.data.total_num;
       });
     },
     currentChange(val) {

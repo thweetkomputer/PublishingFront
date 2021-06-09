@@ -38,33 +38,25 @@
         <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
       </div>
 
-      <div class="article" style="color: #00000060;width: 80%;float: left">
-        <el-row>
-          <el-col v-for="item in article_list" :key="item.id" :span="24">
-            <div class="card dewb">
+      <div class="article" style="color: #00000060;width: 60%;float: left">
+        <el-row class="fudong">
+          <el-col v-for="item in article_list" :key="item.id" :span="24" style="margin-bottom: 3px;">
+            <div class="card dewb" style="height: 120px" @click="toArticle(item.id)">
               <el-row>
                 <el-col :xs="24" :lg="18">
-                  <div>{{ item.title }}</div>
-                  <div> {{ item.description }} </div>
-                  <div>
-                    <el-button
-                        @click="toArticle(item.id)"
-                        type="success"
-                        icon="el-icon-search"
-                        circle
-                        style="margin: 10px"
-                    ></el-button>
+                  <div style="padding-left: 30px; padding-top: 10px">
+                    <div class="word"><h2 style="display: inline">{{ item.title }}</h2><span style="padding-left: 10px; padding-top: 15px; float: right">{{item.type}}</span></div>
+                    <hr>
+                    <div class="word"> {{ item.description }}</div>
                   </div>
                 </el-col>
               </el-row>
             </div>
           </el-col>
         </el-row>
-      </div>
-      <!-- 分页器 -->
-      <div class="dweb" style="margin-top:10px">
         <el-pagination
             background
+            :hide-on-single-page="value"
             layout="prev, pager, next"
             :total="total"
             :page-size="pageSize"

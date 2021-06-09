@@ -10,17 +10,32 @@
     <div class="dewb" style="margin-top:10px;width: 70%">
       <el-row>
         <el-col v-for="item in message" :key="item.id" :span="24">
-          <div class="card dewb" >
+          <div class="card dewb"@click="open(item.id)">
             <el-row>
-              <el-col :xs="24" :lg="18" v-show="item.has_read===400" @click="open(item.id)">
-                <span style="float: left">该消息已读</span>
-                <span style="float: right">{{item.created_time}}</span>
+              <el-col :xs="24" :lg="18" v-show="item.has_read===400">
+                <div></div>
                 <div> {{ item.content }} </div>
+                <div>
+                  <el-button
+                      type="success"
+                      icon="el-icon-delete"
+                      circle
+                      style="margin: 10px"
+                  ></el-button>
+                </div>
               </el-col>
-              <el-col :xs="24" :lg="18" v-show="item.has_read!==400" @click="open(item.id)">
-                <span style="float: left">您有一条新通知</span>
-                <span style="float: right">{{item.created_time}}</span>
-                <div> {{ item.content}} </div>
+              <el-col :xs="24" :lg="18" v-show="item.has_read!==400">
+                <span>您有一条新通知</span>
+                <span>{{i}}</span>
+                <div> {{ item.content }} </div>
+                <div>
+                  <el-button
+                      type="success"
+                      icon="el-icon-delete"
+                      circle
+                      style="margin: 10px"
+                  ></el-button>
+                </div>
               </el-col>
             </el-row>
           </div>
@@ -70,10 +85,17 @@ export default {
       this.$alert(this.notice.content, this.notice.title, {
         confirmButtonText: '确定',
         callback: action => {
+          this.$message({
+            type: 'info',
+            message: `action: ${ action }`
+          });
         }
       });
     },
     //跳转内容页
+    readNotice(id){
+
+    },
     getMessageData(page) {
       axios({
         url: "/getNotice",

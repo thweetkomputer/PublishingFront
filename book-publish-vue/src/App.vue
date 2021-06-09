@@ -145,10 +145,13 @@ export default {
       } else {
         if (this.$route.path==='search') {
           this.$route.query.searchContent = this.value4;
+          this.$router.go(0)
         }
-        this.$router.push({name: 'search', query: {searchContent: this.value4}});
-        this.value4 = '';
-        this.$router.go(0)
+        else {
+          this.$router.push({name: 'search', query: {searchContent: this.value4}});
+          this.value4 = '';
+          this.$router.go(0)
+        }
       }
     }
     ,

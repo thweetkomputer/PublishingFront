@@ -18,12 +18,10 @@
         <div class="card">
           <span>收藏文章数</span>
         </div>
-        <el-input
-            type="textarea"
-            :autosize="{ minRows: 2, maxRows: 4}"
-            placeholder="请输入内容"
-            v-model="textarea2">
-        </el-input>
+        <div>
+          psan
+          <el-input placeholder="请输入密码" v-model="input" show-password></el-input>
+        </div>
       </el-card>
     </div>
     <div style="width: 48%;float: right;">
@@ -37,9 +35,11 @@ import axios from "axios";
 export default {
   data() {
     return {
+      circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
       input: '',
       userInfo: {},
-      textarea2: ''
+      textarea: JSON.parse(this.$store.state.userInfo).description,
+      value: new Date()
     }
   },
   mounted() {

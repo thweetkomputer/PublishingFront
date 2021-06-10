@@ -29,10 +29,14 @@
           <MenuItem name="7" v-if="this.$store.state.userInfo===null" style="float: right" @click.native="login">
             <Icon type="ios-notifications" size="20"/>
             消息中心
+            <Badge :count="count" overflow-count="99" size="10">
+            </Badge>
           </MenuItem>
           <MenuItem name="3" v-if="this.$store.state.userInfo!==null" style="float: right" to="/message">
             <Icon type="ios-notifications" size="20"/>
             消息中心
+            <Badge :count="count" overflow-count="99" size="10">
+            </Badge>
           </MenuItem>
           <MenuItem name="6" style="float: right">
             <Input v-model="value4" icon="ios-search" placeholder="请输入..."
@@ -105,11 +109,13 @@
 <script>
 import LoginWindow from '@/components/LoginWindow'
 import search from "@/views/search/search";
+import axios from "axios";
 
 export default {
   name: "Book",
   data() {
     return {
+      count:1,
       screenwidth: document.body.clientWidth,
       mobile_left: '',
       mobile_content: '',
@@ -122,7 +128,8 @@ export default {
     window.onresize = () => {
       this.screenwidth = document.body.clientWidth
     }
-    this.changeDevice()
+    this.changeDevice();
+    this.getMessageNum();
   },
   // computed:{
   //   is_login(){
@@ -130,6 +137,23 @@ export default {
   //   }
   // },
   methods: {
+    getMessageNum(){
+      if(this.$store.state.userInfo===null){
+        this.count=0;
+      }
+      else{
+        axios({
+          url: "/getMessageNum",
+          method: "get",
+          params: {
+            user_id:JSON.parse(this.$store.state.userInfo).id
+          },
+        }).then((res) => {
+          this.count=res.data.data;
+        });
+      }
+    },
+
     // tosearch(){
     //   this.$router.push({name:'search'})
     // }
@@ -233,5 +257,12 @@ export default {
 
 .el-menu :hover {
   color: #488ce9 !important;
+}
+.item {
+  margin-top: 10px;
+  margin-right: 40px;
+}
+.ivu-badge-count{
+  /*height: 10px;*/
 }
 </style>

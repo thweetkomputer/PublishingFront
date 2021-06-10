@@ -174,6 +174,7 @@
 
 <script>
 import Element from "element-ui";
+import axios from "axios";
 
 export default {
   name: "LoginWindow",
@@ -371,6 +372,23 @@ export default {
       }
 
     },
+    getMessageNum(){
+      if(this.$store.state.userInfo===null){
+        this.count=0;
+      }
+      else{
+        axios({
+          url: "/getMessageNum",
+          method: "get",
+          params: {
+            user_id:JSON.parse(this.$store.state.userInfo).id
+          },
+        }).then((res) => {
+          this.count=res.data.data;
+          this.$store.commit('modifyMessageNum',this.count);
+        });
+      }
+    },
     cancelChangePass() {
       this.wantChangePass = false
     }
@@ -489,6 +507,7 @@ export default {
             //   duration: 2000
             // })
             this.$store.state.is_login = userInfo.identity
+            this.getMessageNum()
             // this.$router.push('/books')
 
           })

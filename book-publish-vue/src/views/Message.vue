@@ -110,7 +110,7 @@ export default {
             num++;
           }
         }
-        this.$store.commit('modifyMessageNum',num);
+        this.getMessageNum()
       });
 
     },
@@ -130,6 +130,23 @@ export default {
         this.message = res.data.data.notice_list;
         this.total_num=res.data.data.total_num;
       });
+    },
+    getMessageNum(){
+      if(this.$store.state.userInfo===null){
+        this.count=0;
+      }
+      else{
+        axios({
+          url: "/getMessageNum",
+          method: "get",
+          params: {
+            user_id:JSON.parse(this.$store.state.userInfo).id
+          },
+        }).then((res) => {
+          this.count=res.data.data;
+          this.$store.commit('modifyMessageNum',this.count);
+        });
+      }
     },
     currentChange(val) {
       console.log("第" + val + "页");

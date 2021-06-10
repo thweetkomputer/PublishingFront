@@ -62,7 +62,7 @@
             background
             :hide-on-single-page="value"
             layout="prev, pager, next"
-            :total="total"
+            :total="total_num"
             :page-size="pageSize"
             @current-change="currentChange"
         >
@@ -145,7 +145,7 @@ export default {
         },
       }).then((res) => {
         this.article_list = res.data.data.article_list;
-        this.total = res.data.data.total_num;
+        this.total_num = res.data.data.total_num;
         console.log(this.total)
       });
     },

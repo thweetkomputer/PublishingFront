@@ -99,19 +99,23 @@ export default {
         //     m.hasRead = 1
         //   }
         // }
+        let num=0;
         for (let i = 0; i < this.message.length; i++) {
           // console.log(this.message[i].id)
           if (this.message[i].id === id) {
             // alert(this.message[i].content)
             this.message[i].hasRead = 1
           }
+          else{
+            num++;
+          }
         }
+        this.$store.commit('modifyMessageNum',num);
       });
 
     },
     //跳转内容页
     readNotice(id){
-
     },
     getMessageData(page) {
       axios({

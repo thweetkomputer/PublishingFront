@@ -11,9 +11,13 @@ export default new Vuex.Store({
         // userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
         userInfo: sessionStorage.getItem('userInfo'),
         is_login: 0,
+        messageNum:0,
     },
     mutations: {
         // set
+        modifyMessageNum(state,num){
+          state.messageNum=num;
+        },
         is_login: function (state, is_login) {
             state.is_login = is_login;
         },

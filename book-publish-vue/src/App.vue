@@ -35,7 +35,7 @@
           <MenuItem name="3" v-if="this.$store.state.userInfo!==null" style="float: right" to="/message">
             <Icon type="ios-notifications" size="20"/>
             消息中心
-            <Badge :count="count" overflow-count="99" size="10">
+            <Badge :count="this.$store.state.messageNum" overflow-count="99" size="10">
             </Badge>
           </MenuItem>
           <MenuItem name="6" style="float: right">
@@ -150,6 +150,7 @@ export default {
           },
         }).then((res) => {
           this.count=res.data.data;
+          this.$store.commit('modifyMessageNum',this.count);
         });
       }
     },

@@ -30,7 +30,7 @@
               background
               :hide-on-single-page="value"
               layout="prev, pager, next"
-              :total="total"
+              :total="total_num"
               :page-size="pageSize"
               @current-change="currentChange"
           >

@@ -88,7 +88,7 @@ export default {
         },
       }).then((res) => {
         this.article_list = res.data.data.article_list;
-        this.total=res.data.data.total_num;
+        this.total_num=res.data.data.total_num;
 
       });
     },

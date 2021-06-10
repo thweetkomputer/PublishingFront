@@ -242,8 +242,6 @@ export default {
       }).then((res) => {
         this.user_article_info.favor = res.data.data.favor;
         this.user_article_info.like = res.data.data.like;
-        console.log(this.ping_num);
-        console.log(this.article_data);
       });
     },
     prePage() {
@@ -358,15 +356,6 @@ export default {
       }).then((res) => {
         this.pinglun_data = res.data.data.comment_list;
         this.ping_num = res.data.data.total_num;
-
-        if (this.ping_num % 10 !== 0) {
-          this.ping_total = this.ping_num / 10 + 1;
-        } else {
-          this.ping_total = this.ping_num / 10;
-        }
-        console.log(this.ping_total + "??")
-        console.log(this.ping_num);
-        console.log(this.article_data);
       });
     },
     //发表评论

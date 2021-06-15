@@ -57,7 +57,7 @@
             </div>
           </el-col>
         </el-row>
-        <div v-show="this.total===0" style="text-align: center; font-size: 30px">抱歉，您搜索的文章不存在。</div>
+        <div v-show="this.total_num===0" style="text-align: center; font-size: 30px">抱歉，您搜索的文章不存在。</div>
         <el-pagination
             background
             :hide-on-single-page="value"
@@ -162,7 +162,7 @@ export default {
             },
           }).then((res) => {
             this.article_list = res.data.data.article_list;
-            this.total = res.data.data.total_num;
+            this.total_num = res.data.data.total_num;
             console.log(this.total)
           });
     },

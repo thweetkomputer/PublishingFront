@@ -4,7 +4,7 @@
     <div >
       <el-breadcrumb separator-class="el-icon-arrow-right" style="padding: 10px">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>发布文章</el-breadcrumb-item>
+        <el-breadcrumb-item>已处理文章</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div id="Books">

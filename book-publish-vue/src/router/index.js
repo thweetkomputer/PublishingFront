@@ -295,6 +295,26 @@ const routes = [{
         path:'/modifypassword',
         name:'modifypassaword',
         component: ()=>import('../views/ModifyPassword')
+    },
+    {
+        path: '/deleteArticle',
+        name: 'deleteArticle',
+        component: ()=>import('../views/deleteArticle')
+    },
+    {
+        path: '/editWriter',
+        name: 'editWriter',
+        component: ()=>import('../views/editWriter')
+    },
+    {
+        path: '/editReviewer',
+        name: 'editReviewer',
+        component: ()=>import('../views/editReviewer')
+    },
+    {
+        path: '/UserInfo',
+        name: 'UserInfo',
+        component: ()=>import('../views/UserInfo')
     }
 ]
 const routerPush = VueRouter.prototype.push

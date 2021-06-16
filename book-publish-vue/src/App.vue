@@ -74,6 +74,7 @@
               <el-menu-item-group>
                 <el-menu-item index="/article" v-show="JSON.parse(this.$store.state.userInfo).identity===1">我的文章</el-menu-item>
                 <el-menu-item index="/collect">收藏文章</el-menu-item>
+                <el-menu-item index="/deleteArticle" v-show="JSON.parse(this.$store.state.userInfo).identity===3">删除文章</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="3">
@@ -95,6 +96,8 @@
                 <!--        编辑界面      -->
                 <el-menu-item index="/addreader">未处理文章</el-menu-item>
                 <el-menu-item index="/publish">已处理文章</el-menu-item>
+                <el-menu-item index="/editReviewer">编辑审稿人</el-menu-item>
+                <el-menu-item index="/editWriter">编辑作者</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
           </el-menu>

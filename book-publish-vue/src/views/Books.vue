@@ -11,7 +11,7 @@
                 <el-row>
                   <el-col :xs="24" :lg="18">
                     <div style="padding-left: 30px; padding-top: 10px">
-                      <div class="word"><h2 style="display: inline">{{ item.title }}</h2><span style="padding-left: 10px; padding-top: 15px; float: right">{{item.type}}</span></div>
+                      <div class="word"><h2 style="display: inline">{{ item.title }}</h2><span style="padding-left: 10px; padding-top: 15px; float: right; color: #999aaa">{{item.type}}{{ " "+item.createdTime.toString().replace('T', ' ') }}</span></div>
                       <hr>
                       <div class="word"> {{ item.description }}</div>
                     </div>

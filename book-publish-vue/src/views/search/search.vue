@@ -28,13 +28,14 @@
           {{ tag }}
         </el-tag>
         <el-input
-            class="input-new-tag"
+            class="button-new-tag"
             v-if="inputVisible"
             v-model="inputValue"
             ref="saveTagInput"
             size="small"
             @keyup.enter.native="handleInputConfirm"
             @blur="handleInputConfirm"
+            style="width:100px"
         >
         </el-input>
         <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>

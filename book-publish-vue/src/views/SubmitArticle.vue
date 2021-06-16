@@ -14,7 +14,7 @@
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="作者" ref="form" :model="form" label-width="80px">
-          <el-input v-model="form.author"></el-input>
+          <el-input disabled v-model="form.author"></el-input>
         </el-form-item>
         <el-form-item label="文章标签" ref="form" :model="form" label-width="80px">
           <el-tag
@@ -70,7 +70,7 @@ export default {
       fileList:[],
       form: {
         name: '',
-        author: '',
+        author: JSON.parse(this.$store.state.userInfo).username,
         delivery: false,
         type: [],
         info:'',

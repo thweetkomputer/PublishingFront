@@ -455,7 +455,7 @@ export default {
       if (!mailReg.test(this.ruleFormChangePass.email)) {
         Element.Message({
           showClose: true,
-          message: '邮箱格式不正确',
+          message: 'mail eeee',
           type: 'error',
           duration: 2000
         })

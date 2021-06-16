@@ -39,7 +39,8 @@
           <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
         </el-form-item>
         <el-form-item label="文章简介">
-          <el-input type="textarea" v-model="form.info" :autosize="{ minRows: 15, maxRows: 20}"></el-input>
+          <el-input type="textarea" v-model="form.info" :autosize="{ minRows: 15, maxRows: 20}" :maxlength="250"></el-input>
+          <p class="instructionNum" style="color: #999aaa">您还可以输入{{250-form.info.length}}字</p>
         </el-form-item>
       </el-form>
     </div>

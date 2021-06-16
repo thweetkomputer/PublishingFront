@@ -452,7 +452,7 @@ export default {
       // })
       const mailReg = /^.+@.+\.+.+/
       const _this = this
-      if (!mailReg.test(this.ruleFormSignup.email)) {
+      if (!mailReg.test(this.ruleFormChangePass.email)) {
         Element.Message({
           showClose: true,
           message: '邮箱格式不正确',

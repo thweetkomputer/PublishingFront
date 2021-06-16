@@ -28,7 +28,7 @@
           {{ tag }}
         </el-tag>
         <el-input
-            class="input-new-tag"
+            class="button-new-tag"
             v-if="inputVisible"
             v-model="inputValue"
             ref="saveTagInput"

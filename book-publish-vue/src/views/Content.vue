@@ -15,7 +15,9 @@
         </div>
         <div class="body dewb">
           <div class="dewb">
-            {{ description }}
+            <div style="word-wrap:break-word">
+              <p>{{ description }}</p>
+            </div>
           </div>
         </div>
         <div>

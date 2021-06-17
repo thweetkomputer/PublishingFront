@@ -13,8 +13,8 @@
           </div>
         </div>
         <div class="body dewb">
-          <div>
-            <p style="font-weight: bold; display: inline-block;  margin-right: 10px">简介</p>{{ description }}
+          <div style="word-wrap:break-word">
+            <p style="font-weight: bold; display: inline-block;  margin-right: 10px">简介</p><br/><p>{{ description }}</p>
           </div>
         </div>
         <div>

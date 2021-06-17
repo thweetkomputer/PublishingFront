@@ -21,8 +21,8 @@
                     <div style="padding-left: 30px; padding-top: 10px">
                       <div class="word"><h2 style="display: inline">{{ item.username }}</h2><span style="padding-left: 10px; padding-top: 15px; float: right">{{item.id}}</span></div>
                       <hr>
-                      <div class="word" v-show="item.description!=null && item.description!==undefined"> {{ item.description.length > 36 ? item.description.slice(0, 36) + '...' : item.description }}</div>
-                      <div class="word" v-show="item.description==null || item.description===undefined"> 此人无简介</div>
+                      <div class="word" v-if="item.description!==null && item.description!==undefined"> {{ item.description.length > 36 ? item.description.slice(0, 36) + '...' : item.description }}</div>
+                      <div class="word" v-if="item.description==null || item.description===undefined"> 此人无简介</div>
                     </div>
                     <button @click="deleteArticle(item.id)" class="c1" style="font-size:15px;float: right;background-color: #409EF4c0;color:white;border:none;border-radius:5px;padding: 5px 5px ">删除作者</button>
                     <!--                    <el-button class="quxiao" @click="deleteArticle(item.id)" style="float: right;margin-left: 30px;margin-top: 10px;background-color: #409EFF;color: white" size="15">取消收藏</el-button>-->

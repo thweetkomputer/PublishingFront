@@ -477,7 +477,7 @@ export default {
         // })
         // _this.$router.go(0)
 
-        this.activeName = 'signup'
+        // this.activeName = 'login'
 
       })
     }

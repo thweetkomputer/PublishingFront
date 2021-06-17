@@ -23,7 +23,8 @@
                           style="padding-left: 10px; padding-top: 15px; float: right">{{ item.id }}</span></div>
                       <hr>
                       <div class="word" v-show="item.description!=null && item.description!==undefined">
-                        {{ item.description.length > 50 ? item.description.slice(0, 50) + '...' : item.description }}
+<!--                        {{ item.description.length > 36 ? item.description.slice(0, 36) + '...' : item.description }}-->
+                        1
                       </div>
                       <div class="word" v-show="item.description==null || item.description===undefined"> 此人无简介</div>
                     </div>

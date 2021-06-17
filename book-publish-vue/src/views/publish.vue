@@ -19,7 +19,7 @@
                     <div style="padding-left: 30px; padding-top: 10px">
                       <div class="word"><h2 style="display: inline">{{ item.title}}</h2><span style="padding-left: 10px; padding-top: 15px; float: right">{{item.type}}</span></div>
                       <hr>
-                      <div class="word"> {{ item.description.length > 50 ? item.description.slice(0, 50) + '...' : item.description }} </div>
+                      <div class="word"> {{ item.description.length > 36 ? item.description.slice(0, 36) + '...' : item.description }} </div>
                     </div>
                   </el-col>
                 </el-row>

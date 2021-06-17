@@ -32,16 +32,16 @@
                 @click.stop="counterClock"
                 style="margin:10px">逆时针
             </el-button>
-            <el-button
+<!--            <el-button-->
 
-                @click.stop="pdfPrintAll"
-                style="margin:10px">全部打印
-            </el-button>
-            <el-button
+<!--                @click.stop="pdfPrintAll"-->
+<!--                style="margin:10px">全部打印-->
+<!--            </el-button>-->
+<!--            <el-button-->
 
-                @click.stop="pdfPrint"
-                style="margin:10px">部分打印
-            </el-button>
+<!--                @click.stop="pdfPrint"-->
+<!--                style="margin:10px">部分打印-->
+<!--            </el-button>-->
           </div>
           <div>{{ pageNum }}/{{ pageTotalNum }}</div>
           <div>进度：{{ loadedRatio }}</div>

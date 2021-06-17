@@ -16,7 +16,8 @@
           <div v-show="isopen" >
             <el-form>
               <el-form-item  style="margin-top: 10px;margin-left: 100px;">
-                <el-input placeholder="请输入内容" type="textarea" v-model="description" :autosize="{ minRows: 10, maxRows: 15}" style="width: 900px"></el-input>
+                <el-input placeholder="请输入内容" type="textarea" v-model="description" :autosize="{ minRows: 10, maxRows: 15}" style="width: 900px" :maxlength="250"></el-input>
+                <p class="instructionNum" style="color: #999aaa">您还可以输入{{250-description.length}}字</p>
               </el-form-item>
             </el-form>
             <el-button @click="submit" style="margin-top: 10px;margin-left: 100px;">确定</el-button>
